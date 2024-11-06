@@ -5,11 +5,11 @@ export class Entity {
   /**
    * @type {Vec2}
    */
-  current_position;
+  currentPosition;
   /**
    * @type {Vec2}
    */
-  old_position;
+  oldPosition;
   /**
    * @type {Vec2}
    */
@@ -21,13 +21,13 @@ export class Entity {
 
   /**
    * 
-   * @param {Vec2} current_position 
+   * @param {Vec2} currentPosition 
    * @param {Vec2} acceleration 
    * @param {Circle} shape 
    */
-  constructor(current_position, acceleration, shape) {
-    this.current_position = current_position;
-    this.old_position = current_position;
+  constructor(currentPosition, acceleration, shape) {
+    this.currentPosition = currentPosition;
+    this.oldPosition = currentPosition;
     this.acceleration = acceleration;
     this.shape = shape;
   }
@@ -38,13 +38,13 @@ export class Entity {
    */
   updatePosition(deltaTime) {
     // calcula velocidade
-    const velocity = this.current_position.copy().sub(this.old_position);
+    const velocity = this.currentPosition.copy().sub(this.oldPosition);
 
     // salva a posição atual
-    this.old_position = this.current_position.copy();
+    this.oldPosition = this.currentPosition.copy();
 
     // realiza o cálculo usando o método de Verlet
-    this.current_position
+    this.currentPosition
       .add(velocity)
       .add(this.acceleration.mul(deltaTime * deltaTime));
 

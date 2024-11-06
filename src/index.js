@@ -41,7 +41,7 @@ requestAnimationFrame(function loop(timestamp) {
 
   physicsSolver.update(deltaTimeMs);
 
-  drawCircle(ctx, physicsSolver.entities[0].current_position.x, physicsSolver.entities[0].current_position.y, 10, circle.color);
+  drawCircle(ctx, physicsSolver.entities[0].currentPosition.x, physicsSolver.entities[0].currentPosition.y, 10, circle.color);
   
   lastTimestamp = timestamp;
 });
