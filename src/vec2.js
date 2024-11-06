@@ -8,7 +8,7 @@ export class Vec2 {
   /**
    * @type {number}
    */
-   y = 0;
+  y = 0;
 
   /**
    * 
@@ -24,20 +24,56 @@ export class Vec2 {
    * Adiciona o valor do outro vetor ao vetor atual
    * @public
    * @param {Vec2} otherVec 
+   * @return {Vec2}
    */
   add(otherVec) {
     this.x += otherVec.x;
     this.y += otherVec.y;
+
+    return this;
   }
 
   /**
    * Subtrai o valor do outro vetor do vetor atual
    * @public
    * @param {Vec2} otherVec 
+   * @return {Vec2}
    */
   sub(otherVec) {
     this.x -= otherVec.x;
     this.y -= otherVec.y;
+
+    return this;
+  }
+
+  /**
+   * 
+   * @param {number} scalarValue 
+   * @returns {Vec2}
+   */
+  mul(scalarValue) {
+    this.x *= scalarValue;
+    this.y *= scalarValue;
+
+    return this;
+  }
+
+  /**
+   * Faz uma cópia do vetor
+   * @returns {Vec2}
+   */
+  copy() {
+    return new Vec2(this.x, this.y);
+  }
+
+  /**
+   * seta os valores do vetor
+   * @param {number} x 
+   * @param {number} y 
+   */
+  set(x, y) {
+    this.x = x;
+    this.y = y;
   }
 
   // @todo João, implementar normalized
