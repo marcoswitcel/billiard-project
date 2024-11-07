@@ -90,7 +90,11 @@ export class Vec2 {
 
   // @todo João, implementar normalized
   // @todo João, implementar length/magnitude
-
+  
+  /**
+   * 
+   * @returns {Vec2} novo vetor
+   */
   normalized() {
     const length = this.length();
     
@@ -102,6 +106,22 @@ export class Vec2 {
     return new Vec2(0, 0);
   }
 
+  /**
+   * Normaliza o próprio vetor
+   */
+  normalize() {
+    const length = this.length();
+    
+    if (length > 0)
+    {
+      this.div(length);
+    }
+  }
+
+  /**
+   * Calcula a 'magnetude' ou 'comprimento' do vetor
+   * @returns {number}
+   */
   length() {
     return Math.sqrt(this.x * this.x + this.y * this.y);
   }
