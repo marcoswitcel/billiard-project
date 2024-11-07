@@ -10,15 +10,15 @@ console.log('Olá mundo')
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
 
-canvas.width = 500;
-canvas.height = 400;
+canvas.width = 700;
+canvas.height = 500;
 
 document.body.append(canvas);
 
 const circle = new Circle(vec2(250, 200), 100, '#0F0');
 
 const physicsSolver = new PhysicsSolver();
-physicsSolver.entities.push(new Entity(vec2(100, 0), vec2(0, 0), null))
+physicsSolver.entities.push(new Entity(vec2(265, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#00F')))
 
 let lastTimestamp = 0;
 requestAnimationFrame(function loop(timestamp) {
@@ -41,7 +41,7 @@ requestAnimationFrame(function loop(timestamp) {
 
   physicsSolver.update(deltaTimeMs);
 
-  drawCircle(ctx, physicsSolver.entities[0].currentPosition.x, physicsSolver.entities[0].currentPosition.y, 10, circle.color);
+  drawCircle(ctx, physicsSolver.entities[0].currentPosition.x, physicsSolver.entities[0].currentPosition.y, physicsSolver.entities[0].shape.radius, physicsSolver.entities[0].shape.color);
   
   lastTimestamp = timestamp;
 });

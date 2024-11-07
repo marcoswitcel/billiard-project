@@ -59,6 +59,18 @@ export class Vec2 {
   }
 
   /**
+   * 
+   * @param {number} scalarValue 
+   * @returns {Vec2}
+   */
+  div(scalarValue) {
+    this.x /= scalarValue;
+    this.y /= scalarValue;
+
+    return this;
+  }
+
+  /**
    * Faz uma cópia do vetor
    * @returns {Vec2}
    */
@@ -78,6 +90,21 @@ export class Vec2 {
 
   // @todo João, implementar normalized
   // @todo João, implementar length/magnitude
+
+  normalized() {
+    const length = this.length();
+    
+    if (length > 0)
+    {
+      return this.copy().div(length);
+    }
+  
+    return new Vec2(0, 0);
+  }
+
+  length() {
+    return Math.sqrt(this.x * this.x + this.y * this.y);
+  }
 }
 
 /**
