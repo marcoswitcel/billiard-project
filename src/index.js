@@ -39,6 +39,9 @@ requestAnimationFrame(function loop(timestamp) {
 
   drawCircle(ctx, circle.position.x, circle.position.y, circle.radius, circle.color);
 
+  /**
+   * @todo João, implementar o sistema de 'sub-steps' no update das entidades
+   */
   physicsSolver.update(deltaTimeMs);
 
   for (const entity of physicsSolver.entities) {
@@ -50,7 +53,9 @@ requestAnimationFrame(function loop(timestamp) {
 
 document.addEventListener('keyup', event => {
   if (event.key === ' ') {
-    physicsSolver.entities.push(new Entity(vec2(265, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#00F')));
+    const radius = Math.random() * 5 + 5;
+    const color = `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
+    physicsSolver.entities.push(new Entity(vec2(265, 200), vec2(0, 0), new Circle(vec2(250, 200), radius, color)));
   }
 });
 
