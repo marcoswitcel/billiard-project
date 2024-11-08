@@ -18,7 +18,7 @@ document.body.append(canvas);
 const circle = new Circle(vec2(250, 200), 100, '#0F0');
 
 const physicsSolver = new PhysicsSolver();
-physicsSolver.entities.push(new Entity(vec2(265, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#00F')))
+physicsSolver.entities.push(new Entity(vec2(265, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#00F')));
 
 let lastTimestamp = 0;
 requestAnimationFrame(function loop(timestamp) {
@@ -41,8 +41,16 @@ requestAnimationFrame(function loop(timestamp) {
 
   physicsSolver.update(deltaTimeMs);
 
-  drawCircle(ctx, physicsSolver.entities[0].currentPosition.x, physicsSolver.entities[0].currentPosition.y, physicsSolver.entities[0].shape.radius, physicsSolver.entities[0].shape.color);
+  for (const entity of physicsSolver.entities) {
+    drawCircle(ctx, entity.currentPosition.x, entity.currentPosition.y, entity.shape.radius, entity.shape.color);
+  }
   
   lastTimestamp = timestamp;
+});
+
+document.addEventListener('keyup', event => {
+  if (event.key === ' ') {
+    physicsSolver.entities.push(new Entity(vec2(265, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#00F')));
+  }
 });
 
