@@ -1,3 +1,4 @@
+import { CircleConstraint, Constraint } from './constraints.js';
 import { Entity } from './entity.js';
 import { vec2 } from './vec2.js';
 
@@ -7,6 +8,11 @@ export class PhysicsSolver {
    * @type {Entity[]}
    */
   entities = [];
+
+  /**
+   * @type {Constraint[]}
+   */
+  constraints = [ new CircleConstraint(vec2(250, 200), 100) ];
 
 
   update(deltaTime)
@@ -42,22 +48,9 @@ export class PhysicsSolver {
   }
 
 
-  applyConstraint()
-  {
-    // @todo João, abstrair as constraints começando pelo 'circle constraint'
-    const position = vec2(250, 200); // @todo João, hardcoded
-    const radius = 100; // @todo João, hardcoded
-    
-    for (const entity of this.entities)
-    {
-      const to_obj = entity.currentPosition.copy().sub(position);
-      const dist = to_obj.length();
-
-      if (dist > radius - entity.shape.radius)
-      {
-        const n = to_obj.normalized();
-        entity.currentPosition = position.copy().add(n.mul(radius - entity.shape.radius));
-      }
+  applyConstraint() {
+    for (const constraint of this.constraints) {
+      constraint.applyConstraint(this.entities)
     }
   }
 

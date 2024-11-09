@@ -1,4 +1,5 @@
 import { Circle } from './circle.js';
+import { CircleConstraint } from './constraints.js';
 import { Entity } from './entity.js';
 import { PhysicsSolver } from './physics-solver.js';
 import { drawCircle, drawRect } from './utils.js';
@@ -35,12 +36,19 @@ requestAnimationFrame(function loop(timestamp) {
   // background
   drawRect(ctx, '#000', 0, 0, canvas.width, canvas.height);
 
-  // circle.position.add(vec2(1, 1));
-
-  drawCircle(ctx, circle.position.x, circle.position.y, circle.radius, circle.color);
+  for (const constraint of physicsSolver.constraints) {
+    if (constraint instanceof CircleConstraint) {
+      const position = constraint.position;
+      const radius = constraint.radius;
+      const color = '#0F0';
+      drawCircle(ctx, position.x, position.y, radius, color);
+    }
+  }
 
   /**
-   * @todo João, implementar o sistema de 'sub-steps' no update das entidades
+   * @todo João, implementar o sistema de 'sub-steps' no update das entidades.
+   * @note tentei implementar um mecanismo simples, onde atualizo 3 vezes passando o deltaTimeMs dividido por três;
+   * dessa forma ficou mais estável a simualação.
    */
   physicsSolver.update(deltaTimeMs);
 
