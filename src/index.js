@@ -16,11 +16,12 @@ canvas.height = 500;
 
 document.body.append(canvas);
 
-const circle = new Circle(vec2(250, 200), 100, '#0F0');
-
 const physicsSolver = new PhysicsSolver();
+//physicsSolver.gravity.set(0, 0);
 physicsSolver.constraints.push(new CircleConstraint(vec2(250, 200), 100));
 physicsSolver.entities.push(new Entity(vec2(265, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#00F')));
+//physicsSolver.entities.push(new Entity(vec2(350, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0F')));
+// physicsSolver.entities.push(new Entity(vec2(385, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0F')));
 
 let lastTimestamp = 0;
 requestAnimationFrame(function loop(timestamp) {

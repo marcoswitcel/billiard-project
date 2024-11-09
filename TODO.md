@@ -8,6 +8,7 @@
 
 * Implementar o sistema de constraints com integração verlet
   * Portar/adaptar o código que tenho em C++ para javascript
+  * Implementar um box constraint seria importante para a simulação
 * Estudar e configurar ferramentas para auxiliar com a criação de código webassembly, como por exemplo Assemblyscript: https://www.assemblyscript.org/
   * Montar um exemplo básico com webassembly, preferencialemnte passando objetos "complexos" (não apenas primitivos, string, number e afins) para dentro e recebendo eles de "volta", avaliar como esse tipo de coisa é feito
 * Teste de funcionalidade para evitar regressão conforme for refatorando, otimizando e calibrando parâmetros da "física"
