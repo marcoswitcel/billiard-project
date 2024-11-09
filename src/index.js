@@ -10,13 +10,26 @@ console.log('Olá mundo')
 
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
+/**
+ * @type {HTMLSelectElement|HTMLElement|null}
+ */
+const select = document.getElementById('scene');
+
+if (!(select instanceof HTMLSelectElement)) throw new Error('HTMLSelectElement');
 
 canvas.width = 700;
 canvas.height = 500;
 
 document.body.append(canvas);
 
-const scene = new Scene02(ctx);
+/**
+ * @type {DemonstrationScene}
+ */
+let scene = new Scene01(ctx);
+const scenes = {
+  scene01: Scene01,
+  scene02: Scene02,
+}
 
 scene.setup();
 
@@ -38,4 +51,14 @@ requestAnimationFrame(function loop(timestamp) {
   
   lastTimestamp = timestamp;
 });
+
+select.addEventListener('change', event => {
+  const classType = scenes[select.value];
+
+  if (classType) {
+    scene.cleanup();
+    scene = new classType(ctx);
+    scene.setup();
+  }
+})
 
