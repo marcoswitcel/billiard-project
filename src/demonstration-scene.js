@@ -97,6 +97,9 @@ export class Scene02 extends DemonstrationScene {
     this.physicsSolver.entities.push(new Entity(vec2(380, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0F')));
     this.physicsSolver.entities.push(new Entity(vec2(420, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0F')));
 
+    this.physicsSolver.entities.push(new Entity(vec2(450, 185), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0F')));
+    this.physicsSolver.entities.push(new Entity(vec2(450, 215), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0F')));
+
     document.addEventListener('keyup', event => {
       if (event.key === ' ') {
         ball.currentPosition.add(vec2(5, 0));
@@ -111,7 +114,6 @@ export class Scene02 extends DemonstrationScene {
      * dessa forma ficou mais estável a simualação.
      */
     this.physicsSolver.update(deltaTimeMs);
-    console.log(this.physicsSolver.entities[0].getCurrentVelocity())
   }
 
   render() {
