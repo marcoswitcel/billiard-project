@@ -22,16 +22,34 @@ canvas.height = 500;
 
 document.body.append(canvas);
 
+const updateScene = () => {
+  const classType = scenes[select.value];
+
+  if (classType) {
+    if (scene) scene.cleanup();
+    scene = new classType(ctx);
+    scene.setup();
+  }
+};
+
 /**
- * @type {DemonstrationScene}
+ * @type {DemonstrationScene|null}
  */
-let scene = new Scene02(ctx);
+let scene = null;
 const scenes = {
   scene01: Scene01,
   scene02: Scene02,
 }
 
-scene.setup();
+// @todo João, ajustar aqui
+if (window.location.href.includes('scene01')) {
+  select.value = 'scene01';
+}
+if (window.location.href.includes('scene02')) {
+  select.value = 'scene02';
+}
+
+updateScene();
 
 let lastTimestamp = 0;
 requestAnimationFrame(function loop(timestamp) {
@@ -45,20 +63,12 @@ requestAnimationFrame(function loop(timestamp) {
   const deltaTime = timestamp - lastTimestamp;
   const deltaTimeMs = deltaTime / 1000;
 
-  scene.update(deltaTimeMs);
+  if (scene) scene.update(deltaTimeMs);
 
-  scene.render();
+  if (scene) scene.render();
   
   lastTimestamp = timestamp;
 });
 
-select.addEventListener('change', event => {
-  const classType = scenes[select.value];
-
-  if (classType) {
-    scene.cleanup();
-    scene = new classType(ctx);
-    scene.setup();
-  }
-})
+select.addEventListener('change', updateScene)
 
