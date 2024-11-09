@@ -25,7 +25,7 @@ document.body.append(canvas);
 /**
  * @type {DemonstrationScene}
  */
-let scene = new Scene01(ctx);
+let scene = new Scene02(ctx);
 const scenes = {
   scene01: Scene01,
   scene02: Scene02,

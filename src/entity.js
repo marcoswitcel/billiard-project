@@ -59,4 +59,12 @@ export class Entity {
   accelerate(acc) {
     this.acceleration.add(acc);
   }
+
+  /**
+   * 
+   * @returns {Vec2}
+   */
+  getCurrentVelocity() {
+    return this.currentPosition.copy().sub(this.oldPosition)
+  }
 }

@@ -111,6 +111,7 @@ export class Scene02 extends DemonstrationScene {
      * dessa forma ficou mais estável a simualação.
      */
     this.physicsSolver.update(deltaTimeMs);
+    console.log(this.physicsSolver.entities[0].getCurrentVelocity())
   }
 
   render() {

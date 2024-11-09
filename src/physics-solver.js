@@ -2,6 +2,10 @@ import { Constraint } from './constraints.js';
 import { Entity } from './entity.js';
 import { vec2 } from './vec2.js';
 
+
+export const IN_MOVEMENT_THREASHOLD = 0.001;
+
+
 export class PhysicsSolver {
   gravity = vec2(0, 1000);
   /**
@@ -19,6 +23,7 @@ export class PhysicsSolver {
   {
     // aplicando forças
     this.applyGravity();
+    this.applyFriction();
     this.applyConstraint();
     this.solveCollision();
     this.updatePositions(deltaTime);
@@ -44,6 +49,20 @@ export class PhysicsSolver {
     for (const entity of this.entities)
     {
       entity.accelerate(this.gravity);
+    }
+  }
+
+  /**
+   * @private
+   */
+  applyFriction()
+  {
+    for (const entity of this.entities)
+    {
+      const velocity = entity.getCurrentVelocity();
+      if (velocity.length() > IN_MOVEMENT_THREASHOLD) {
+        entity.accelerate(velocity.normalize().mul(-1).mul(1));
+      }
     }
   }
 

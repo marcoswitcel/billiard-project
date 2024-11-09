@@ -113,6 +113,8 @@ export class Vec2 {
     {
       this.div(length);
     }
+
+    return this;
   }
 
   /**
