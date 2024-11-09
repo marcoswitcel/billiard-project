@@ -88,9 +88,6 @@ export class Vec2 {
     this.y = y;
   }
 
-  // @todo João, implementar normalized
-  // @todo João, implementar length/magnitude
-  
   /**
    * 
    * @returns {Vec2} novo vetor
