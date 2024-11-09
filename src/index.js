@@ -19,6 +19,7 @@ document.body.append(canvas);
 const circle = new Circle(vec2(250, 200), 100, '#0F0');
 
 const physicsSolver = new PhysicsSolver();
+physicsSolver.constraints.push(new CircleConstraint(vec2(250, 200), 100));
 physicsSolver.entities.push(new Entity(vec2(265, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#00F')));
 
 let lastTimestamp = 0;

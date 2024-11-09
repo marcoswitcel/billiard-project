@@ -1,4 +1,4 @@
-import { CircleConstraint, Constraint } from './constraints.js';
+import { Constraint } from './constraints.js';
 import { Entity } from './entity.js';
 import { vec2 } from './vec2.js';
 
@@ -12,7 +12,7 @@ export class PhysicsSolver {
   /**
    * @type {Constraint[]}
    */
-  constraints = [ new CircleConstraint(vec2(250, 200), 100) ];
+  constraints = [];
 
 
   update(deltaTime)
