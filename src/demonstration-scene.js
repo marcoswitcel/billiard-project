@@ -105,6 +105,16 @@ export class Scene02 extends DemonstrationScene {
         ball.currentPosition.add(vec2(5, 0));
       }
     });
+
+    const canvas = this.ctx.canvas;
+
+    canvas.addEventListener('click', event => {
+      const boundings = canvas.getBoundingClientRect();
+      // posição menos offset do canvas e reescalado para compensar o escalonamento atual do canvas
+      const coords = { x: (event.clientX - boundings.x) / canvas.clientWidth , y: (event.clientY - boundings.y) / canvas.clientHeight , };
+
+      console.log('Click capturado: ',coords);
+    })
   }
 
   update(deltaTimeMs) {
