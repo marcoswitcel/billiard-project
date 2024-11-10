@@ -41,12 +41,10 @@ const scenes = {
   scene02: Scene02,
 }
 
-// @todo João, ajustar aqui
-if (window.location.href.includes('scene01')) {
-  select.value = 'scene01';
-}
-if (window.location.href.includes('scene02')) {
-  select.value = 'scene02';
+const parameters = new URLSearchParams(window.location.search);
+
+if (parameters.has('scene')) {
+  select.value = parameters.get('scene');
 }
 
 updateScene();
