@@ -14,13 +14,18 @@ const ctx = canvas.getContext('2d');
  * @type {HTMLSelectElement|HTMLElement|null}
  */
 const select = document.getElementById('scene');
+/**
+ * @type {HTMLDivElement|HTMLElement|null}
+ */
+const app = document.getElementById('app');
 
 if (!(select instanceof HTMLSelectElement)) throw new Error('HTMLSelectElement');
+if (!(app instanceof HTMLDivElement)) throw new Error('HTMLDivElement');
 
 canvas.width = 700;
 canvas.height = 500;
 
-document.body.append(canvas);
+app.append(canvas);
 
 const updateScene = () => {
   const classType = scenes[select.value];
