@@ -61,7 +61,7 @@ export class PhysicsSolver {
     {
       const velocity = entity.getCurrentVelocity();
       if (velocity.length() > IN_MOVEMENT_THREASHOLD) {
-        entity.accelerate(velocity.normalize().mul(-1).mul(1));
+        entity.accelerate(velocity.normalize().mul(-1).mul(50));
       }
     }
   }
