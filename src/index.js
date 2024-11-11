@@ -1,10 +1,6 @@
-import { Circle } from './circle.js';
-import { CircleConstraint } from './constraints.js';
-import { DemonstrationScene, Scene01, Scene02 } from './demonstration-scene.js';
-import { Entity } from './entity.js';
-import { PhysicsSolver } from './physics-solver.js';
-import { drawCircle, drawRect } from './utils.js';
-import { vec2 } from './vec2.js';
+import { DemonstrationScene } from './demonstration-scene.js';
+import { Scene01 } from './scene01.js';
+import { Scene02 } from './scene02.js';
 
 console.log('Olá mundo')
 
