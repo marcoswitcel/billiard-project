@@ -71,3 +71,7 @@ requestAnimationFrame(function loop(timestamp) {
 
 select.addEventListener('change', updateScene)
 
+canvas.addEventListener('dblclick', event => {
+  canvas.requestFullscreen();
+});
+
