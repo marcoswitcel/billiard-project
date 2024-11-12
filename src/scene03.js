@@ -25,7 +25,7 @@ export class Scene03 extends DemonstrationScene {
   }
 
   setup() {
-    this.physicsSolver.constraints.push(new RectangleConstraint(vec2(250, 200), 100, 100, 0));
+    this.physicsSolver.constraints.push(new RectangleConstraint(vec2(250, 200), 200, 150, 0));
     this.physicsSolver.entities.push(new Entity(vec2(265, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#00F')));
 
     document.addEventListener('keyup', event => {
@@ -57,7 +57,7 @@ export class Scene03 extends DemonstrationScene {
         const height = constraint.height;
         const rotation = constraint.rotation; // @todo João, ignorando rotação
         const color = '#0F0';
-        drawRect(this.ctx, color, position.x, position.y, width, height);
+        drawRect(this.ctx, color, position.x - width / 2, position.y - height / 2, width, height);
       }
     }
 
