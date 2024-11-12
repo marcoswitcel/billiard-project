@@ -47,3 +47,53 @@ export class CircleConstraint extends Constraint {
     }  
   }
 }
+
+export class RectangleConstraint extends Constraint {
+  /**
+   * @type {Vec2} position - centro do retângulo 
+   */
+  position = vec2(0, 0);
+  /**
+   * @type {number} width  
+   */
+  width = 0;
+  /**
+   * @type {number} height 
+   */
+  height = 0;
+  /**
+   * @type {number} rotation 
+   */
+  rotation = 0;
+
+  /**
+   * 
+   * @param {Vec2} position 
+   * @param {number} width
+   * @param {number} height
+   * @param {number} rotation
+   */
+  constructor(position, width, height, rotation) {
+    super();
+
+    this.position = position;
+    this.width = width;
+    this.height = height;
+    this.rotation = rotation;
+  }
+
+  /**
+   * 
+   * @param {Entity[]} entities 
+   */
+  applyConstraint(entities) {
+    for (const entity of entities) {
+      // @todo João, implementar cálculos para ver se está fora do retângulo
+
+      // @todo checar e rodar apenas se estiver fora
+      if (true) {
+        // @note mover currentPosition
+      }
+    }  
+  }
+}
