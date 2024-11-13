@@ -32,7 +32,7 @@ export class Scene03 extends DemonstrationScene {
       if (event.key === ' ') {
         const radius = Math.random() * 5 + 5;
         const color = `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
-        this.physicsSolver.entities.push(new Entity(vec2(265, 200), vec2(0, 0), new Circle(vec2(250, 200), radius, color)));
+        this.physicsSolver.entities.push(new Entity(vec2(265 + Math.random() * 10, 200), vec2(0, 0), new Circle(vec2(250, 200), radius, color)));
       }
     });
   }

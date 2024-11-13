@@ -91,8 +91,10 @@ export class RectangleConstraint extends Constraint {
       // @todo João, implementar cálculos para ver se está fora do retângulo
 
       // @todo checar e rodar apenas se estiver fora
-      if (true) {
+      if (entity.currentPosition.y + entity.shape.radius > this.position.y + this.height / 2) {
         // @note mover currentPosition
+        entity.oldPosition.y = entity.currentPosition.y;
+        entity.currentPosition.y = this.position.y + this.height / 2 - entity.shape.radius;
       }
     }  
   }
