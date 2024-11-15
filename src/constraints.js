@@ -90,22 +90,22 @@ export class RectangleConstraint extends Constraint {
   applyConstraint(entities) {
     for (const entity of entities) {
       if (entity.currentPosition.y + entity.shape.radius > this.position.y + this.height / 2) {
-        // entity.oldPosition.y = entity.currentPosition.y;
+        entity.oldPosition.y = entity.currentPosition.y;
         entity.currentPosition.y = this.position.y + this.height / 2 - entity.shape.radius;
       }
 
       if (entity.currentPosition.y - entity.shape.radius < this.position.y - this.height / 2) {
-        // entity.oldPosition.y = entity.currentPosition.y;
+        entity.oldPosition.y = entity.currentPosition.y;
         entity.currentPosition.y = this.position.y - this.height / 2 + entity.shape.radius;
       }
 
       if (entity.currentPosition.x + entity.shape.radius > this.position.x + this.width / 2) {
-        // entity.oldPosition.x = entity.currentPosition.x;
+        entity.oldPosition.x = entity.currentPosition.x;
         entity.currentPosition.x = this.position.x + this.width / 2 - entity.shape.radius;
       }
 
       if (entity.currentPosition.x - entity.shape.radius < this.position.x - this.width / 2) {
-        // entity.oldPosition.x = entity.currentPosition.x;
+        entity.oldPosition.x = entity.currentPosition.x;
         entity.currentPosition.x = this.position.x - this.width / 2 + entity.shape.radius;
       }
     }  
