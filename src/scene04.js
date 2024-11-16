@@ -25,7 +25,7 @@ export class Scene04 extends DemonstrationScene {
   }
 
   setup() {
-    const ball = new Entity(vec2(265, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#00F'));
+    const ball = new Entity(vec2(265, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#FFF'));
     this.physicsSolver.gravity.set(0, 0);
     this.physicsSolver.entities.push(ball);
     this.physicsSolver.entities.push(new Entity(vec2(380, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0F')));
@@ -33,7 +33,7 @@ export class Scene04 extends DemonstrationScene {
 
     this.physicsSolver.entities.push(new Entity(vec2(450, 185), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0F')));
     this.physicsSolver.entities.push(new Entity(vec2(450, 215), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0F')));
-    this.physicsSolver.constraints.push(new RectangleConstraint(vec2(350, 200), 250, 150, 0));
+    this.physicsSolver.constraints.push(new RectangleConstraint(vec2(350, 200), 400, 250, 0));
 
     const shootForce = 5;
 
@@ -45,7 +45,17 @@ export class Scene04 extends DemonstrationScene {
 
     const canvas = this.ctx.canvas;
 
-    canvas.addEventListener('click', event => {
+    let lastClick = null;
+    canvas.addEventListener('mousedown', event => {
+      if (event.which !== 1) return;
+      lastClick = Date.now();
+    });
+
+    canvas.addEventListener('mouseup', event => {
+      if (event.which !== 1) return;
+
+      const modifier = Math.min((Date.now() - lastClick), 2000) / 1000;
+
       /**
        * @todo João, quando devidamente separado os eixos da simulação e da tela, será necessário calcular e 'projetar'
        * o click no ponto correto.
@@ -57,7 +67,7 @@ export class Scene04 extends DemonstrationScene {
       const force = vec2(event.clientX - boundings.x, event.clientY - boundings.y)
         .sub(ball.currentPosition)
         .normalize()
-        .mul(shootForce);
+        .mul(shootForce * modifier);
 
       ball.currentPosition.add(force);
     });
