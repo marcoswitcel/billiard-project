@@ -7,6 +7,8 @@ import { drawRect, drawCircle } from './utils.js';
 import { vec2 } from './vec2.js';
 
 
+const calculateForce = (start, now) => Math.min((now - start), 2000) / 1000;
+
 export class Scene04 extends DemonstrationScene {
   physicsSolver = new PhysicsSolver();
   /**
@@ -15,11 +17,15 @@ export class Scene04 extends DemonstrationScene {
   ctx;
 
   /**
+   * @type {number|null}
+   */
+  lastClick = null;
+
+  /**
    * @param {CanvasRenderingContext2D} ctx
    */
   constructor(ctx) {
     super();
-
 
     this.ctx = ctx;
   }
@@ -45,16 +51,16 @@ export class Scene04 extends DemonstrationScene {
 
     const canvas = this.ctx.canvas;
 
-    let lastClick = null;
     canvas.addEventListener('mousedown', event => {
       if (event.which !== 1) return;
-      lastClick = Date.now();
+      this.lastClick = Date.now();
     });
 
     canvas.addEventListener('mouseup', event => {
       if (event.which !== 1) return;
 
-      const modifier = Math.min((Date.now() - lastClick), 2000) / 1000;
+      const modifier = calculateForce(this.lastClick, Date.now());
+      this.lastClick = null;
 
       /**
        * @todo João, quando devidamente separado os eixos da simulação e da tela, será necessário calcular e 'projetar'
@@ -99,6 +105,10 @@ export class Scene04 extends DemonstrationScene {
 
     for (const entity of this.physicsSolver.entities) {
       drawCircle(this.ctx, entity.currentPosition.x, entity.currentPosition.y, entity.shape.radius, entity.shape.color);
+    }
+
+    if (this.lastClick) {
+      drawRect(this.ctx, '#00F', 0, 0, calculateForce(this.lastClick, Date.now()) * 100, 10);
     }
   }
 }
