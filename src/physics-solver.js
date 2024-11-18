@@ -18,6 +18,10 @@ export class PhysicsSolver {
    */
   constraints = [];
 
+  /**
+   * @type {((a: Entity, b: Entity) => void)|null}
+   */
+  reportCollision = null;
 
   update(deltaTime)
   {
@@ -96,6 +100,11 @@ export class PhysicsSolver {
           
           entity1.currentPosition = entity1.currentPosition.copy().add(n.copy().mul(result));
           entity2.currentPosition = entity2.currentPosition.copy().sub(n.copy().mul(result));
+          
+          // @todo João, acredito que isso aqui reporte muitas colisões duplicadas, avaliar...
+          if (this.reportCollision) {
+            this.reportCollision(entity1, entity2);
+          }
         }
       }
     }

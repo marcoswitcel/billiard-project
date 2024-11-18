@@ -41,6 +41,17 @@ export class Scene04 extends DemonstrationScene {
     this.physicsSolver.entities.push(new Entity(vec2(450, 215), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0F')));
     this.physicsSolver.constraints.push(new RectangleConstraint(vec2(350, 200), 400, 250, 0));
 
+    /**
+     * @todo João, adicionar funcionalidade para detectar quando as bolas "pararam" de ser mover. Não
+     * sei bem como quero implementar isso, mas é necessário definir isso para saber se a "tacada" acertou ou não
+     * alguma bola.
+     */
+    this.physicsSolver.reportCollision = (e1, e2) => {
+      if (e1 === ball || e2 === ball) {
+        console.log('hitted');
+      }
+    }
+
     const shootForce = 5;
 
     document.addEventListener('keyup', event => {
