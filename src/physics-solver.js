@@ -64,7 +64,7 @@ export class PhysicsSolver {
     for (const entity of this.entities)
     {
       const velocity = entity.getCurrentVelocity();
-      if (velocity.length() > IN_MOVEMENT_THREASHOLD) {
+      if (velocity.length() > IN_MOVEMENT_THREASHOLD) { // @todo João, mover essa lógica para a entidade
         entity.accelerate(velocity.normalize().mul(-1).mul(50));
       }
     }
