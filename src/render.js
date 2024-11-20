@@ -2,13 +2,15 @@ import { RectangleConstraint } from './constraints.js';
 import { PhysicsSolver } from './physics-solver.js';
 import { drawCircle, drawLine, drawRect } from './utils.js';
 
+const searchParams = new URLSearchParams(window.location.search);
+
 /**
  * 
  * @param {CanvasRenderingContext2D} ctx 
  * @param {PhysicsSolver} physicsSolver 
  */
 export function render(ctx, physicsSolver) {
-  const debugView = true;
+  const debugView = searchParams.has('debugView') && searchParams.get('debugView') === 'true';
 
   for (const constraint of physicsSolver.constraints) {
     if (constraint instanceof RectangleConstraint) {
