@@ -8,6 +8,10 @@ console.log('Olá mundo')
 
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
+const application = {
+  state: 'running',
+}
+
 /**
  * @type {HTMLSelectElement|HTMLElement|null}
  */
@@ -66,9 +70,10 @@ requestAnimationFrame(function loop(timestamp) {
   const deltaTime = timestamp - lastTimestamp;
   const deltaTimeMs = deltaTime / 1000;
 
-  if (scene) scene.update(deltaTimeMs);
-
-  if (scene) scene.render();
+  if (scene) {
+    if (application.state === 'running') scene.update(deltaTimeMs);
+    scene.render();
+  }
   
   lastTimestamp = timestamp;
 });
@@ -81,5 +86,11 @@ select.addEventListener('change', updateScene)
  */
 canvas.addEventListener('dblclick', event => {
   canvas.requestFullscreen();
+});
+
+document.addEventListener('keyup', event => {
+  if (event.code === 'KeyP') {
+    application.state = (application.state === 'running') ? 'paused' : 'running';
+  }
 });
 
