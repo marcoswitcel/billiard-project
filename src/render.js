@@ -1,6 +1,7 @@
 import { RectangleConstraint } from './constraints.js';
 import { PhysicsSolver } from './physics-solver.js';
-import { drawCircle, drawLine, drawRect } from './utils.js';
+import { drawCircle, drawLine, drawRect, drawText } from './utils.js';
+import { vec2 } from './vec2.js';
 
 const searchParams = new URLSearchParams(window.location.search);
 
@@ -35,5 +36,10 @@ export function render(ctx, physicsSolver) {
     drawCircle(ctx, entity.currentPosition.x, entity.currentPosition.y, entity.shape.radius, entity.shape.color, color, lineWidth);
     drawLine(ctx, entity.currentPosition, entity.currentPosition.copy().add(entity.getCurrentVelocity().mul(10)), color, lineWidth);
     ctx.setLineDash([]);
-  }  
+  }
+
+  if (debugView) {
+    const totalForce = physicsSolver.entities.reduce((p, c) => (p + c.getCurrentVelocity().length()), 0);
+    drawText(ctx, 'energia interna: ' + totalForce.toFixed(2), vec2(25, 25), 20, 'white', 'monospace', 'left', 'middle');
+  }
 }

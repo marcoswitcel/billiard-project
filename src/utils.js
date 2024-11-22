@@ -1,3 +1,4 @@
+import { Vec2 } from './vec2.js';
 
 /**
  * 
@@ -39,4 +40,27 @@ export function drawLine(ctx, pointA, pointB, strokeStyle = '#FFFFFF', lineWidth
   ctx.lineWidth = lineWidth;
   ctx.strokeStyle = strokeStyle;
   ctx.stroke();
+}
+
+/**
+ * @note links úteis:
+ * * {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/textAlign}
+ * * {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/textBaseline}
+ * * {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/textRendering}
+ * 
+ * @param {CanvasRenderingContext2D} ctx contexto atual
+ * @param {string} text texto a ser exibido
+ * @param {Vec2} position posição do texto
+ * @param {number} size tamanho do texto de 0 a 1, será mapeado para uma fração do tamanho do canvas
+ * @param {string} fillStyle cor de preenchimento
+ * @param {string} fontFamily fonta desejada
+ * @param {CanvasTextAlign} textAlign alinhamento horizontal do texto
+ * @param {CanvasTextBaseline} textBaseline alinhamento vertical do texto
+ */
+export function drawText(ctx, text, position, size, fillStyle = '#FFFFFF', fontFamily = 'monospace', textAlign = 'center', textBaseline = 'middle') {
+  ctx.font = `${size}px ${fontFamily}`;
+  ctx.fillStyle = fillStyle;
+  ctx.textAlign = textAlign;
+  ctx.textBaseline = textBaseline;
+  ctx.fillText(text, position.x, position.y);
 }
