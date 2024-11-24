@@ -1,9 +1,10 @@
 import { Circle } from './circle.js';
-import { CircleConstraint, RectangleConstraint } from './constraints.js';
+import { RectangleConstraint } from './constraints.js';
 import { DemonstrationScene } from './demonstration-scene.js';
 import { Entity } from './entity.js';
 import { PhysicsSolver } from './physics-solver.js';
-import { drawRect, drawCircle } from './utils.js';
+import { render } from './render.js';
+import { drawRect } from './utils.js';
 import { vec2 } from './vec2.js';
 
 
@@ -50,19 +51,6 @@ export class Scene03 extends DemonstrationScene {
     // background 
     drawRect(this.ctx, '#000', 0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
-    for (const constraint of this.physicsSolver.constraints) {
-      if (constraint instanceof RectangleConstraint) {
-        const position = constraint.position;
-        const width = constraint.width;
-        const height = constraint.height;
-        const rotation = constraint.rotation; // @todo João, ignorando rotação
-        const color = '#0F0';
-        drawRect(this.ctx, color, position.x - width / 2, position.y - height / 2, width, height);
-      }
-    }
-
-    for (const entity of this.physicsSolver.entities) {
-      drawCircle(this.ctx, entity.currentPosition.x, entity.currentPosition.y, entity.shape.radius, entity.shape.color);
-    }
+    render(this.ctx, this.physicsSolver);
   }
 }
