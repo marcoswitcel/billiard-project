@@ -1,4 +1,4 @@
-import { RectangleConstraint } from './constraints.js';
+import { CircleConstraint, RectangleConstraint } from './constraints.js';
 import { PhysicsSolver } from './physics-solver.js';
 import { drawCircle, drawLine, drawRect, drawText } from './utils.js';
 import { vec2 } from './vec2.js';
@@ -21,6 +21,11 @@ export function render(ctx, physicsSolver) {
       const rotation = constraint.rotation; // @todo João, ignorando rotação
       const color = '#0F0';
       drawRect(ctx, color, position.x - width / 2, position.y - height / 2, width, height);
+    } else if (constraint instanceof CircleConstraint) {
+      const position = constraint.position;
+      const radius = constraint.radius;
+      const color = '#0F0';
+      drawCircle(ctx, position.x, position.y, radius, color);
     }
   }
   
