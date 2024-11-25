@@ -23,14 +23,25 @@ export class PhysicsSolver {
    */
   reportCollision = null;
 
-  update(deltaTime)
+  /**
+   * @todo João, o sub-stepping da física está produzindo resultado incorretos,
+   * acho que esse seria o próximo ponto a ser resolvido.
+   * @param {*} deltaTime 
+   * @param {*} substepping 
+   */
+  update(deltaTime, substepping = 1)
   {
-    // aplicando forças
-    this.applyGravity();
-    this.applyFriction();
-    this.applyConstraint();
-    this.solveCollision();
-    this.updatePositions(deltaTime);
+    const dt = deltaTime / substepping;
+
+    for (let i = 0; i < substepping; i++)
+    {
+      // aplicando forças
+      this.applyGravity();
+      this.applyFriction();
+      this.applyConstraint();
+      this.solveCollision();
+      this.updatePositions(dt);
+    }
   }
 
   /**
