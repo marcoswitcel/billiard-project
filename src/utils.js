@@ -33,6 +33,14 @@ export function drawCircle(ctx, x, y, radius, color, strokeStyle = null, lineWid
   }
 }
 
+/**
+ * 
+ * @param {CanvasRenderingContext2D} ctx 
+ * @param {Vec2} pointA 
+ * @param {Vec2} pointB 
+ * @param {string} strokeStyle 
+ * @param {number} lineWidth 
+ */
 export function drawLine(ctx, pointA, pointB, strokeStyle = '#FFFFFF', lineWidth = 1) {
   ctx.beginPath();
   ctx.moveTo(pointA.x, pointA.y);

@@ -43,6 +43,10 @@ export function render(ctx, physicsSolver) {
     ctx.setLineDash([]);
   }
 
+  // ctx.setLineDash([4, 2]);
+  // drawLine(ctx, vec2(0,0), vec2(100, 100));
+  // ctx.setLineDash([]);
+
   if (debugView) {
     const totalForce = physicsSolver.entities.reduce((p, c) => (p + c.getCurrentVelocity().length()), 0);
     drawText(ctx, 'energia interna: ' + totalForce.toFixed(2), vec2(25, 25), 20, 'white', 'monospace', 'left', 'middle');
