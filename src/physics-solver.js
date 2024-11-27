@@ -19,6 +19,11 @@ export class PhysicsSolver {
   constraints = [];
 
   /**
+   * @todo João, decidir e documentar unidades de medida e funcionamento
+   */
+  unit = 'cm/s';
+
+  /**
    * @type {((a: Entity, b: Entity) => void)|null}
    */
   reportCollision = null;

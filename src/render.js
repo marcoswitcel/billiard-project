@@ -12,6 +12,7 @@ const searchParams = new URLSearchParams(window.location.search);
  */
 export function render(ctx, physicsSolver) {
   const debugView = searchParams.has('debugView') && searchParams.get('debugView') === 'true';
+  const debugGridView = searchParams.has('debugGridView') && searchParams.get('debugGridView') === 'true';
 
   for (const constraint of physicsSolver.constraints) {
     if (constraint instanceof RectangleConstraint) {
@@ -43,9 +44,25 @@ export function render(ctx, physicsSolver) {
     ctx.setLineDash([]);
   }
 
-  // ctx.setLineDash([4, 2]);
-  // drawLine(ctx, vec2(0,0), vec2(100, 100));
-  // ctx.setLineDash([]);
+  if (debugGridView) {
+    const lineWidth = 2;
+    const { width, height } = ctx.canvas;
+    ctx.setLineDash([lineWidth * 2, lineWidth]);
+    const spacing = 20;
+    for (let i = 0; i < Math.floor(height / spacing); i++)
+    {
+      const left = vec2(0, i * spacing);
+      const right = vec2(width, i * spacing);
+      drawLine(ctx, left, right, 'rgba(0, 255, 0, .4)');
+    }
+    for (let i = 0; i < Math.floor(width / spacing); i++)
+    {
+      const top = vec2(i * spacing, 0);
+      const bottom = vec2(i * spacing, height);
+      drawLine(ctx, top, bottom, 'rgba(0, 255, 0, .4)');
+    }
+    ctx.setLineDash([]);
+  }
 
   if (debugView) {
     const totalForce = physicsSolver.entities.reduce((p, c) => (p + c.getCurrentVelocity().length()), 0);
