@@ -82,6 +82,9 @@ export class PhysicsSolver {
       const velocity = entity.getCurrentVelocity();
       if (velocity.length() > IN_MOVEMENT_THREASHOLD) { // @todo João, mover essa lógica para a entidade
         entity.accelerate(velocity.normalize().mul(-1).mul(50));
+      } else {
+        // @todo João, avaliar em relação ao threashold, mas acho que preciso ajustar mais coisas.
+        // entity.oldPosition = entity.currentPosition;
       }
     }
   }

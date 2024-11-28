@@ -11,6 +11,10 @@ export class Entity {
    */
   oldPosition;
   /**
+   * @type {number}
+   */
+  lastDt;
+  /**
    * @type {Vec2}
    */
   acceleration;
@@ -28,6 +32,7 @@ export class Entity {
   constructor(currentPosition, acceleration, shape) {
     this.currentPosition = currentPosition;
     this.oldPosition = currentPosition;
+    this.lastDt = 0;
     this.acceleration = acceleration;
     this.shape = shape;
   }
@@ -61,7 +66,7 @@ export class Entity {
   }
 
   /**
-   * 
+   * @todo João, definir como usar o deltaTime aqui para poder calcular a velocidade atual
    * @returns {Vec2}
    */
   getCurrentVelocity() {
