@@ -67,6 +67,7 @@ export class RectangleConstraint extends Constraint {
   rotation = 0;
 
   /**
+   * @todo João, receber o fator de elasticidade usado para calcular quanto da energia se perde na colisão com uma borda.
    * 
    * @param {Vec2} position 
    * @param {number} width
