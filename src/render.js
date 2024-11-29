@@ -25,9 +25,13 @@ export function render(ctx, physicsSolver, camera = null) {
   const debugView = searchParams.has('debugView') && searchParams.get('debugView') === 'true';
   const debugGridView = searchParams.has('debugGridView') && searchParams.get('debugGridView') === 'true';
 
+  
   if (camera === null) {
     camera = new Camera(vec2(0, 0), vec2(ctx.canvas.width, ctx.canvas.height));
   }
+
+  // @todo João, avaliar como fazer a scale
+  const scale = ctx.canvas.width / camera.size.x;
 
   for (const constraint of physicsSolver.constraints) {
     if (constraint instanceof RectangleConstraint) {
