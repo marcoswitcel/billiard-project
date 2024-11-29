@@ -5,26 +5,41 @@ import { vec2 } from './vec2.js';
 
 const searchParams = new URLSearchParams(window.location.search);
 
+class Camera {
+  position = vec2(0, 0);
+  size = vec2(100, 100);
+
+  constructor(position, size) {
+    this.position = position;
+    this.size = size;
+  }
+}
+
 /**
  * 
  * @param {CanvasRenderingContext2D} ctx 
  * @param {PhysicsSolver} physicsSolver 
+ * @param {Camera | null} camera
  */
-export function render(ctx, physicsSolver) {
+export function render(ctx, physicsSolver, camera = null) {
   const debugView = searchParams.has('debugView') && searchParams.get('debugView') === 'true';
   const debugGridView = searchParams.has('debugGridView') && searchParams.get('debugGridView') === 'true';
 
+  if (camera === null) {
+    camera = new Camera(vec2(0, 0), vec2(ctx.canvas.width, ctx.canvas.height));
+  }
+
   for (const constraint of physicsSolver.constraints) {
     if (constraint instanceof RectangleConstraint) {
-      const position = constraint.position;
-      const width = constraint.width;
-      const height = constraint.height;
+      const position = constraint.position.copy().sub(camera.position);
+      const width = constraint.width; // ajustar scale
+      const height = constraint.height; // ajustar scale
       const rotation = constraint.rotation; // @todo João, ignorando rotação
       const color = '#0F0';
       drawRect(ctx, color, position.x - width / 2, position.y - height / 2, width, height);
     } else if (constraint instanceof CircleConstraint) {
-      const position = constraint.position;
-      const radius = constraint.radius;
+      const position = constraint.position.copy().sub(camera.position);
+      const radius = constraint.radius; // ajustar scale
       const color = '#0F0';
       drawCircle(ctx, position.x, position.y, radius, color);
     }
