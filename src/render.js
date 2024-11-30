@@ -36,30 +36,30 @@ export function render(ctx, physicsSolver, camera = null) {
   for (const constraint of physicsSolver.constraints) {
     if (constraint instanceof RectangleConstraint) {
       const position = constraint.position.copy().sub(camera.position);
-      const width = constraint.width; // ajustar scale
-      const height = constraint.height; // ajustar scale
-      const rotation = constraint.rotation; // @todo João, ignorando rotação
+      const width = constraint.width * scale;
+      const height = constraint.height * scale;
       const color = '#0F0';
       drawRect(ctx, color, position.x - width / 2, position.y - height / 2, width, height);
     } else if (constraint instanceof CircleConstraint) {
       const position = constraint.position.copy().sub(camera.position);
-      const radius = constraint.radius; // ajustar scale
+      const radius = constraint.radius * scale;
       const color = '#0F0';
       drawCircle(ctx, position.x, position.y, radius, color);
     }
   }
   
   for (const entity of physicsSolver.entities) {
-    drawCircle(ctx, entity.currentPosition.x, entity.currentPosition.y, entity.shape.radius, entity.shape.color);
+    const currentPositionTranslated = entity.currentPosition.copy().sub(camera.position);
+    drawCircle(ctx, currentPositionTranslated.x, currentPositionTranslated.y, entity.shape.radius * scale, entity.shape.color);
   
 
     if (!debugView) continue;
 
-    const lineWidth = 2;
+    const lineWidth = 2 * scale;
     const color = 'rgba(0, 0, 255, 1)';
     ctx.setLineDash([lineWidth, lineWidth]);
-    drawCircle(ctx, entity.currentPosition.x, entity.currentPosition.y, entity.shape.radius, entity.shape.color, color, lineWidth);
-    drawLine(ctx, entity.currentPosition, entity.currentPosition.copy().add(entity.getCurrentVelocity().mul(10)), color, lineWidth);
+    drawCircle(ctx, currentPositionTranslated.x, currentPositionTranslated.y, entity.shape.radius * scale, entity.shape.color, color, lineWidth);
+    drawLine(ctx, currentPositionTranslated, currentPositionTranslated.copy().add(entity.getCurrentVelocity().mul(10 * scale)), color, lineWidth);
     ctx.setLineDash([]);
   }
 
