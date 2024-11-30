@@ -64,6 +64,18 @@ export class Scene04 extends DemonstrationScene {
       }
     });
 
+    document.addEventListener('keydown', event => {
+      if (event.key === 'ArrowRight') {
+        this.camera.position.x++;
+      } if (event.key === 'ArrowLeft') {
+        this.camera.position.x--;
+      } if (event.key === 'ArrowUp') {
+        this.camera.position.y--;
+      } if (event.key === 'ArrowDown') {
+        this.camera.position.y++;
+      }
+    });
+
     const canvas = this.ctx.canvas;
 
     canvas.addEventListener('mousedown', event => {
