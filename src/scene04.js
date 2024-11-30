@@ -22,6 +22,8 @@ export class Scene04 extends DemonstrationScene {
    */
   lastClick = null;
 
+  camera = null;
+
   /**
    * @param {CanvasRenderingContext2D} ctx
    */
@@ -29,6 +31,7 @@ export class Scene04 extends DemonstrationScene {
     super();
 
     this.ctx = ctx;
+    this.camera = new Camera(vec2(0, 0), vec2(this.ctx.canvas.width, this.ctx.canvas.height));
   }
 
   setup() {
@@ -104,8 +107,7 @@ export class Scene04 extends DemonstrationScene {
     // background 
     drawRect(this.ctx, '#000', 0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
-    const camera = new Camera(vec2(0, 0), vec2(this.ctx.canvas.width, this.ctx.canvas.height));
-    render(this.ctx, this.physicsSolver, camera);
+    render(this.ctx, this.physicsSolver, this.camera);
 
     if (this.lastClick) {
       drawRect(this.ctx, '#00F', 0, 0, calculateForce(this.lastClick, Date.now()) * 100, 10);
