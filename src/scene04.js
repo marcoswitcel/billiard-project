@@ -86,6 +86,7 @@ export class Scene04 extends DemonstrationScene {
       const coords = { x: (event.clientX - boundings.x) / canvas.clientWidth, y: (event.clientY - boundings.y) / canvas.clientHeight, };
 
       const force = vec2(event.clientX - boundings.x, event.clientY - boundings.y)
+        .add(this.camera.position)
         .sub(ball.currentPosition)
         .normalize()
         .mul(shootForce * modifier);
