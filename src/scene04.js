@@ -3,7 +3,7 @@ import { RectangleConstraint } from './constraints.js';
 import { DemonstrationScene } from './demonstration-scene.js';
 import { Entity } from './entity.js';
 import { PhysicsSolver } from './physics-solver.js';
-import { render } from './render.js';
+import { Camera, render } from './render.js';
 import { drawRect, drawCircle } from './utils.js';
 import { vec2 } from './vec2.js';
 
@@ -104,7 +104,8 @@ export class Scene04 extends DemonstrationScene {
     // background 
     drawRect(this.ctx, '#000', 0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
-    render(this.ctx, this.physicsSolver);
+    const camera = new Camera(vec2(0, 0), vec2(this.ctx.canvas.width, this.ctx.canvas.height));
+    render(this.ctx, this.physicsSolver, camera);
 
     if (this.lastClick) {
       drawRect(this.ctx, '#00F', 0, 0, calculateForce(this.lastClick, Date.now()) * 100, 10);

@@ -5,7 +5,7 @@ import { vec2 } from './vec2.js';
 
 const searchParams = new URLSearchParams(window.location.search);
 
-class Camera {
+export class Camera {
   position = vec2(0, 0);
   size = vec2(100, 100);
 
@@ -63,6 +63,7 @@ export function render(ctx, physicsSolver, camera = null) {
     ctx.setLineDash([]);
   }
 
+  // @todo João, deixar relativo a câmera
   if (debugGridView) {
     const lineWidth = 2;
     const { width, height } = ctx.canvas;
