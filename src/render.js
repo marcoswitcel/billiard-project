@@ -69,10 +69,11 @@ export function render(ctx, physicsSolver, camera = null) {
     const { width, height } = ctx.canvas;
     ctx.setLineDash([lineWidth * 2, lineWidth]);
     const spacing = 20;
-    for (let i = 0; i < Math.floor(height / spacing); i++)
+    const offsetY = spacing - (camera.position.y % spacing);
+    for (let i = 0; offsetY + i * spacing < height; i++)
     {
-      const left = vec2(0, i * spacing);
-      const right = vec2(width, i * spacing);
+      const left = vec2(0, offsetY + i * spacing);
+      const right = vec2(width, offsetY + i * spacing);
       drawLine(ctx, left, right, 'rgba(0, 255, 0, .4)');
     }
     for (let i = 0; i < Math.floor(width / spacing); i++)
