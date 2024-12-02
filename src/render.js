@@ -68,18 +68,19 @@ export function render(ctx, physicsSolver, camera = null) {
     const lineWidth = 2;
     const { width, height } = ctx.canvas;
     ctx.setLineDash([lineWidth * 2, lineWidth]);
-    const spacing = 20;
+    const spacing = 40;
     const offsetY = spacing - (camera.position.y % spacing);
+    const offsetX = spacing - (camera.position.x % spacing);
     for (let i = 0; offsetY + i * spacing < height; i++)
     {
       const left = vec2(0, offsetY + i * spacing);
       const right = vec2(width, offsetY + i * spacing);
       drawLine(ctx, left, right, 'rgba(0, 255, 0, .4)');
     }
-    for (let i = 0; i < Math.floor(width / spacing); i++)
+    for (let i = 0; offsetX + i * spacing < width; i++)
     {
-      const top = vec2(i * spacing, 0);
-      const bottom = vec2(i * spacing, height);
+      const top = vec2(offsetX + i * spacing, 0);
+      const bottom = vec2(offsetX + i * spacing, height);
       drawLine(ctx, top, bottom, 'rgba(0, 255, 0, .4)');
     }
     ctx.setLineDash([]);

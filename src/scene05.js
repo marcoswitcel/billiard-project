@@ -32,7 +32,7 @@ export class Scene05 extends DemonstrationScene {
 
   setup() {
     this.physicsSolver.entities.push(new Entity(vec2(265, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#00F')));
-    this.physicsSolver.gravity = vec2(0, 100)
+    this.physicsSolver.gravity = vec2(10, 100)
   }
 
   update(deltaTimeMs) {
