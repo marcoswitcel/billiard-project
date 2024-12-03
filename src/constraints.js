@@ -65,6 +65,10 @@ export class RectangleConstraint extends Constraint {
    * @type {number} rotation 
    */
   rotation = 0;
+  /**
+   * @type {number} rotation 
+   */
+  collisionElasticity = 1;
 
   /**
    * @todo João, receber o fator de elasticidade usado para calcular quanto da energia se perde na colisão com uma borda.
@@ -74,13 +78,14 @@ export class RectangleConstraint extends Constraint {
    * @param {number} height
    * @param {number} rotation
    */
-  constructor(position, width, height, rotation) {
+  constructor(position, width, height, rotation, collisionElasticity = 1) {
     super();
 
     this.position = position;
     this.width = width;
     this.height = height;
     this.rotation = rotation;
+    this.collisionElasticity = collisionElasticity;
   }
 
   /**
@@ -91,22 +96,22 @@ export class RectangleConstraint extends Constraint {
   applyConstraint(entities) {
     for (const entity of entities) {
       if (entity.currentPosition.y + entity.shape.radius > this.position.y + this.height / 2) {
-        entity.oldPosition.y = this.position.y + this.height / 2 - entity.shape.radius + (entity.currentPosition.y - entity.oldPosition.y);
+        entity.oldPosition.y = this.position.y + this.height / 2 - entity.shape.radius + (entity.currentPosition.y - entity.oldPosition.y) * this.collisionElasticity;
         entity.currentPosition.y = this.position.y + this.height / 2 - entity.shape.radius;
       }
 
       if (entity.currentPosition.y - entity.shape.radius < this.position.y - this.height / 2) {
-        entity.oldPosition.y = this.position.y - this.height / 2 + entity.shape.radius + (entity.currentPosition.y - entity.oldPosition.y);
+        entity.oldPosition.y = this.position.y - this.height / 2 + entity.shape.radius + (entity.currentPosition.y - entity.oldPosition.y) * this.collisionElasticity;
         entity.currentPosition.y = this.position.y - this.height / 2 + entity.shape.radius;
       }
 
       if (entity.currentPosition.x + entity.shape.radius > this.position.x + this.width / 2) {
-        entity.oldPosition.x = this.position.x + this.width / 2 - entity.shape.radius + (entity.currentPosition.x - entity.oldPosition.x);
+        entity.oldPosition.x = this.position.x + this.width / 2 - entity.shape.radius + (entity.currentPosition.x - entity.oldPosition.x) * this.collisionElasticity;
         entity.currentPosition.x = this.position.x + this.width / 2 - entity.shape.radius;
       }
 
       if (entity.currentPosition.x - entity.shape.radius < this.position.x - this.width / 2) {
-        entity.oldPosition.x = this.position.x - this.width / 2 + entity.shape.radius + (entity.currentPosition.x - entity.oldPosition.x);
+        entity.oldPosition.x = this.position.x - this.width / 2 + entity.shape.radius + (entity.currentPosition.x - entity.oldPosition.x) * this.collisionElasticity;
         entity.currentPosition.x = this.position.x - this.width / 2 + entity.shape.radius;
       }
     }  

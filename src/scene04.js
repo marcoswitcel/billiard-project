@@ -43,7 +43,7 @@ export class Scene04 extends DemonstrationScene {
 
     this.physicsSolver.entities.push(new Entity(vec2(450, 185), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0F')));
     this.physicsSolver.entities.push(new Entity(vec2(450, 215), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0F')));
-    this.physicsSolver.constraints.push(new RectangleConstraint(vec2(350, 200), 400, 250, 0));
+    this.physicsSolver.constraints.push(new RectangleConstraint(vec2(350, 200), 400, 250, 0, 0.8));
 
     /**
      * @todo João, adicionar funcionalidade para detectar quando as bolas "pararam" de ser mover. Não
