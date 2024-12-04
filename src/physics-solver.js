@@ -7,7 +7,7 @@ export const IN_MOVEMENT_THREASHOLD = 0.001;
 
 
 export class PhysicsSolver {
-  gravity = vec2(0, 1000);
+  gravity = vec2(0, 10);
   /**
    * @type {Entity[]}
    */
@@ -21,7 +21,7 @@ export class PhysicsSolver {
   /**
    * @todo João, decidir e documentar unidades de medida e funcionamento
    */
-  unit = 'cm/s';
+  unit = 'm/s';
 
   /**
    * @type {((a: Entity, b: Entity) => void)|null}
@@ -77,11 +77,13 @@ export class PhysicsSolver {
    */
   applyFriction()
   {
+    const friction = 1;
+
     for (const entity of this.entities)
     {
       const velocity = entity.getCurrentVelocity();
       if (velocity.length() > IN_MOVEMENT_THREASHOLD) { // @todo João, mover essa lógica para a entidade
-        entity.accelerate(velocity.normalize().mul(-1).mul(50));
+        entity.accelerate(velocity.normalize().mul(-1).mul(friction));
       } else {
         // @todo João, avaliar em relação ao threashold, mas acho que preciso ajustar mais coisas.
         // entity.oldPosition = entity.currentPosition;
