@@ -1,5 +1,5 @@
 import { Circle } from './circle.js';
-import { Vec2 } from './vec2.js';
+import { vec2, Vec2 } from './vec2.js';
 
 export class Entity {
   /**
@@ -43,14 +43,16 @@ export class Entity {
    */
   updatePosition(deltaTime) {
     // calcula velocidade
-    const velocity = this.currentPosition.copy().sub(this.oldPosition);
+    const velocity = this.lastDt === 0 ? vec2(0, 0) : this.getCurrentVelocity().div(this.lastDt);
+
+    this.lastDt = deltaTime;
 
     // salva a posição atual
     this.oldPosition = this.currentPosition.copy();
 
     // realiza o cálculo usando o método de Verlet
     this.currentPosition
-      .add(velocity)
+      .add(velocity.mul(deltaTime))
       .add(this.acceleration.mul(deltaTime * deltaTime));
 
     // reseta aceleração
