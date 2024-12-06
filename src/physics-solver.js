@@ -7,7 +7,7 @@ export const IN_MOVEMENT_THREASHOLD = 0.001;
 
 
 export class PhysicsSolver {
-  gravity = vec2(0, 10);
+  gravity = vec2(0, 1000);
   /**
    * @type {Entity[]}
    */
