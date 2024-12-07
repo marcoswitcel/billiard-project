@@ -53,7 +53,9 @@ export class Entity {
     // realiza o cálculo usando o método de Verlet
     this.currentPosition
       .add(velocity.mul(deltaTime))
-      .add(this.acceleration.mul(deltaTime * deltaTime));
+      .add(this.acceleration.mul(deltaTime));
+      // @todo João, analisar a diferença, não lembro porque era dt ao quadrado
+      //.add(this.acceleration.mul(deltaTime * deltaTime));
 
     // reseta aceleração
     this.acceleration.set(0, 0);
