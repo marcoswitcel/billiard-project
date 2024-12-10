@@ -42,7 +42,7 @@ export class PhysicsSolver {
     {
       // aplicando forças
       this.applyGravity();
-      this.applyFriction();
+      this.applyFriction(dt);
       this.applyConstraint();
       this.solveCollision();
       this.updatePositions(dt);
@@ -72,17 +72,21 @@ export class PhysicsSolver {
     }
   }
 
+
+
   /**
+   * @todo João, deixar a fricção independente do framerate
    * @private
+   * @param {number} deltaTime 
    */
-  applyFriction()
+  applyFriction(deltaTime)
   {
     const friction = 1;
 
     for (const entity of this.entities)
     {
       const velocity = entity.getCurrentVelocity();
-      if (velocity.length() > IN_MOVEMENT_THREASHOLD) { // @todo João, mover essa lógica para a entidade
+      if (velocity.length() > IN_MOVEMENT_THREASHOLD) {
         entity.accelerate(velocity.normalize().mul(-1).mul(friction));
       } else {
         // @todo João, avaliar em relação ao threashold, mas acho que preciso ajustar mais coisas.
