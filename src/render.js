@@ -59,7 +59,7 @@ export function render(ctx, physicsSolver, camera = null) {
     const color = 'rgba(0, 0, 255, 1)';
     ctx.setLineDash([lineWidth, lineWidth]);
     drawCircle(ctx, currentPositionTranslated.x, currentPositionTranslated.y, entity.shape.radius * scale, entity.shape.color, color, lineWidth);
-    drawLine(ctx, currentPositionTranslated, currentPositionTranslated.copy().add(entity.getCurrentVelocity().mul(10 * scale)), color, lineWidth);
+    drawLine(ctx, currentPositionTranslated, currentPositionTranslated.copy().add(entity.getCurrentVelocity().mul(scale)), color, lineWidth);
     ctx.setLineDash([]);
   }
 

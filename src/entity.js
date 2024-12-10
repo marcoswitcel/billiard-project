@@ -43,7 +43,7 @@ export class Entity {
    */
   updatePosition(deltaTime) {
     // calcula velocidade
-    const velocity = this.lastDt === 0 ? vec2(0, 0) : this.getCurrentVelocity().div(this.lastDt);
+    const velocity = this.getCurrentVelocity();
 
     this.lastDt = deltaTime;
 
@@ -74,6 +74,6 @@ export class Entity {
    * @returns {Vec2}
    */
   getCurrentVelocity() {
-    return this.currentPosition.copy().sub(this.oldPosition)
+    return this.lastDt === 0 ? vec2(0, 0) : this.currentPosition.copy().sub(this.oldPosition).div(this.lastDt);
   }
 }
