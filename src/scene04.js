@@ -56,7 +56,7 @@ export class Scene04 extends DemonstrationScene {
       }
     }
 
-    const shootForce = 5;
+    const shootForce = 10;
 
     document.addEventListener('keyup', event => {
       if (event.key === ' ') {
