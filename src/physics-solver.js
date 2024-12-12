@@ -75,7 +75,8 @@ export class PhysicsSolver {
 
 
   /**
-   * @todo João, deixar a fricção independente do framerate
+   * @todo João, deixar a fricção independente do framerate.
+   * @note Considerando que a gravidade é fixa, não depende do frame, a fricção também parece que poderia ser fixa. Avaliar.
    * @private
    * @param {number} deltaTime 
    */
