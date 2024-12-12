@@ -70,7 +70,6 @@ export class Entity {
   }
 
   /**
-   * @todo João, definir como usar o deltaTime aqui para poder calcular a velocidade atual
    * @returns {Vec2}
    */
   getCurrentVelocity() {

@@ -63,7 +63,6 @@ export function render(ctx, physicsSolver, camera = null) {
     ctx.setLineDash([]);
   }
 
-  // @todo João, deixar relativo a câmera
   if (debugGridView) {
     const lineWidth = 2;
     const { width, height } = ctx.canvas;
