@@ -103,6 +103,8 @@ export class Scene04 extends DemonstrationScene {
         .normalize()
         .mul(shootForce * modifier);
 
+      // @todo João, está errado essa forma de aplicar a força, ajustar...
+      // Deveria ter 10 ou 20 de energia mas tem um valor muito maior...
       ball.currentPosition.add(force);
     });
   }
