@@ -56,7 +56,7 @@ export class Scene04 extends DemonstrationScene {
       }
     }
 
-    const shootForce = 10;
+    const shootForce = 350;
 
     document.addEventListener('keyup', event => {
       if (event.key === ' ') {
@@ -101,10 +101,9 @@ export class Scene04 extends DemonstrationScene {
         .add(this.camera.position)
         .sub(ball.currentPosition)
         .normalize()
-        .mul(shootForce * modifier);
+        .mul(shootForce * modifier)
+        .mul(ball.lastDt);
 
-      // @todo João, está errado essa forma de aplicar a força, ajustar...
-      // Deveria ter 10 ou 20 de energia mas tem um valor muito maior...
       ball.currentPosition.add(force);
     });
   }
