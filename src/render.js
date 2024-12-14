@@ -89,5 +89,6 @@ export function render(ctx, physicsSolver, camera = null) {
     const totalForce = physicsSolver.entities.reduce((p, c) => (p + c.getCurrentVelocity().length()), 0);
     drawText(ctx, 'energia interna: ' + totalForce.toFixed(2), vec2(25, 25), 20, 'white', 'monospace', 'left', 'middle');
     drawText(ctx, 'gravidade: ' + physicsSolver.gravity.length(), vec2(25, 45), 20, 'white', 'monospace', 'left', 'middle');
+    drawText(ctx, 'fricção: ' + physicsSolver.friction, vec2(25, 65), 20, 'white', 'monospace', 'left', 'middle');
   }
 }

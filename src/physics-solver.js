@@ -8,6 +8,7 @@ export const IN_MOVEMENT_THREASHOLD = 0.001;
 
 export class PhysicsSolver {
   gravity = vec2(0, 9.8);
+  friction = 1;
   /**
    * @type {Entity[]}
    */
@@ -82,13 +83,13 @@ export class PhysicsSolver {
    */
   applyFriction(deltaTime)
   {
-    const friction = 1;
+    if (this.friction <= 0) return;
 
     for (const entity of this.entities)
     {
       const velocity = entity.getCurrentVelocity();
       if (velocity.length() > IN_MOVEMENT_THREASHOLD) {
-        entity.accelerate(velocity.normalize().mul(-1).mul(friction));
+        entity.accelerate(velocity.normalize().mul(-1).mul(this.friction));
       } else {
         // @todo João, avaliar em relação ao threashold, mas acho que preciso ajustar mais coisas.
         // entity.oldPosition = entity.currentPosition;
@@ -126,6 +127,8 @@ export class PhysicsSolver {
           
           entity1.currentPosition = entity1.currentPosition.copy().add(n.copy().mul(result));
           entity2.currentPosition = entity2.currentPosition.copy().sub(n.copy().mul(result));
+
+          // @todo João @bug, a força não está sendo calculada corretamente depois de adicionado o campo 'lastDt'
           
           // @todo João, acredito que isso aqui reporte muitas colisões duplicadas, avaliar...
           if (this.reportCollision) {
