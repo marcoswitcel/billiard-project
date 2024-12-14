@@ -98,12 +98,18 @@ export class PhysicsSolver {
   }
 
 
+  /**
+   * @private
+   */
   applyConstraint() {
     for (const constraint of this.constraints) {
       constraint.applyConstraint(this.entities)
     }
   }
 
+  /**
+   * @private
+   */
   solveCollision()
   {
     const object_count = this.entities.length;
@@ -124,9 +130,16 @@ export class PhysicsSolver {
           const delta = minDist - dist;
 
           const result = 0.5 * delta;
+
+          // @todo João, fiz uma análise inicial e de fato há divergência em algumas colisões.
+          // Não consegui identificar o motivo, algumas podem ser de erros de adição devido ao uso de pontos flutuantes,
+          // porém, algumas divergências eram grandes demais, necessitam de avaliação.
+          // console.log('antes: ', entity1.getCurrentVelocity().length() + entity2.getCurrentVelocity().length());
           
           entity1.currentPosition = entity1.currentPosition.copy().add(n.copy().mul(result));
           entity2.currentPosition = entity2.currentPosition.copy().sub(n.copy().mul(result));
+
+          // console.log('depois:', entity1.getCurrentVelocity().length() + entity2.getCurrentVelocity().length());
 
           // @todo João @bug, a força não está sendo calculada corretamente depois de adicionado o campo 'lastDt'
           
