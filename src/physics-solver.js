@@ -135,11 +135,13 @@ export class PhysicsSolver {
           // Não consegui identificar o motivo, algumas podem ser de erros de adição devido ao uso de pontos flutuantes,
           // porém, algumas divergências eram grandes demais, necessitam de avaliação.
           // console.log('antes: ', entity1.getCurrentVelocity().length() + entity2.getCurrentVelocity().length());
+          // const lengthBefore = entity1.getCurrentVelocity().length() + entity2.getCurrentVelocity().length();
           
           entity1.currentPosition = entity1.currentPosition.copy().add(n.copy().mul(result));
           entity2.currentPosition = entity2.currentPosition.copy().sub(n.copy().mul(result));
 
           // console.log('depois:', entity1.getCurrentVelocity().length() + entity2.getCurrentVelocity().length());
+          // const lengthAfter = entity1.getCurrentVelocity().length() + entity2.getCurrentVelocity().length();
 
           // @todo João @bug, a força não está sendo calculada corretamente depois de adicionado o campo 'lastDt'
           
