@@ -9,6 +9,7 @@ export const IN_MOVEMENT_THREASHOLD = 0.001;
 export class PhysicsSolver {
   gravity = vec2(0, 9.8);
   friction = 1;
+  substepping = 1;
   /**
    * @type {Entity[]}
    */
@@ -37,6 +38,8 @@ export class PhysicsSolver {
    */
   update(deltaTime, substepping = 1)
   {
+    this.substepping = substepping;
+    
     const dt = deltaTime / substepping;
 
     for (let i = 0; i < substepping; i++)
