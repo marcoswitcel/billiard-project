@@ -5,6 +5,10 @@ import { vec2 } from './vec2.js';
 
 const searchParams = new URLSearchParams(window.location.search);
 
+const renderParams = {
+  lightSource: vec2(0, 0)
+}
+
 export class Camera {
   position = vec2(0, 0);
   size = vec2(100, 100);
@@ -50,6 +54,13 @@ export function render(ctx, physicsSolver, camera = null) {
   
   for (const entity of physicsSolver.entities) {
     const currentPositionTranslated = entity.currentPosition.copy().sub(camera.position);
+    
+    // @todo João, Apenas testando efeitos visuais simples. O ideal é inserir o conceito de uma fonte de luz
+    // para poder mover as sombras conforme as bolas se movem na tela.
+    // @todo João, as sombras devem todas ser desenhadas antes...
+    const shadowOffset = entity.shape.radius * 0.2;
+    drawCircle(ctx, currentPositionTranslated.x + shadowOffset, currentPositionTranslated.y + shadowOffset, entity.shape.radius * scale, 'rgba(0, 0, 0, 0.33)');
+    
     drawCircle(ctx, currentPositionTranslated.x, currentPositionTranslated.y, entity.shape.radius * scale, entity.shape.color);
   
 
