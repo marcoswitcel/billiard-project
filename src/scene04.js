@@ -3,7 +3,7 @@ import { RectangleConstraint } from './constraints.js';
 import { DemonstrationScene } from './demonstration-scene.js';
 import { Entity } from './entity.js';
 import { PhysicsSolver } from './physics-solver.js';
-import { Camera, render } from './render.js';
+import { Camera, render, RenderParams } from './render.js';
 import { drawRect, drawCircle } from './utils.js';
 import { vec2 } from './vec2.js';
 
@@ -23,6 +23,7 @@ export class Scene04 extends DemonstrationScene {
   lastClick = null;
 
   camera = null;
+  renderParams = null;
 
   /**
    * @param {CanvasRenderingContext2D} ctx
@@ -32,6 +33,7 @@ export class Scene04 extends DemonstrationScene {
 
     this.ctx = ctx;
     this.camera = new Camera(vec2(0, 0), vec2(this.ctx.canvas.width, this.ctx.canvas.height));
+    this.renderParams = new RenderParams();
   }
 
   setup() {
@@ -44,6 +46,7 @@ export class Scene04 extends DemonstrationScene {
     this.physicsSolver.entities.push(new Entity(vec2(450, 185), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0F')));
     this.physicsSolver.entities.push(new Entity(vec2(450, 215), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0F')));
     this.physicsSolver.constraints.push(new RectangleConstraint(vec2(350, 200), 400, 250, 0, 0.8));
+    this.renderParams.lightSource = vec2(350, 200);
 
     /**
      * @todo João, adicionar funcionalidade para detectar quando as bolas "pararam" de ser mover. Não
@@ -121,7 +124,7 @@ export class Scene04 extends DemonstrationScene {
     // background 
     drawRect(this.ctx, '#000', 0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
-    render(this.ctx, this.physicsSolver, this.camera);
+    render(this.ctx, this.physicsSolver, this.camera, this.renderParams);
 
     if (this.lastClick) {
       drawRect(this.ctx, '#00F', 0, 0, calculateForce(this.lastClick, Date.now()) * 100, 10);

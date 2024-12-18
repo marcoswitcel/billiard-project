@@ -5,8 +5,8 @@ import { vec2 } from './vec2.js';
 
 const searchParams = new URLSearchParams(window.location.search);
 
-const renderParams = {
-  lightSource: vec2(0, 0)
+export class RenderParams {
+  lightSource =  vec2(0, 0)
 }
 
 export class Camera {
@@ -24,8 +24,9 @@ export class Camera {
  * @param {CanvasRenderingContext2D} ctx 
  * @param {PhysicsSolver} physicsSolver 
  * @param {Camera | null} camera
+ * @param {RenderParams | null} renderParams
  */
-export function render(ctx, physicsSolver, camera = null) {
+export function render(ctx, physicsSolver, camera = null, renderParams = null) {
   const debugView = searchParams.has('debugView') && searchParams.get('debugView') === 'true';
   const debugGridView = searchParams.has('debugGridView') && searchParams.get('debugGridView') === 'true';
 
