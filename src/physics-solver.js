@@ -137,6 +137,7 @@ export class PhysicsSolver {
           // @todo João, fiz uma análise inicial e de fato há divergência em algumas colisões.
           // Não consegui identificar o motivo, algumas podem ser de erros de adição devido ao uso de pontos flutuantes,
           // porém, algumas divergências eram grandes demais, necessitam de avaliação.
+          // O problema parece ocorrer quando há colisões simultâneas de 3 ou mais entidades.
           // console.log('antes: ', entity1.getCurrentVelocity().length() + entity2.getCurrentVelocity().length());
           // const lengthBefore = entity1.getCurrentVelocity().length() + entity2.getCurrentVelocity().length();
           
