@@ -53,14 +53,19 @@ export function render(ctx, physicsSolver, camera = null, renderParams = null) {
     }
   }
   
+  const lightSourcePositionTranslated = renderParams && renderParams.lightSource ? renderParams.lightSource.copy().sub(camera.position) : vec2(0, 0);
+
   for (const entity of physicsSolver.entities) {
     const currentPositionTranslated = entity.currentPosition.copy().sub(camera.position);
     
-    // @todo João, Apenas testando efeitos visuais simples. O ideal é inserir o conceito de uma fonte de luz
-    // para poder mover as sombras conforme as bolas se movem na tela.
-    // @todo João, as sombras devem todas ser desenhadas antes...
-    const shadowOffset = entity.shape.radius * 0.2;
-    drawCircle(ctx, currentPositionTranslated.x + shadowOffset, currentPositionTranslated.y + shadowOffset, entity.shape.radius * scale, 'rgba(0, 0, 0, 0.33)');
+    if (renderParams && renderParams.lightSource) {
+      // @todo João, Apenas testando efeitos visuais simples. O ideal é inserir o conceito de uma fonte de luz
+      // para poder mover as sombras conforme as bolas se movem na tela.
+      // @todo João, as sombras devem todas ser desenhadas antes...
+      const dir = lightSourcePositionTranslated.copy().sub(currentPositionTranslated);
+      const shadowPosition = dir.mul(-1).normalized().mul(entity.shape.radius * 0.35 * Math.min(50, dir.length()) / 50);
+      drawCircle(ctx, currentPositionTranslated.x + shadowPosition.x, currentPositionTranslated.y + shadowPosition.y, entity.shape.radius * scale, 'rgba(0, 0, 0, 0.33)');
+    }
     
     drawCircle(ctx, currentPositionTranslated.x, currentPositionTranslated.y, entity.shape.radius * scale, entity.shape.color);
   
