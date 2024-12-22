@@ -14,4 +14,5 @@
 * Teste de funcionalidade para evitar regressão conforme for refatorando, otimizando e calibrando parâmetros da "física"
 * Criar cenas de testes específicas para simular movimentos que se espera que o jogar faça no jogo final -- trabalho em progresso
 * Validar movimentos individuais e usar para testes de regressão conforme a física for sendo calibrada com os parâmetros ideias
+* Avaliar movimentos em comparação com movimento na vida real, exemplo, avaliar a forma como a força é transferida de uma bola para a outra
 

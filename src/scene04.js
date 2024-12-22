@@ -92,10 +92,6 @@ export class Scene04 extends DemonstrationScene {
       const modifier = calculateForce(this.lastClick, Date.now());
       this.lastClick = null;
 
-      /**
-       * @todo João, quando devidamente separado os eixos da simulação e da tela, será necessário calcular e 'projetar'
-       * o click no ponto correto.
-       */
       const boundings = canvas.getBoundingClientRect();
       // posição menos offset do canvas e reescalado para compensar o escalonamento atual do canvas
       const coords = { x: (event.clientX - boundings.x) / canvas.clientWidth, y: (event.clientY - boundings.y) / canvas.clientHeight, };
