@@ -95,7 +95,7 @@ export class PhysicsSolver {
         entity.accelerate(velocity.normalize().mul(-1).mul(this.friction));
       } else {
         // @todo João, avaliar em relação ao threashold, mas acho que preciso ajustar mais coisas.
-        // entity.oldPosition = entity.currentPosition;
+        // entity.oldPosition = entity.currentPosition.copy();
       }
     }
   }
