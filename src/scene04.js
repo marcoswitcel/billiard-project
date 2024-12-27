@@ -92,13 +92,12 @@ export class Scene04 extends DemonstrationScene {
       const modifier = calculateForce(this.lastClick, Date.now());
       this.lastClick = null;
 
-      // @todo João, @bugfix ajustar coordenada errada do click ao entrar no modo tela cheia
-
-      const boundings = canvas.getBoundingClientRect();
       // posição menos offset do canvas e reescalado para compensar o escalonamento atual do canvas
+      // @note Calcula em cima das dimensões e offset reais, depois multiplica pelo tamanho da renderização interna (canvas.width, canvas.height)
+      const boundings = canvas.getBoundingClientRect();
       const coords = { x: (event.clientX - boundings.x) / canvas.clientWidth, y: (event.clientY - boundings.y) / canvas.clientHeight, };
 
-      const force = vec2(event.clientX - boundings.x, event.clientY - boundings.y)
+      const force = vec2(coords.x * canvas.width, coords.y * canvas.height)
         .add(this.camera.position)
         .sub(ball.currentPosition)
         .normalize()
