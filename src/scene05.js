@@ -27,7 +27,7 @@ export class Scene05 extends DemonstrationScene {
     super();
 
     this.ctx = ctx;
-    this.camera = new Camera(vec2(0, 0), vec2(this.ctx.canvas.width, this.ctx.canvas.height));
+    this.camera = new Camera(vec2(265, 200), vec2(this.ctx.canvas.width, this.ctx.canvas.height));
   }
 
   setup() {
@@ -48,7 +48,7 @@ export class Scene05 extends DemonstrationScene {
     // background 
     drawRect(this.ctx, '#000', 0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
-    this.camera.position = this.physicsSolver.entities[0].currentPosition.copy().sub(vec2(this.ctx.canvas.width / 2, this.ctx.canvas.height / 2));
+    this.camera.position = this.physicsSolver.entities[0].currentPosition.copy();
 
     render(this.ctx, this.physicsSolver, this.camera);
   }

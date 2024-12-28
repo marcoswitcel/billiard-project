@@ -4,7 +4,7 @@ import { DemonstrationScene } from './demonstration-scene.js';
 import { Entity } from './entity.js';
 import { PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
-import { drawRect, drawCircle } from './utils.js';
+import { drawRect, drawCircle, between } from './utils.js';
 import { vec2 } from './vec2.js';
 
 
@@ -32,7 +32,7 @@ export class Scene04 extends DemonstrationScene {
     super();
 
     this.ctx = ctx;
-    this.camera = new Camera(vec2(0, 0), vec2(this.ctx.canvas.width, this.ctx.canvas.height));
+    this.camera = new Camera(vec2(350, 200), vec2(this.ctx.canvas.width, this.ctx.canvas.height));
     this.renderParams = new RenderParams();
   }
 
@@ -105,6 +105,11 @@ export class Scene04 extends DemonstrationScene {
         .mul(ball.lastDt);
 
       ball.currentPosition.add(force);
+    });
+
+    // @todo João, adicionar esse handler nas outras cenas para testar a funcionalidade de 'scale' melhor
+    canvas.addEventListener('wheel', (event) => {
+      this.camera.scale = between(this.camera.scale + event.deltaY * 0.001, 0.1, 2);
     });
   }
 

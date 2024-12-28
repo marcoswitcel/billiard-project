@@ -12,10 +12,12 @@ export class RenderParams {
 export class Camera {
   position = vec2(0, 0);
   size = vec2(100, 100);
+  scale = 1;
 
-  constructor(position, size) {
+  constructor(position, size, scale = 1) {
     this.position = position;
     this.size = size;
+    this.scale = scale;
   }
 }
 
@@ -37,21 +39,20 @@ export function render(ctx, physicsSolver, camera = null, renderParams = null) {
   const canvasCenter = vec2(ctx.canvas.width / 2, ctx.canvas.height / 2);
   
   if (camera === null) {
-    camera = new Camera(vec2(0, 0), vec2(ctx.canvas.width, ctx.canvas.height));
+    camera = new Camera(canvasCenter.copy(), vec2(ctx.canvas.width, ctx.canvas.height));
   }
 
-  // @todo João, avaliar como fazer a scale
-  const scale = ctx.canvas.width / camera.size.x;
+  const scale = camera.scale;
 
   for (const constraint of physicsSolver.constraints) {
     if (constraint instanceof RectangleConstraint) {
-      const position = constraint.position.copy().sub(camera.position);
+      const position = canvasCenter.copy().add(constraint.position.copy().sub(camera.position).mul(scale));
       const width = constraint.width * scale;
       const height = constraint.height * scale;
       const color = '#0F0';
       drawRect(ctx, color, position.x - width / 2, position.y - height / 2, width, height);
     } else if (constraint instanceof CircleConstraint) {
-      const position = constraint.position.copy().sub(camera.position);
+      const position = canvasCenter.copy().add(constraint.position.copy().sub(camera.position).mul(scale));
       const radius = constraint.radius * scale;
       const color = '#0F0';
       drawCircle(ctx, position.x, position.y, radius, color);
@@ -61,7 +62,7 @@ export function render(ctx, physicsSolver, camera = null, renderParams = null) {
   if (renderParams && renderParams.lightSource) {
     const lightSourcePositionTranslated = renderParams.lightSource.copy().sub(camera.position);
     for (const entity of physicsSolver.entities) {
-      const currentPositionTranslated = entity.currentPosition.copy().sub(camera.position);
+      const currentPositionTranslated = canvasCenter.copy().add(entity.currentPosition.copy().sub(camera.position).mul(scale));
       const dir = lightSourcePositionTranslated.copy().sub(currentPositionTranslated);
       const shadowPosition = dir.mul(-1).normalized().mul(entity.shape.radius * 0.35 * Math.min(100, dir.length()) / 100);
       
@@ -70,7 +71,7 @@ export function render(ctx, physicsSolver, camera = null, renderParams = null) {
   }
 
   for (const entity of physicsSolver.entities) {
-    const currentPositionTranslated = entity.currentPosition.copy().sub(camera.position);
+    const currentPositionTranslated = canvasCenter.copy().add(entity.currentPosition.copy().sub(camera.position).mul(scale));
     
     drawCircle(ctx, currentPositionTranslated.x, currentPositionTranslated.y, entity.shape.radius * scale, entity.shape.color);
   
@@ -89,7 +90,7 @@ export function render(ctx, physicsSolver, camera = null, renderParams = null) {
     const lineWidth = 2;
     const { width, height } = ctx.canvas;
     ctx.setLineDash([lineWidth * 2, lineWidth]);
-    const spacing = 40;
+    const spacing = 40 * scale;
     const offsetY = spacing - (camera.position.y % spacing);
     const offsetX = spacing - (camera.position.x % spacing);
     for (let i = 0; offsetY + i * spacing < height; i++)

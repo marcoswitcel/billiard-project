@@ -72,3 +72,7 @@ export function drawText(ctx, text, position, size, fillStyle = '#FFFFFF', fontF
   ctx.textBaseline = textBaseline;
   ctx.fillText(text, position.x, position.y);
 }
+
+export function between(value, min, max) {
+  return Math.max(Math.min(value, max), min);
+}
