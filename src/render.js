@@ -30,6 +30,11 @@ export function render(ctx, physicsSolver, camera = null, renderParams = null) {
   const debugView = searchParams.has('debugView') && searchParams.get('debugView') === 'true';
   const debugGridView = searchParams.has('debugGridView') && searchParams.get('debugGridView') === 'true';
 
+  /**
+   * @todo João, isolar todas as chamadas pra funções de rasterização e ajustar para usar o sistema de
+   * coordenadas correto. A funcionalidade de 'scale' vai ser mais facilmente implementada após isso.
+   */
+  const canvasCenter = vec2(ctx.canvas.width / 2, ctx.canvas.height / 2);
   
   if (camera === null) {
     camera = new Camera(vec2(0, 0), vec2(ctx.canvas.width, ctx.canvas.height));

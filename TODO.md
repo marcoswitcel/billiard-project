@@ -16,3 +16,13 @@
 * Validar movimentos individuais e usar para testes de regressão conforme a física for sendo calibrada com os parâmetros ideias
 * Avaliar movimentos em comparação com movimento na vida real, exemplo, avaliar a forma como a força é transferida de uma bola para a outra
 
+# Renderização
+
+* Decidir e implementar forma de renderizar figuras complexas como por exemplo o taco de bilhar
+* Sistema de mira para o taco
+* Decidir e implementar gradientes nos locais apropriados
+
+# Sistema de sons
+
+* Decidir e implementar sistema de som
+* Escolher sons e vinculá-los aos eventos apropriados
