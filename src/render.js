@@ -87,9 +87,11 @@ export function render(ctx, physicsSolver, camera = null, renderParams = null) {
   }
 
   if (debugGridView) {
-    const lineWidth = 2;
+    const lineWidth = 2 * scale;
     const { width, height } = ctx.canvas;
     ctx.setLineDash([lineWidth * 2, lineWidth]);
+    // @todo João, quando o scale não é 1, acaba acontecendo erros de posicionamento das linhas.
+    // Isso provavelemente ocorre por causa do spacing não ser um número inteiro.
     const spacing = 40 * scale;
     const offsetY = spacing - (camera.position.y % spacing);
     const offsetX = spacing - (camera.position.x % spacing);
