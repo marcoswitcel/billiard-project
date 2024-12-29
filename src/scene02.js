@@ -2,7 +2,7 @@ import { Circle } from './circle.js';
 import { DemonstrationScene } from './demonstration-scene.js';
 import { Entity } from './entity.js';
 import { PhysicsSolver } from './physics-solver.js';
-import { render } from './render.js';
+import { Camera, render, RenderParams } from './render.js';
 import { drawRect } from './utils.js';
 import { vec2 } from './vec2.js';
 
@@ -20,7 +20,8 @@ export class Scene02 extends DemonstrationScene {
   constructor(ctx) {
     super();
 
-
+    this.camera = new Camera(vec2(ctx.canvas.width / 2, ctx.canvas.height / 2), vec2(ctx.canvas.width, ctx.canvas.height));
+    this.renderParams = new RenderParams();
     this.ctx = ctx;
   }
 
@@ -75,6 +76,6 @@ export class Scene02 extends DemonstrationScene {
     // background 
     drawRect(this.ctx, '#000', 0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
-    render(this.ctx, this.physicsSolver);
+    render(this.ctx, this.physicsSolver, this.camera, this.renderParams);
   }
 }

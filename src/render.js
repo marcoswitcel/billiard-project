@@ -25,10 +25,10 @@ export class Camera {
  * 
  * @param {CanvasRenderingContext2D} ctx 
  * @param {PhysicsSolver} physicsSolver 
- * @param {Camera | null} camera
+ * @param {Camera} camera
  * @param {RenderParams | null} renderParams
  */
-export function render(ctx, physicsSolver, camera = null, renderParams = null) {
+export function render(ctx, physicsSolver, camera, renderParams = null) {
   const debugView = searchParams.has('debugView') && searchParams.get('debugView') === 'true';
   const debugGridView = searchParams.has('debugGridView') && searchParams.get('debugGridView') === 'true';
 
@@ -38,10 +38,6 @@ export function render(ctx, physicsSolver, camera = null, renderParams = null) {
    */
   const canvasCenter = vec2(ctx.canvas.width / 2, ctx.canvas.height / 2);
   
-  if (camera === null) {
-    camera = new Camera(canvasCenter.copy(), vec2(ctx.canvas.width, ctx.canvas.height));
-  }
-
   const scale = camera.scale;
 
   for (const constraint of physicsSolver.constraints) {
@@ -59,6 +55,7 @@ export function render(ctx, physicsSolver, camera = null, renderParams = null) {
     }
   }
 
+  // desenhando sombras
   if (renderParams && renderParams.lightSource) {
     const lightSourcePositionTranslated = renderParams.lightSource.copy().sub(camera.position);
     for (const entity of physicsSolver.entities) {
@@ -70,6 +67,7 @@ export function render(ctx, physicsSolver, camera = null, renderParams = null) {
     }
   }
 
+  // desenhando "bolas"
   for (const entity of physicsSolver.entities) {
     const currentPositionTranslated = canvasCenter.copy().add(entity.currentPosition.copy().sub(camera.position).mul(scale));
     
@@ -85,6 +83,8 @@ export function render(ctx, physicsSolver, camera = null, renderParams = null) {
     drawLine(ctx, currentPositionTranslated, currentPositionTranslated.copy().add(entity.getCurrentVelocity().mul(scale)), color, lineWidth);
     ctx.setLineDash([]);
   }
+
+  // desenhando taco?
 
   if (debugGridView) {
     const lineWidth = 2 * scale;
