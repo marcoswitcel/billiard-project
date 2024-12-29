@@ -97,8 +97,10 @@ export class Scene04 extends DemonstrationScene {
       const boundings = canvas.getBoundingClientRect();
       const coords = { x: (event.clientX - boundings.x) / canvas.clientWidth, y: (event.clientY - boundings.y) / canvas.clientHeight, };
 
-      // @todo João, ajustar click considerando 'scale'
+      // @todo João, ainda tem pequenas inconsistências na direção que a força aponta, porém está bom por hora
       const force = vec2(coords.x * canvas.width, coords.y * canvas.height)
+        .sub(vec2(canvas.width / 2, canvas.height / 2))
+        .div(this.camera.scale)
         .add(this.camera.position)
         .sub(ball.currentPosition)
         .normalize()
