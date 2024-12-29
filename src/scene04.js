@@ -4,7 +4,7 @@ import { DemonstrationScene } from './demonstration-scene.js';
 import { Entity } from './entity.js';
 import { PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
-import { drawRect, drawCircle, between } from './utils.js';
+import { drawRect, drawCircle, between, drawLine } from './utils.js';
 import { vec2 } from './vec2.js';
 
 
@@ -26,18 +26,25 @@ export class Scene04 extends DemonstrationScene {
   renderParams = null;
 
   /**
+   * @type {Entity}
+   */
+  ball;
+
+  /**
    * @param {CanvasRenderingContext2D} ctx
    */
   constructor(ctx) {
     super();
 
     this.ctx = ctx;
+    this.ball = new Entity(vec2(265, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#FFF'));
     this.camera = new Camera(vec2(350, 200), vec2(this.ctx.canvas.width, this.ctx.canvas.height));
     this.renderParams = new RenderParams();
   }
 
   setup() {
-    const ball = new Entity(vec2(265, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#FFF'));
+    const ball = this.ball;
+
     this.physicsSolver.gravity.set(0, 0);
     this.physicsSolver.entities.push(ball);
     this.physicsSolver.entities.push(new Entity(vec2(380, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0F')));
@@ -129,7 +136,17 @@ export class Scene04 extends DemonstrationScene {
     // background 
     drawRect(this.ctx, '#000', 0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
-    render(this.ctx, this.physicsSolver, this.camera, this.renderParams);
+    render(this.ctx, this.physicsSolver, this.camera, this.renderParams, (ctx, ) => {
+      if (this.lastClick) {
+
+        // @todo João, preciso da posição do click para poder calcular o vetor de diração e assim renderizar a linha
+        /**
+         const canvasCenter = vec2(ctx.canvas.width / 2, ctx.canvas.height / 2);
+         const currentPositionTranslated = canvasCenter.copy().add(this.ball.currentPosition.copy().sub(this.camera.position).mul(this.camera.scale));
+         drawLine(ctx, currentPositionTranslated, currentPositionTranslated.copy().add(this.ball.getCurrentVelocity().mul(this.camera.scale)), 'red', 2);
+         */
+      }
+    });
 
     if (this.lastClick) {
       drawRect(this.ctx, '#00F', 0, 0, calculateForce(this.lastClick, Date.now()) * 100, 10);

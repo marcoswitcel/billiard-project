@@ -26,9 +26,10 @@ export class Camera {
  * @param {CanvasRenderingContext2D} ctx 
  * @param {PhysicsSolver} physicsSolver 
  * @param {Camera} camera
- * @param {RenderParams | null} renderParams
+ * @param {RenderParams} renderParams
+ * @param {(ctx: CanvasRenderingContext2D, physicsSolver: PhysicsSolver, camera: Camera, renderParams: RenderParams) => void | null} customDrawRoutine
  */
-export function render(ctx, physicsSolver, camera, renderParams = null) {
+export function render(ctx, physicsSolver, camera, renderParams, customDrawRoutine = null) {
   const debugView = searchParams.has('debugView') && searchParams.get('debugView') === 'true';
   const debugGridView = searchParams.has('debugGridView') && searchParams.get('debugGridView') === 'true';
 
@@ -84,7 +85,10 @@ export function render(ctx, physicsSolver, camera, renderParams = null) {
     ctx.setLineDash([]);
   }
 
-  // desenhando taco?
+  // custom render
+  if (typeof customDrawRoutine === 'function') {
+    customDrawRoutine(ctx, physicsSolver, camera, renderParams);
+  }
 
   if (debugGridView) {
     const lineWidth = 2 * scale;
