@@ -120,5 +120,8 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
     drawText(ctx, 'gravidade: ' + physicsSolver.gravity.length(), vec2(15, 45), 20, 'white', 'monospace', 'left', 'middle');
     drawText(ctx, 'fricção: ' + physicsSolver.friction, vec2(15, 65), 20, 'white', 'monospace', 'left', 'middle');
     drawText(ctx, 'substeps:' + physicsSolver.substepping, vec2(15, 85), 20, 'white', 'monospace', 'left', 'middle');
+    if (performance && performance.memory) {
+      drawText(ctx, 'Memória (usedJSHeapSize):' + performance.memory.usedJSHeapSize, vec2(15, 105), 20, 'white', 'monospace', 'left', 'middle');
+    }
   }
 }
