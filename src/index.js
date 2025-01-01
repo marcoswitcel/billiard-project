@@ -4,6 +4,7 @@ import { Scene02 } from './scene02.js';
 import { Scene03 } from './scene03.js';
 import { Scene04 } from './scene04.js';
 import { Scene05 } from './scene05.js';
+import { Scene06 } from './scene06.js';
 
 console.log('Olá mundo')
 
@@ -50,6 +51,7 @@ const scenes = {
   scene03: Scene03,
   scene04: Scene04,
   scene05: Scene05,
+  scene06: Scene06,
 }
 
 const parameters = new URLSearchParams(window.location.search);
