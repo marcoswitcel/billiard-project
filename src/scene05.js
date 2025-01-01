@@ -3,7 +3,7 @@ import { CircleConstraint } from './constraints.js';
 import { DemonstrationScene } from './demonstration-scene.js';
 import { Entity } from './entity.js';
 import { PhysicsSolver } from './physics-solver.js';
-import { Camera, render } from './render.js';
+import { Camera, render, RenderParams } from './render.js';
 import { drawRect, drawCircle } from './utils.js';
 import { vec2 } from './vec2.js';
 
@@ -28,6 +28,7 @@ export class Scene05 extends DemonstrationScene {
 
     this.ctx = ctx;
     this.camera = new Camera(vec2(265, 200), vec2(this.ctx.canvas.width, this.ctx.canvas.height));
+    this.renderParams = new RenderParams();
   }
 
   setup() {
@@ -50,6 +51,6 @@ export class Scene05 extends DemonstrationScene {
 
     this.camera.position = this.physicsSolver.entities[0].currentPosition.copy();
 
-    render(this.ctx, this.physicsSolver, this.camera);
+    render(this.ctx, this.physicsSolver, this.camera, this.renderParams);
   }
 }
