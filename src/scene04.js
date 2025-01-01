@@ -40,6 +40,7 @@ export class Scene04 extends DemonstrationScene {
     this.ball = new Entity(vec2(265, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#FFF'));
     this.camera = new Camera(vec2(350, 200), vec2(this.ctx.canvas.width, this.ctx.canvas.height));
     this.renderParams = new RenderParams();
+    this.mouseCoords = vec2(0, 0);
   }
 
   setup() {
@@ -93,6 +94,11 @@ export class Scene04 extends DemonstrationScene {
       this.lastClick = Date.now();
     });
 
+    canvas.addEventListener('mousemove', event => {
+      const boundings = canvas.getBoundingClientRect();
+      this.mouseCoords = vec2((event.clientX - boundings.x) / canvas.clientWidth, (event.clientY - boundings.y) / canvas.clientHeight);
+    });
+
     canvas.addEventListener('mouseup', event => {
       if (event.which !== 1) return;
 
@@ -139,12 +145,17 @@ export class Scene04 extends DemonstrationScene {
     render(this.ctx, this.physicsSolver, this.camera, this.renderParams, (ctx, ) => {
       if (this.lastClick) {
 
-        // @todo João, preciso da posição do click para poder calcular o vetor de diração e assim renderizar a linha
-        /**
-         const canvasCenter = vec2(ctx.canvas.width / 2, ctx.canvas.height / 2);
-         const currentPositionTranslated = canvasCenter.copy().add(this.ball.currentPosition.copy().sub(this.camera.position).mul(this.camera.scale));
-         drawLine(ctx, currentPositionTranslated, currentPositionTranslated.copy().add(this.ball.getCurrentVelocity().mul(this.camera.scale)), 'red', 2);
-         */
+       /*  // @todo João, preciso da posição do click para poder calcular o vetor de diração e assim renderizar a linha
+        const canvasCenter = vec2(ctx.canvas.width / 2, ctx.canvas.height / 2);
+
+        const force = vec2(this.mouseCoords.x * this.ctx.canvas.width, this.mouseCoords.y * this.ctx.canvas.height)
+          //.sub(canvasCenter)
+          .div(this.camera.scale)
+          .add(this.camera.position)
+          .sub(this.ball.currentPosition);
+        
+        const currentPositionTranslated = canvasCenter.copy().add(this.ball.currentPosition.copy().sub(this.camera.position).mul(this.camera.scale));
+        drawLine(ctx, currentPositionTranslated, force, 'red', 2); */
       }
     });
 
