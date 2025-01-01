@@ -118,4 +118,36 @@ export class RectangleConstraint extends Constraint {
 }
 
 // @todo João, implementar uma constraint para linhas. Quero usar para montar a mesa com vários segmentos de linhas
+export class LineSegmentConstraint extends Constraint {
+  /**
+   * @type {Vec2} start 
+   */
+  start = vec2(0, 0);
+  /**
+   * @type {Vec2} end 
+   */
+  end = vec2(0, 0);
+
+  /**
+   * 
+   * @param {Vec2} start 
+   * @param {Vec2} end 
+   */
+  constructor(start, end) {
+    super();
+
+    this.start = start;
+    this.end = end;
+  }
+
+  /**
+   * 
+   * @param {Entity[]} entities 
+   */
+  applyConstraint(entities) {
+    console.warn("Não implementado");
+    // throw new Error("não implementado");
+  }
+}
+
 // @todo João, implementar uma contraint de semi-circulo

@@ -1,5 +1,5 @@
 import { Circle } from './circle.js';
-import { CircleConstraint } from './constraints.js';
+import { CircleConstraint, LineSegmentConstraint } from './constraints.js';
 import { DemonstrationScene } from './demonstration-scene.js';
 import { Entity } from './entity.js';
 import { PhysicsSolver } from './physics-solver.js';
@@ -32,8 +32,9 @@ export class Scene06 extends DemonstrationScene {
   }
 
   setup() {
-    this.physicsSolver.entities.push(new Entity(vec2(265, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#00F')));
-    this.physicsSolver.gravity = vec2(10, 100)
+    this.physicsSolver.entities.push(new Entity(vec2(250, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#00F')));
+    this.physicsSolver.gravity = vec2(0, 0); // @todo João, sem gravidade por hora
+    this.physicsSolver.constraints.push(new LineSegmentConstraint(vec2(200, 250), vec2(300, 250)));
   }
 
   update(deltaTimeMs) {

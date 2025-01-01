@@ -1,4 +1,4 @@
-import { CircleConstraint, RectangleConstraint } from './constraints.js';
+import { CircleConstraint, LineSegmentConstraint, RectangleConstraint } from './constraints.js';
 import { PhysicsSolver } from './physics-solver.js';
 import { drawCircle, drawLine, drawRect, drawText } from './utils.js';
 import { vec2 } from './vec2.js';
@@ -40,6 +40,7 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
   const canvasCenter = vec2(ctx.canvas.width / 2, ctx.canvas.height / 2);
   
   const scale = camera.scale;
+  const lineWidth = 2 * scale;
 
   for (const constraint of physicsSolver.constraints) {
     if (constraint instanceof RectangleConstraint) {
@@ -53,6 +54,13 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
       const radius = constraint.radius * scale;
       const color = '#0F0';
       drawCircle(ctx, position.x, position.y, radius, color);
+    } else if (constraint instanceof LineSegmentConstraint) {
+      const start = canvasCenter.copy().add(constraint.start.copy().sub(camera.position).mul(scale));
+      const end = canvasCenter.copy().add(constraint.end.copy().sub(camera.position).mul(scale));
+      const color = '#0F0';
+      drawLine(ctx, start, end, color, lineWidth);
+    } else {
+      console.warn("Constraint ainda não implementada");
     }
   }
 
@@ -120,7 +128,9 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
     drawText(ctx, 'gravidade: ' + physicsSolver.gravity.length(), vec2(15, 45), 20, 'white', 'monospace', 'left', 'middle');
     drawText(ctx, 'fricção: ' + physicsSolver.friction, vec2(15, 65), 20, 'white', 'monospace', 'left', 'middle');
     drawText(ctx, 'substeps:' + physicsSolver.substepping, vec2(15, 85), 20, 'white', 'monospace', 'left', 'middle');
+    // @ts-expect-error
     if (performance && performance.memory) {
+      // @ts-expect-error
       drawText(ctx, 'Memória (usedJSHeapSize):' + performance.memory.usedJSHeapSize, vec2(15, 105), 20, 'white', 'monospace', 'left', 'middle');
     }
   }
