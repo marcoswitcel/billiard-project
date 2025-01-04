@@ -146,17 +146,17 @@ export class Scene04 extends DemonstrationScene {
     render(this.ctx, this.physicsSolver, this.camera, this.renderParams, (ctx, ) => {
       if (this.lastClick) {
         const canvasCenter = vec2(ctx.canvas.width / 2, ctx.canvas.height / 2);
-
-        /* // @todo João, bug do cálculo corrigido
-        const force = vec2(this.mouseCoords.x * this.ctx.canvas.width, this.mouseCoords.y * this.ctx.canvas.height)
+        
+        const dir = vec2(this.mouseCoords.x * this.ctx.canvas.width, this.mouseCoords.y * this.ctx.canvas.height)
           .sub(vec2(this.ctx.canvas.width / 2, this.ctx.canvas.height / 2))
           .div(this.camera.scale)
           .add(this.camera.position)
+          .sub(this.ball.currentPosition)
+          .normalize();
         
-        const currentPositionTranslated = canvasCenter.copy().add(this.ball.currentPosition.copy().sub(this.camera.position).mul(this.camera.scale));
-        const forceTranslated = canvasCenter.copy().add(force.sub(this.camera.position).mul(this.camera.scale));
-        drawLine(ctx, currentPositionTranslated, forceTranslated, 'red', 2);
-        */
+        const start = canvasCenter.copy().add(this.ball.currentPosition.copy().sub(this.camera.position).sub(dir.copy().mul(10 + (calculateForce(this.lastClick, Date.now()) * 15)).mul(this.camera.scale)));
+        const end = canvasCenter.copy().add(this.ball.currentPosition.copy().sub(this.camera.position).sub(dir.copy().mul(200 + (calculateForce(this.lastClick, Date.now()) * 15)).mul(this.camera.scale)));
+        drawLine(ctx, start, end, 'yellow', 4 * this.camera.scale);
       }
     });
 
