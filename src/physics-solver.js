@@ -3,7 +3,8 @@ import { Entity } from './entity.js';
 import { vec2 } from './vec2.js';
 
 
-export const IN_MOVEMENT_THREASHOLD = 0.001;
+// @note João, avaliar qual seria um threashold numericamente apropriado.
+export const IN_MOVEMENT_THREASHOLD = 0.00001;
 
 
 export class PhysicsSolver {
@@ -99,7 +100,6 @@ export class PhysicsSolver {
           entity.accelerate(fric);
         }
       } else {
-        // @todo João, avaliar em relação ao threashold, mas acho que preciso ajustar mais coisas.
         entity.oldPosition = entity.currentPosition.copy();
       }
     }

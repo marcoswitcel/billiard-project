@@ -48,12 +48,16 @@ export class Scene04 extends DemonstrationScene {
     const ball = this.ball;
 
     this.physicsSolver.gravity.set(0, 0);
+    // player ball
     this.physicsSolver.entities.push(ball);
+
+
     this.physicsSolver.entities.push(new Entity(vec2(380, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0F')));
     this.physicsSolver.entities.push(new Entity(vec2(420, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0F')));
 
-    this.physicsSolver.entities.push(new Entity(vec2(450, 185), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0F')));
-    this.physicsSolver.entities.push(new Entity(vec2(450, 215), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0F')));
+    this.physicsSolver.entities.push(new Entity(vec2(450, 185), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0A')));
+    this.physicsSolver.entities.push(new Entity(vec2(450, 215), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0A')));
+    
     this.physicsSolver.constraints.push(new RectangleConstraint(vec2(350, 200), 400, 250, 0, 0.8));
     this.renderParams.lightSource = vec2(350, 200);
 
@@ -72,7 +76,7 @@ export class Scene04 extends DemonstrationScene {
 
     document.addEventListener('keyup', event => {
       if (event.key === ' ') {
-        ball.currentPosition.add(vec2(shootForce, 0));
+        //ball.currentPosition.add(vec2(shootForce, 0));
       }
     });
 
