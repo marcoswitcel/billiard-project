@@ -166,7 +166,7 @@ export class Scene04 extends DemonstrationScene {
         
         const start = canvasCenter.copy().add(this.ball.currentPosition.copy().sub(this.camera.position).mul(this.camera.scale).sub(dir.copy().mul(10 + (calculateForce(this.lastClick, Date.now()) * 15)).mul(this.camera.scale)));
         const end = canvasCenter.copy().add(this.ball.currentPosition.copy().sub(this.camera.position).mul(this.camera.scale).sub(dir.copy().mul(200 + (calculateForce(this.lastClick, Date.now()) * 15)).mul(this.camera.scale)));
-        drawLine(ctx, start, end, 'yellow', 4 * this.camera.scale);
+        drawLine(ctx, start, end, 'rgb(176, 79, 19)', 6 * this.camera.scale);
       }
     });
 
