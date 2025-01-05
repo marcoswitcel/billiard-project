@@ -92,10 +92,15 @@ export class PhysicsSolver {
     {
       const velocity = entity.getCurrentVelocity();
       if (velocity.length() > IN_MOVEMENT_THREASHOLD) {
-        entity.accelerate(velocity.normalize().mul(-1).mul(this.friction));
+        const fric = velocity.copy().normalize().mul(-1).mul(this.friction);
+        if (fric.length() > velocity.length()) {
+          entity.accelerate(velocity.mul(-1));
+        } else {
+          entity.accelerate(fric);
+        }
       } else {
         // @todo João, avaliar em relação ao threashold, mas acho que preciso ajustar mais coisas.
-        // entity.oldPosition = entity.currentPosition.copy();
+        entity.oldPosition = entity.currentPosition.copy();
       }
     }
   }

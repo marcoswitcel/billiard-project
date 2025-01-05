@@ -2,7 +2,7 @@ import { Circle } from './circle.js';
 import { RectangleConstraint } from './constraints.js';
 import { DemonstrationScene } from './demonstration-scene.js';
 import { Entity } from './entity.js';
-import { PhysicsSolver } from './physics-solver.js';
+import { IN_MOVEMENT_THREASHOLD, PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
 import { drawRect, drawCircle, between, drawLine } from './utils.js';
 import { vec2 } from './vec2.js';
@@ -92,7 +92,12 @@ export class Scene04 extends DemonstrationScene {
 
     canvas.addEventListener('mousedown', event => {
       if (event.which !== 1) return;
-      this.lastClick = Date.now();
+
+      const velocity = this.ball.getCurrentVelocity();
+
+      if (velocity.length() <= IN_MOVEMENT_THREASHOLD) {
+        this.lastClick = Date.now();
+      }
     });
 
     canvas.addEventListener('mousemove', event => {
@@ -102,6 +107,7 @@ export class Scene04 extends DemonstrationScene {
 
     canvas.addEventListener('mouseup', event => {
       if (event.which !== 1) return;
+      if (this.lastClick === null) return;
 
       const modifier = calculateForce(this.lastClick, Date.now());
       this.lastClick = null;
