@@ -131,7 +131,7 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
     // @ts-expect-error
     if (performance && performance.memory) {
       // @ts-expect-error
-      drawText(ctx, 'Memória (usedJSHeapSize):' + performance.memory.usedJSHeapSize, vec2(15, 105), 20, 'white', 'monospace', 'left', 'middle');
+      drawText(ctx, 'Memória Usada (KB): ' + (performance.memory.usedJSHeapSize / 1024).toFixed(2), vec2(15, 105), 20, 'white', 'monospace', 'left', 'middle');
     }
   }
 }
