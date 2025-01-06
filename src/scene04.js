@@ -39,7 +39,7 @@ export class Scene04 extends DemonstrationScene {
 
     this.ctx = ctx;
     this.ball = new Entity(vec2(265, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#FFF'));
-    this.camera = new Camera(vec2(350, 200), vec2(this.ctx.canvas.width, this.ctx.canvas.height));
+    this.camera = new Camera(vec2(350, 200), vec2(this.ctx.canvas.width, this.ctx.canvas.height), 1.25);
     this.renderParams = new RenderParams();
     this.mouseCoords = vec2(0, 0);
   }

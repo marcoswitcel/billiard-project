@@ -26,8 +26,8 @@ const app = document.getElementById('app');
 if (!(select instanceof HTMLSelectElement)) throw new Error('HTMLSelectElement');
 if (!(app instanceof HTMLDivElement)) throw new Error('HTMLDivElement');
 
-canvas.width = 700;
-canvas.height = 500;
+canvas.width = 800;
+canvas.height = 600;
 
 app.append(canvas);
 
