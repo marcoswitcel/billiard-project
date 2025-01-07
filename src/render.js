@@ -33,10 +33,6 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
   const debugView = searchParams.has('debugView') && searchParams.get('debugView') === 'true';
   const debugGridView = searchParams.has('debugGridView') && searchParams.get('debugGridView') === 'true';
 
-  /**
-   * @todo João, isolar todas as chamadas pra funções de rasterização e ajustar para usar o sistema de
-   * coordenadas correto. A funcionalidade de 'scale' vai ser mais facilmente implementada após isso.
-   */
   const canvasCenter = vec2(ctx.canvas.width / 2, ctx.canvas.height / 2);
   
   const scale = camera.scale;
@@ -85,7 +81,6 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
 
     if (!debugView) continue;
 
-    const lineWidth = 2 * scale;
     const color = 'rgba(0, 0, 255, 1)';
     ctx.setLineDash([lineWidth, lineWidth]);
     drawCircle(ctx, currentPositionTranslated.x, currentPositionTranslated.y, entity.shape.radius * scale, entity.shape.color, color, lineWidth);
@@ -99,7 +94,6 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
   }
 
   if (debugGridView) {
-    const lineWidth = 2 * scale;
     const { width, height } = ctx.canvas;
     ctx.setLineDash([lineWidth * 2, lineWidth]);
     // @todo João, quando o scale não é 1, acaba acontecendo erros de posicionamento das linhas.
