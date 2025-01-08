@@ -1,4 +1,5 @@
 import { Entity } from './entity.js';
+import { isLineSegmentIntersecting } from './utils.js';
 import { Vec2, vec2 } from './vec2.js';
 
 export class Constraint {
@@ -145,8 +146,11 @@ export class LineSegmentConstraint extends Constraint {
    * @param {Entity[]} entities 
    */
   applyConstraint(entities) {
-    console.warn("Não implementado");
-    // throw new Error("não implementado");
+    for (const entity of entities) {
+      if (isLineSegmentIntersecting(this.start, this.end, entity.oldPosition, entity.currentPosition)) {
+        console.warn("Efeito de deslocamento não implementado");
+      }
+    }
   }
 }
 

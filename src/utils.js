@@ -76,3 +76,63 @@ export function drawText(ctx, text, position, size, fillStyle = '#FFFFFF', fontF
 export function between(value, min, max) {
   return Math.max(Math.min(value, max), min);
 }
+
+/**
+ * 
+ * @param {Vec2} s0 
+ * @param {Vec2} e0 
+ * @param {Vec2} o 
+ * @returns {0|1|2}
+ */
+export function orientationOfTriplet(s0, e0, o) {
+  const result = (e0.y - s0.y) * (o.x - e0.x) - (e0.x - s0.x) * (o.y - e0.y); 
+
+  if (result === 0) return 0;
+
+  return (result > 0) ? 1 : 2;
+}
+
+/**
+ * 
+ * @param {Vec2} s0 
+ * @param {Vec2} e0 
+ * @param {Vec2} point 
+ * @returns {boolean}
+ */
+export function isPointOnSegment(s0, e0, point) { 
+  return e0.x <= Math.max(s0.x, point.x) &&
+         e0.x >= Math.min(s0.x, point.x) && 
+         e0.y <= Math.max(s0.y, point.y) &&
+         e0.y >= Math.min(s0.y, point.y);
+} 
+
+/**
+ * @references
+ * @url https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/
+ * @url https://www.geeksforgeeks.org/orientation-3-ordered-points/
+ * 
+ * @param {Vec2} s0 
+ * @param {Vec2} e0 
+ * @param {Vec2} s1 
+ * @param {Vec2} e1 
+ * @returns {boolean}
+ */
+export function isLineSegmentIntersecting(s0, e0, s1, e1) {
+
+  const o1 = orientationOfTriplet(s0, e0, s1); 
+  const o2 = orientationOfTriplet(s0, e0, e1); 
+  const o3 = orientationOfTriplet(s1, e1, s0); 
+  const o4 = orientationOfTriplet(s1, e1, e0); 
+  
+  if (o1 != o2 && o3 != o4) return true; 
+  
+  if (o1 == 0 && isPointOnSegment(s0, s1, e0)) return true; 
+  
+  if (o2 == 0 && isPointOnSegment(s0, e1, e0)) return true; 
+  
+  if (o3 == 0 && isPointOnSegment(s1, s0, e1)) return true; 
+  
+  if (o4 == 0 && isPointOnSegment(s1, e0, e1)) return true; 
+  
+  return false;
+} 
