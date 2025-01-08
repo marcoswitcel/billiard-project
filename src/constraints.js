@@ -1,5 +1,5 @@
 import { Entity } from './entity.js';
-import { isLineSegmentIntersecting } from './utils.js';
+import { calculateIntersectionOfLineSegments, isLineSegmentIntersecting, rotatePoint } from './utils.js';
 import { Vec2, vec2 } from './vec2.js';
 
 export class Constraint {
@@ -128,17 +128,23 @@ export class LineSegmentConstraint extends Constraint {
    * @type {Vec2} end 
    */
   end = vec2(0, 0);
+  /**
+   * @type {number} rotation 
+   */
+  collisionElasticity = 1;
 
   /**
    * 
    * @param {Vec2} start 
    * @param {Vec2} end 
+   * @param {number} collisionElasticity
    */
-  constructor(start, end) {
+  constructor(start, end, collisionElasticity = 1) {
     super();
 
     this.start = start;
     this.end = end;
+    this.collisionElasticity = collisionElasticity;
   }
 
   /**
@@ -147,8 +153,18 @@ export class LineSegmentConstraint extends Constraint {
    */
   applyConstraint(entities) {
     for (const entity of entities) {
-      if (isLineSegmentIntersecting(this.start, this.end, entity.oldPosition, entity.currentPosition)) {
-        console.warn("Efeito de deslocamento não implementado");
+      const radiusDir =  entity.currentPosition.copy().sub(entity.oldPosition).normalize().mul(entity.shape.radius);
+      // const currentPositionPlusRadius = entity.currentPosition.copy().add(radiusDir); //@todo João, avaliar como considerar a borda do círculo
+      const currentPositionPlusRadius = entity.currentPosition;
+      if (isLineSegmentIntersecting(this.start, this.end, entity.oldPosition, currentPositionPlusRadius)) {
+        const pi = calculateIntersectionOfLineSegments(this.start, this.end, entity.oldPosition, currentPositionPlusRadius);
+        console.assert(pi !== null, "não deveria ser nullo");
+        
+        // @todo João, na maioria dos casos o ângulo deve ser calculado
+        const angle = Math.PI;
+        // @todo João, 'collisionElasticity' está sendo ignorada por hora
+        rotatePoint(pi, entity.currentPosition, angle);
+        rotatePoint(pi, entity.oldPosition, angle);
       }
     }
   }

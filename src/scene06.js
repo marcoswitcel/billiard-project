@@ -33,8 +33,10 @@ export class Scene06 extends DemonstrationScene {
 
   setup() {
     this.physicsSolver.entities.push(new Entity(vec2(250, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#00F')));
-    //this.physicsSolver.gravity = vec2(0, 0); // @todo João, sem gravidade por hora
+    this.physicsSolver.entities.push(new Entity(vec2(350, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#00F')));
     this.physicsSolver.constraints.push(new LineSegmentConstraint(vec2(200, 250), vec2(300, 250)));
+    this.physicsSolver.constraints.push(new LineSegmentConstraint(vec2(300, 425), vec2(400, 375)));
+    
   }
 
   update(deltaTimeMs) {
@@ -50,7 +52,7 @@ export class Scene06 extends DemonstrationScene {
     // background 
     drawRect(this.ctx, '#000', 0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
-    this.camera.position = this.physicsSolver.entities[0].currentPosition.copy();
+    // this.camera.position = this.physicsSolver.entities[0].currentPosition.copy();
 
     render(this.ctx, this.physicsSolver, this.camera, this.renderParams);
   }

@@ -136,3 +136,58 @@ export function isLineSegmentIntersecting(s0, e0, s1, e1) {
   
   return false;
 } 
+
+/**
+ * @reference https://www.inf.pucrs.br/~pinho/CG/Aulas/OpenGL/Interseccao/CalcIntersec.html
+ * 
+ * @param {Vec2} s0 
+ * @param {Vec2} e0 
+ * @param {Vec2} s1 
+ * @param {Vec2} e1 
+ * @returns {null | Vec2}
+ */
+export function calculateIntersectionOfLineSegments(s0, e0, s1,  e1) {
+  const det = (e1.x - s1.x) * (e0.y - s0.y) - (e1.y - s1.y) * (e0.x - s0.x);
+  
+  if (det === 0.0) { // @todo João, não funciona dessa forma, verificar se não é por causa da ordem dos pontos...
+    return null;
+  }
+
+  const s = ((e1.x - s1.x) * (s1.y - s0.y) - (e1.y - s1.y) * (s1.x - s0.x)) / det;
+  // const t = ((e0.x - s0.x) * (s1.y - s0.y) - (e0.y - s0.y) * (s1.x - s0.x)) / det;
+
+  const intersection = new Vec2(0, 0);
+
+  intersection.x = s0.x + (e0.x-s0.x) * s;
+  intersection.y = s0.y + (e0.y-s0.y) * s;
+
+  return intersection;
+}
+
+
+/**
+ * @url https://stackoverflow.com/questions/2259476/rotating-a-point-about-another-point-2d#answer-2259502
+ * 
+ * @param {Vec2} origin 
+ * @param {Vec2} point 
+ * @param {number} angle ângulo em radianos
+ * @returns 
+ */
+export function rotatePoint(origin, point, angle) {
+  const s = Math.sin(angle);
+  const c = Math.cos(angle);
+
+  // deixa ponto relativo a origem
+  point.x -= origin.x;
+  point.y -= origin.y;
+
+  // rotaciona o ponto
+  const newX = point.x * c - point.y * s;
+  const newY = point.x * s + point.y * c;
+
+  // faz a translação de volta ao sistema de coordenadas original
+  point.x = newX + origin.x;
+  point.y = newY + origin.y;
+
+  return point;
+}
