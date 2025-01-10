@@ -63,11 +63,10 @@ export class Scene07 extends DemonstrationScene {
     
     // this.physicsSolver.constraints.push(new RectangleConstraint(vec2(350, 200), 400, 250, 0, 0.8));
 
-    // @todo João, está invertido aqui as coordenadas, debugar para entender porque funciona
     const pA = center.copy().sub(size.copy().div(2));
-    const pB = vec2(pA.x, center.y + size.y / 2);
+    const pB = vec2(center.x + size.x / 2, pA.y);
     const pC = center.copy().add(size.copy().div(2));
-    const pD = vec2(pC.x, center.y - size.y / 2);;
+    const pD = vec2(center.x - size.x / 2, pC.y);
 
     // segmentos de linha
     this.physicsSolver.constraints.push(new LineSegmentConstraint(pA, pB, 1));

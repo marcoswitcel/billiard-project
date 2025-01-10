@@ -39,6 +39,8 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
   const lineWidth = 2 * scale;
 
   for (const constraint of physicsSolver.constraints) {
+    // @todo João, todo esse código na verdade seria referente a visão de debug, os elementos visuais devem ser
+    // adicionados separadamente da constraint
     if (constraint instanceof RectangleConstraint) {
       const position = canvasCenter.copy().add(constraint.position.copy().sub(camera.position).mul(scale));
       const width = constraint.width * scale;
@@ -53,8 +55,10 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
     } else if (constraint instanceof LineSegmentConstraint) {
       const start = canvasCenter.copy().add(constraint.start.copy().sub(camera.position).mul(scale));
       const end = canvasCenter.copy().add(constraint.end.copy().sub(camera.position).mul(scale));
-      const color = '#0F0';
+      const color = '#1F1';
+      ctx.setLineDash([lineWidth, lineWidth]);
       drawLine(ctx, start, end, color, lineWidth);
+      ctx.setLineDash([]);
     } else {
       console.warn("Constraint ainda não implementada");
     }
