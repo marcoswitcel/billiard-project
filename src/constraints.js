@@ -118,7 +118,6 @@ export class RectangleConstraint extends Constraint {
   }
 }
 
-// @todo João, implementar uma constraint para linhas. Quero usar para montar a mesa com vários segmentos de linhas
 export class LineSegmentConstraint extends Constraint {
   /**
    * @type {Vec2} start 
