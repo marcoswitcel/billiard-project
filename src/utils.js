@@ -191,3 +191,12 @@ export function rotatePoint(origin, point, angle) {
 
   return point;
 }
+
+/**
+ * @url https://stackoverflow.com/questions/135909/what-is-the-method-for-converting-radians-to-degrees
+ * @param {*} radians 
+ * @returns 
+ */
+export function toDegrees(radians) {
+  return radians * (180 / Math.PI);
+}
