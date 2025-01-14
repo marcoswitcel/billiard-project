@@ -165,6 +165,7 @@ export class LineSegmentConstraint extends Constraint {
         // @todo João, na maioria dos casos o ângulo deve ser calculado
         // @url https://stackoverflow.com/questions/1211212/how-to-calculate-an-angle-from-three-points#31334882
         // @wip testar e terminar de implementar
+        // @note João, testar fazer a translação que faltou
         const lineSegmentPart = this.start.copy().sub(this.end).normalize(); // @note aqui pode influenciar o cálculo, normalizar isso aqui
         const result = Math.atan2(lineSegmentPart.y - pi.y, lineSegmentPart.x - pi.x) - Math.atan2(entity.oldPosition.y - pi.y, entity.oldPosition.x - pi.x);
 
