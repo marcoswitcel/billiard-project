@@ -169,9 +169,15 @@ export class LineSegmentConstraint extends Constraint {
         const result = Math.atan2(lineSegmentPart.y - pi.y, lineSegmentPart.x - pi.x) - Math.atan2(entity.oldPosition.y - pi.y, entity.oldPosition.x - pi.x);
 
         const angle = (result > quarterOfCircle) ? Math.PI + (result - quarterOfCircle) * 2 : Math.PI - (quarterOfCircle - result) * 2;
-        // @todo João, 'collisionElasticity' está sendo ignorada por hora
+        
         rotatePoint(pi, entity.currentPosition, angle);
         rotatePoint(pi, entity.oldPosition, angle);
+
+        const force = entity.oldPosition.copy().sub(entity.currentPosition);
+        const length = force.length();
+        force.normalize().mul(length * this.collisionElasticity);
+
+        entity.oldPosition = entity.currentPosition.copy().add(force);
       }
     }
   }

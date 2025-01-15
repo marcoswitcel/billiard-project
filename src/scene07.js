@@ -69,10 +69,10 @@ export class Scene07 extends DemonstrationScene {
     const pD = vec2(center.x - size.x / 2, pC.y);
 
     // segmentos de linha
-    this.physicsSolver.constraints.push(new LineSegmentConstraint(pA, pB, 1));
-    this.physicsSolver.constraints.push(new LineSegmentConstraint(pB, pC, 1));
-    this.physicsSolver.constraints.push(new LineSegmentConstraint(pC, pD, 1));
-    this.physicsSolver.constraints.push(new LineSegmentConstraint(pD, pA, 1));
+    this.physicsSolver.constraints.push(new LineSegmentConstraint(pA, pB, 0.8));
+    this.physicsSolver.constraints.push(new LineSegmentConstraint(pB, pC, 0.8));
+    this.physicsSolver.constraints.push(new LineSegmentConstraint(pC, pD, 0.8));
+    this.physicsSolver.constraints.push(new LineSegmentConstraint(pD, pA, 0.8));
 
 
     this.renderParams.lightSource = vec2(350, 200);
