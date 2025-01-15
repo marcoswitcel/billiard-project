@@ -74,6 +74,23 @@ export class Scene07 extends DemonstrationScene {
     this.physicsSolver.constraints.push(new LineSegmentConstraint(pC, pD, 0.8));
     this.physicsSolver.constraints.push(new LineSegmentConstraint(pD, pA, 0.8));
 
+    const triangleSize = 40;
+    const centerOfTriangle = center.copy().add(vec2(0, -200));
+    const points = [
+      centerOfTriangle.copy().add(vec2(0, -triangleSize)),
+      centerOfTriangle.copy().add(vec2(triangleSize, triangleSize)),
+      centerOfTriangle.copy().add(vec2(-triangleSize, triangleSize)),
+    ];
+
+    const lineSegments = [
+      [points[0], points[1]],
+      [points[1], points[2]],
+      [points[2], points[0]],
+    ]
+
+    for (const segmentData of lineSegments) {
+      this.physicsSolver.constraints.push(new LineSegmentConstraint(segmentData[0], segmentData[1], 1));
+    }
 
     this.renderParams.lightSource = vec2(350, 200);
 
