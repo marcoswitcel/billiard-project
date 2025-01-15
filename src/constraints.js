@@ -162,7 +162,6 @@ export class LineSegmentConstraint extends Constraint {
         const pi = calculateIntersectionOfLineSegments(this.start, this.end, entity.oldPosition, currentPositionPlusRadius);
         console.assert(pi !== null, "não deveria ser nullo");
         
-        // @todo João, na maioria dos casos o ângulo deve ser calculado
         // @url https://stackoverflow.com/questions/1211212/how-to-calculate-an-angle-from-three-points#31334882
         const quarterOfCircle = Math.PI / 2;
         const lineSegmentPart = this.start.copy();
