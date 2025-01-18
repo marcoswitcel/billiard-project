@@ -152,8 +152,6 @@ export class PhysicsSolver {
           // console.log('depois:', entity1.getCurrentVelocity().length() + entity2.getCurrentVelocity().length());
           // const lengthAfter = entity1.getCurrentVelocity().length() + entity2.getCurrentVelocity().length();
 
-          // @todo João @bug, a força não está sendo calculada corretamente depois de adicionado o campo 'lastDt'
-          
           // @todo João, acredito que isso aqui reporte muitas colisões duplicadas, avaliar...
           if (this.reportCollision) {
             this.reportCollision(entity1, entity2);
