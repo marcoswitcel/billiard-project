@@ -2,6 +2,7 @@ import { Circle } from './circle.js';
 import { LineSegmentConstraint, RectangleConstraint } from './constraints.js';
 import { DemonstrationScene } from './demonstration-scene.js';
 import { Entity } from './entity.js';
+import { triangleShape } from './figures.js';
 import { IN_MOVEMENT_THREASHOLD, PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
 import { drawRect, drawCircle, between, drawLine } from './utils.js';
@@ -76,11 +77,9 @@ export class Scene07 extends DemonstrationScene {
 
     const triangleSize = 40;
     const centerOfTriangle = center.copy().add(vec2(0, -200));
-    const points = [
-      centerOfTriangle.copy().add(vec2(0, -triangleSize)),
-      centerOfTriangle.copy().add(vec2(triangleSize, triangleSize)),
-      centerOfTriangle.copy().add(vec2(-triangleSize, triangleSize)),
-    ];
+    const points = triangleShape()
+      .map(point => vec2(point[0], point[1]))
+      .map(point => point.mul(triangleSize).add(centerOfTriangle));
 
     const lineSegments = [
       [points[0], points[1]],
