@@ -118,6 +118,18 @@ export class Vec2 {
   }
 
   /**
+   * @note Avaliar se essa será a função padrão para a multiplicação de vetores. Não sei se é intuitivo, pesquisar...
+   * @param {Vec2} otherVec 
+   * @returns {Vec2}
+   */
+  mulVec(otherVec) {
+    this.x *= otherVec.x;
+    this.y *= otherVec.y;
+
+    return this;
+  }
+
+  /**
    * Calcula a 'magnetude' ou 'comprimento' do vetor
    * @returns {number}
    */

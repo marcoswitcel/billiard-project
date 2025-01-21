@@ -15,3 +15,19 @@ export const triangleShape = () => ({
     [2,0]
   ]
 });
+
+
+export const squareShape = () => ({
+  points: [
+    [-1, -1],
+    [1, -1],
+    [1, 1],
+    [-1, 1],
+  ],
+  lineSegments: [
+    [0, 1],
+    [1, 2],
+    [2, 3],
+    [3, 0],
+  ]
+});
