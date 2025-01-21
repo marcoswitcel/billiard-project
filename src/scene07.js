@@ -6,7 +6,7 @@ import { triangleShape } from './figures.js';
 import { IN_MOVEMENT_THREASHOLD, PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
 import { drawRect, drawCircle, between, drawLine } from './utils.js';
-import { vec2 } from './vec2.js';
+import { Vec2, vec2 } from './vec2.js';
 
 
 const calculateForce = (start, now) => Math.min((now - start), 2000) / 1000;
@@ -77,18 +77,14 @@ export class Scene07 extends DemonstrationScene {
 
     const triangleSize = 40;
     const centerOfTriangle = center.copy().add(vec2(0, -200));
-    const points = triangleShape()
+    const { points, lineSegments } = triangleShape();
+
+    const trianglePoints = points
       .map(point => vec2(point[0], point[1]))
       .map(point => point.mul(triangleSize).add(centerOfTriangle));
 
-    const lineSegments = [
-      [points[0], points[1]],
-      [points[1], points[2]],
-      [points[2], points[0]],
-    ]
-
     for (const segmentData of lineSegments) {
-      this.physicsSolver.constraints.push(new LineSegmentConstraint(segmentData[0], segmentData[1], 1));
+      this.physicsSolver.constraints.push(new LineSegmentConstraint(trianglePoints[segmentData[0]], trianglePoints[segmentData[1]], 1));
     }
 
     this.renderParams.lightSource = vec2(350, 200);
