@@ -2,7 +2,7 @@ import { Circle } from './circle.js';
 import { LineSegmentConstraint, RectangleConstraint } from './constraints.js';
 import { DemonstrationScene } from './demonstration-scene.js';
 import { Entity } from './entity.js';
-import { squareShape, triangleShape } from './figures.js';
+import { table01Shape, triangleShape } from './figures.js';
 import { IN_MOVEMENT_THREASHOLD, PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
 import { drawRect, drawCircle, between, drawLine } from './utils.js';
@@ -59,12 +59,13 @@ export class Scene07 extends DemonstrationScene {
     this.physicsSolver.entities.push(new Entity(vec2(450, 185), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0A')));
     this.physicsSolver.entities.push(new Entity(vec2(450, 215), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0A')));
     
-    const center = vec2(350, 200);
-    const size = vec2(400, 250);
+    // this.physicsSolver.constraints.push(new RectangleConstraint(vec2(350, 200), 400, 250, 0, 0.8));
+    
     {
+      const center = vec2(350, 200);
+      const size = vec2(400, 400);
       
-      // this.physicsSolver.constraints.push(new RectangleConstraint(vec2(350, 200), 400, 250, 0, 0.8));
-      const { points, lineSegments } = squareShape();
+      const { points, lineSegments } = table01Shape();
   
       const trianglePoints = points
         .map(point => vec2(point[0], point[1]))
@@ -73,18 +74,6 @@ export class Scene07 extends DemonstrationScene {
       for (const segmentData of lineSegments) {
         this.physicsSolver.constraints.push(new LineSegmentConstraint(trianglePoints[segmentData[0]], trianglePoints[segmentData[1]], 0.8));
       }
-    }
-
-    const triangleSize = 40;
-    const centerOfTriangle = center.copy().add(vec2(0, -200));
-    const { points, lineSegments } = triangleShape();
-
-    const trianglePoints = points
-      .map(point => vec2(point[0], point[1]))
-      .map(point => point.mul(triangleSize).add(centerOfTriangle)); // escalando e fazendo a translação
-
-    for (const segmentData of lineSegments) {
-      this.physicsSolver.constraints.push(new LineSegmentConstraint(trianglePoints[segmentData[0]], trianglePoints[segmentData[1]], 1));
     }
 
     this.renderParams.lightSource = vec2(350, 200);
