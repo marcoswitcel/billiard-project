@@ -118,6 +118,9 @@ export class RectangleConstraint extends Constraint {
   }
 }
 
+/**
+ * @note João, talvez será necessário fazer uma variante da 'LineSegmentConstraint' que considere o raios das esferas...
+ */
 export class LineSegmentConstraint extends Constraint {
   /**
    * @type {Vec2} start 
