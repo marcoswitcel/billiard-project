@@ -63,7 +63,7 @@ export class Scene07 extends DemonstrationScene {
     
     {
       const center = vec2(350, 200);
-      const size = vec2(400, 400);
+      const size = vec2(500, 500);
       
       const { points, lineSegments } = table01Shape();
   
