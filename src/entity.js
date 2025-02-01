@@ -38,7 +38,6 @@ export class Entity {
   }
 
   /**
-   * @todo João, refatorar para uma função ou sistema que cuide desse update
    * @param {number} deltaTime 
    */
   updatePosition(deltaTime) {

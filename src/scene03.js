@@ -40,11 +40,6 @@ export class Scene03 extends DemonstrationScene {
   }
 
   update(deltaTimeMs) {
-    /**
-     * @todo João, implementar o sistema de 'sub-steps' no update das entidades.
-     * @note tentei implementar um mecanismo simples, onde atualizo 3 vezes passando o deltaTimeMs dividido por três;
-     * dessa forma ficou mais estável a simualação.
-     */
     this.physicsSolver.update(deltaTimeMs);
   }
 
