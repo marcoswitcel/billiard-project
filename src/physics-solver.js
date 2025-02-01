@@ -80,7 +80,7 @@ export class PhysicsSolver {
 
 
   /**
-   * @todo João, deixar a fricção independente do framerate.
+   * @todo João, deixar a fricção independente do framerate. Testar
    * @note Considerando que a gravidade é fixa, não depende do frame, a fricção também parece que poderia ser fixa. Avaliar.
    * @private
    * @param {number} deltaTime 
@@ -93,7 +93,7 @@ export class PhysicsSolver {
     {
       const velocity = entity.getCurrentVelocity();
       if (velocity.length() > IN_MOVEMENT_THREASHOLD) {
-        const fric = velocity.copy().normalize().mul(-1).mul(this.friction);
+        const fric = velocity.copy().normalize().mul(-1).mul(this.friction).mul(deltaTime);
         if (fric.length() > velocity.length()) {
           entity.accelerate(velocity.mul(-1));
         } else {
