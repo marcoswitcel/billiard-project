@@ -48,8 +48,11 @@ export class PhysicsSolver {
       // aplicando forças
       this.applyGravity();
       this.applyFriction(dt);
-      this.applyConstraint();
+      // @note João, invertendo a ordem das validações aqui tive mais consistência nas restrições impostas pela
+      // contraint 'LineSegment' sobre os círuclos.
       this.solveCollision();
+      this.applyConstraint();
+      
       this.updatePositions(dt);
     }
   }
