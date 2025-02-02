@@ -38,11 +38,11 @@ export class CircleConstraint extends Constraint {
    */
   applyConstraint(entities) {
     for (const entity of entities) {
-      const to_obj = entity.currentPosition.copy().sub(this.position);
-      const dist = to_obj.length();
+      const toObj = entity.currentPosition.copy().sub(this.position);
+      const dist = toObj.length();
 
       if (dist > this.radius - entity.shape.radius) {
-        const n = to_obj.normalized();
+        const n = toObj.normalized();
         entity.currentPosition = this.position.copy().add(n.mul(this.radius - entity.shape.radius));
       }
     }  
