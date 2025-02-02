@@ -48,6 +48,8 @@ export class Scene04 extends DemonstrationScene {
     const ball = this.ball;
 
     this.physicsSolver.gravity.set(0, 0);
+    this.physicsSolver.friction = 60;
+
     // player ball
     this.physicsSolver.entities.push(ball);
 
