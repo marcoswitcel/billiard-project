@@ -1,4 +1,5 @@
 import { CircleConstraint, LineSegmentConstraint, RectangleConstraint } from './constraints.js';
+import { squareShape } from './figures.js';
 import { PhysicsSolver } from './physics-solver.js';
 import { drawCircle, drawLine, drawRect, drawText } from './utils.js';
 import { vec2 } from './vec2.js';
@@ -42,11 +43,23 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
     // @todo João, todo esse código na verdade seria referente a visão de debug, os elementos visuais devem ser
     // adicionados separadamente da constraint
     if (constraint instanceof RectangleConstraint) {
-      const position = canvasCenter.copy().add(constraint.position.copy().sub(camera.position).mul(scale));
-      const width = constraint.width * scale;
-      const height = constraint.height * scale;
+      const centerPosition = canvasCenter.copy().add(constraint.position.copy().sub(camera.position).mul(scale));
+      const proportions = vec2(constraint.width * scale, constraint.height * scale);
       const color = '#0F0';
-      drawRect(ctx, color, position.x - width / 2, position.y - height / 2, width, height);
+      
+      const { points, lineSegments } = squareShape();
+  
+      const trianglePoints = points
+        .map(point => vec2(point[0], point[1]))
+        .map(point => point.mulVec(proportions.copy().div(2)).add(centerPosition));
+  
+      ctx.setLineDash([lineWidth, lineWidth]);
+      for (const segmentData of lineSegments) {
+        const start = trianglePoints[segmentData[0]];
+        const end = trianglePoints[segmentData[1]];
+        drawLine(ctx, start, end, color, lineWidth);
+      }
+      ctx.setLineDash([]);
     } else if (constraint instanceof CircleConstraint) {
       const position = canvasCenter.copy().add(constraint.position.copy().sub(camera.position).mul(scale));
       const radius = constraint.radius * scale;
