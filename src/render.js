@@ -29,8 +29,9 @@ export class Camera {
  * @param {Camera} camera
  * @param {RenderParams} renderParams
  * @param {(ctx: CanvasRenderingContext2D, physicsSolver: PhysicsSolver, camera: Camera, renderParams: RenderParams) => void | null} customDrawRoutine
+ * @param {any[]} visualElements
  */
-export function render(ctx, physicsSolver, camera, renderParams, customDrawRoutine = null) {
+export function render(ctx, physicsSolver, camera, renderParams, customDrawRoutine = null, visualElements = []) {
   const debugView = searchParams.has('debugView') && searchParams.get('debugView') === 'true';
   const debugGridView = searchParams.has('debugGridView') && searchParams.get('debugGridView') === 'true';
 
@@ -38,6 +39,10 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
   
   const scale = camera.scale;
   const lineWidth = 2 * scale;
+
+  if (visualElements) for (const visualElement of visualElements) {
+    // @todo João, implementar retângulos novamente...
+  }
 
   for (const constraint of physicsSolver.constraints) {
     // @todo João, todo esse código na verdade seria referente a visão de debug, os elementos visuais devem ser
