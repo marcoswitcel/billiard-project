@@ -159,8 +159,8 @@ export class LineSegmentConstraint extends Constraint {
     // Acredito que o sistema de colisão das bolas a empurra para fora da constraint da linha... necessário verificação.
     for (const entity of entities) {
       const radiusDir =  entity.currentPosition.copy().sub(entity.oldPosition).normalize().mul(entity.shape.radius);
-      // const currentPositionPlusRadius = entity.currentPosition.copy().add(radiusDir); //@todo João, avaliar como considerar a borda do círculo
-      const currentPositionPlusRadius = entity.currentPosition;
+      // @todo João, avaliar como considerar a borda do círculo. Por hora fiz assim.
+      const currentPositionPlusRadius = entity.currentPosition.copy().add(radiusDir); 
       if (isLineSegmentIntersecting(this.start, this.end, entity.oldPosition, currentPositionPlusRadius)) {
         const pi = calculateIntersectionOfLineSegments(this.start, this.end, entity.oldPosition, currentPositionPlusRadius);
         console.assert(pi !== null, "não deveria ser nullo");
@@ -172,8 +172,10 @@ export class LineSegmentConstraint extends Constraint {
 
         const angle = (result > quarterOfCircle) ? Math.PI + (result - quarterOfCircle) * 2 : Math.PI - (quarterOfCircle - result) * 2;
         
-        rotatePoint(pi, entity.currentPosition, angle);
-        rotatePoint(pi, entity.oldPosition, angle);
+        const currentPosition = entity.currentPosition.copy();
+        // antes era rotacionado ao redor de 'pi' (point of intersection)
+        rotatePoint(currentPosition, entity.currentPosition, angle);
+        rotatePoint(currentPosition, entity.oldPosition, angle);
 
         const force = entity.oldPosition.copy().sub(entity.currentPosition);
         const length = force.length();
