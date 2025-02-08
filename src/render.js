@@ -1,6 +1,7 @@
 import { CircleConstraint, LineSegmentConstraint, RectangleConstraint } from './constraints.js';
 import { squareShape } from './figures.js';
 import { PhysicsSolver } from './physics-solver.js';
+import { Rectangle, Shape } from './shape.js';
 import { drawCircle, drawLine, drawRect, drawText } from './utils.js';
 import { vec2 } from './vec2.js';
 
@@ -29,7 +30,7 @@ export class Camera {
  * @param {Camera} camera
  * @param {RenderParams} renderParams
  * @param {(ctx: CanvasRenderingContext2D, physicsSolver: PhysicsSolver, camera: Camera, renderParams: RenderParams) => void | null} customDrawRoutine
- * @param {any[]} visualElements
+ * @param {Shape[]} visualElements
  */
 export function render(ctx, physicsSolver, camera, renderParams, customDrawRoutine = null, visualElements = []) {
   const debugView = searchParams.has('debugView') && searchParams.get('debugView') === 'true';
@@ -41,7 +42,12 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
   const lineWidth = 2 * scale;
 
   if (visualElements) for (const visualElement of visualElements) {
-    // @todo João, implementar retângulos novamente...
+    if (visualElement instanceof Rectangle) {
+      const position = canvasCenter.copy().add(visualElement.position.copy().sub(camera.position).mul(scale));
+      const width = visualElement.size.x * scale;
+      const height = visualElement.size.y * scale;
+      drawRect(ctx, visualElement.color, position.x - width / 2, position.y - height / 2, width, height);
+    }
   }
 
   for (const constraint of physicsSolver.constraints) {

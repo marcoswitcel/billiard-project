@@ -5,6 +5,7 @@ import { Entity } from './entity.js';
 import { table01Shape, triangleShape } from './figures.js';
 import { IN_MOVEMENT_THREASHOLD, PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
+import { Rectangle } from './shape.js';
 import { drawRect, drawCircle, between, drawLine } from './utils.js';
 import { Vec2, vec2 } from './vec2.js';
 
@@ -43,6 +44,7 @@ export class Scene07 extends DemonstrationScene {
     this.camera = new Camera(vec2(350, 200), vec2(this.ctx.canvas.width, this.ctx.canvas.height), 1.25);
     this.renderParams = new RenderParams();
     this.mouseCoords = vec2(0, 0);
+    this.visualElements = [];
   }
 
   setup() {
@@ -61,6 +63,8 @@ export class Scene07 extends DemonstrationScene {
     this.physicsSolver.entities.push(new Entity(vec2(450, 215), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0A')));
     
     // this.physicsSolver.constraints.push(new RectangleConstraint(vec2(350, 200), 400, 250, 0, 0.8));
+
+    this.visualElements.push(new Rectangle(vec2(350, 200), vec2(500 * 0.9, 250), '#0A0'));
     
     {
       const center = vec2(350, 200);
@@ -185,7 +189,7 @@ export class Scene07 extends DemonstrationScene {
         const end = canvasCenter.copy().add(this.ball.currentPosition.copy().sub(this.camera.position).mul(this.camera.scale).sub(dir.copy().mul(200 + (calculateForce(this.lastClick, Date.now()) * 15)).mul(this.camera.scale)));
         drawLine(ctx, start, end, 'rgb(176, 79, 19)', 6 * this.camera.scale);
       }
-    });
+    }, this.visualElements);
 
     if (this.lastClick) {
       drawRect(this.ctx, '#00F', 0, 0, calculateForce(this.lastClick, Date.now()) * 100, 10);
