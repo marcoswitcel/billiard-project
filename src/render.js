@@ -35,6 +35,8 @@ export class Camera {
 export function render(ctx, physicsSolver, camera, renderParams, customDrawRoutine = null, visualElements = []) {
   const debugView = searchParams.has('debugView') && searchParams.get('debugView') === 'true';
   const debugGridView = searchParams.has('debugGridView') && searchParams.get('debugGridView') === 'true';
+  const constraintBorderColorDebug = 'rgba(0, 255, 0, 0.4)';
+  const forceDebugColor = 'rgba(0, 0, 255, 1)';
 
   const canvasCenter = vec2(ctx.canvas.width / 2, ctx.canvas.height / 2);
   
@@ -56,7 +58,6 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
     if (constraint instanceof RectangleConstraint) {
       const centerPosition = canvasCenter.copy().add(constraint.position.copy().sub(camera.position).mul(scale));
       const proportions = vec2(constraint.width * scale, constraint.height * scale);
-      const color = '#0F0';
       
       const { points, lineSegments } = squareShape();
   
@@ -68,20 +69,18 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
       for (const segmentData of lineSegments) {
         const start = trianglePoints[segmentData[0]];
         const end = trianglePoints[segmentData[1]];
-        drawLine(ctx, start, end, color, lineWidth);
+        drawLine(ctx, start, end, constraintBorderColorDebug, lineWidth);
       }
       ctx.setLineDash([]);
     } else if (constraint instanceof CircleConstraint) {
       const position = canvasCenter.copy().add(constraint.position.copy().sub(camera.position).mul(scale));
       const radius = constraint.radius * scale;
-      const color = '#0F0';
-      drawCircle(ctx, position.x, position.y, radius, color);
+      drawCircle(ctx, position.x, position.y, radius, constraintBorderColorDebug);
     } else if (constraint instanceof LineSegmentConstraint) {
       const start = canvasCenter.copy().add(constraint.start.copy().sub(camera.position).mul(scale));
       const end = canvasCenter.copy().add(constraint.end.copy().sub(camera.position).mul(scale));
-      const color = '#1F1';
       ctx.setLineDash([lineWidth, lineWidth]);
-      drawLine(ctx, start, end, color, lineWidth);
+      drawLine(ctx, start, end, constraintBorderColorDebug, lineWidth);
       ctx.setLineDash([]);
     } else {
       console.warn("Constraint ainda não implementada");
@@ -109,10 +108,9 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
 
     if (!debugView) continue;
 
-    const color = 'rgba(0, 0, 255, 1)';
     ctx.setLineDash([lineWidth, lineWidth]);
-    drawCircle(ctx, currentPositionTranslated.x, currentPositionTranslated.y, entity.shape.radius * scale, entity.shape.color, color, lineWidth);
-    drawLine(ctx, currentPositionTranslated, currentPositionTranslated.copy().add(entity.getCurrentVelocity().mul(scale)), color, lineWidth);
+    drawCircle(ctx, currentPositionTranslated.x, currentPositionTranslated.y, entity.shape.radius * scale, entity.shape.color, forceDebugColor, lineWidth);
+    drawLine(ctx, currentPositionTranslated, currentPositionTranslated.copy().add(entity.getCurrentVelocity().mul(scale)), forceDebugColor, lineWidth);
     ctx.setLineDash([]);
   }
 
@@ -133,13 +131,14 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
     {
       const left = vec2(0, offsetY + i * spacing);
       const right = vec2(width, offsetY + i * spacing);
-      drawLine(ctx, left, right, 'rgba(0, 255, 0, .4)');
+
+      drawLine(ctx, left, right, constraintBorderColorDebug);
     }
     for (let i = 0; offsetX + i * spacing < width; i++)
     {
       const top = vec2(offsetX + i * spacing, 0);
       const bottom = vec2(offsetX + i * spacing, height);
-      drawLine(ctx, top, bottom, 'rgba(0, 255, 0, .4)');
+      drawLine(ctx, top, bottom, constraintBorderColorDebug);
     }
     ctx.setLineDash([]);
   }
