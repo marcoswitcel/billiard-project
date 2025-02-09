@@ -51,6 +51,30 @@ export function drawLine(ctx, pointA, pointB, strokeStyle = '#FFFFFF', lineWidth
 }
 
 /**
+ * 
+ * @param {CanvasRenderingContext2D} ctx 
+ * @param {Vec2[]} polygon 
+ * @param {string} strokeStyle 
+ * @param {number} lineWidth 
+ */
+export function drawPolygon(ctx, polygon, strokeStyle = '#FFFFFF', lineWidth = 1) {
+  let point = polygon[0];
+  const { width, height } = ctx.canvas;
+  ctx.beginPath();
+  ctx.moveTo((point.x+1)/2 * width, height - (point.y+1)/2 * height);
+  for (let i = 1; i < polygon.length; i++) {
+      point = polygon[i];
+      ctx.lineTo((point.x+1)/2 * width, height - (point.y+1)/2 * height);
+  }
+  point = polygon[0];
+  ctx.lineTo((point.x+1)/2 * width, height - (point.y+1)/2 * height);
+  ctx.closePath();
+  ctx.lineWidth = lineWidth;
+  ctx.strokeStyle = strokeStyle;
+  ctx.stroke();
+}
+
+/**
  * @note links úteis:
  * * {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/textAlign}
  * * {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/textBaseline}
