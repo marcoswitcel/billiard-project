@@ -52,38 +52,40 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
     }
   }
 
-  for (const constraint of physicsSolver.constraints) {
-    // @todo João, todo esse código na verdade seria referente a visão de debug, os elementos visuais devem ser
-    // adicionados separadamente da constraint
-    if (constraint instanceof RectangleConstraint) {
-      const centerPosition = canvasCenter.copy().add(constraint.position.copy().sub(camera.position).mul(scale));
-      const proportions = vec2(constraint.width * scale, constraint.height * scale);
-      
-      const { points, lineSegments } = squareShape();
-  
-      const trianglePoints = points
+  if (debugView) {
+    for (const constraint of physicsSolver.constraints) {
+      // @todo João, todo esse código na verdade seria referente a visão de debug, os elementos visuais devem ser
+      // adicionados separadamente da constraint
+      if (constraint instanceof RectangleConstraint) {
+        const centerPosition = canvasCenter.copy().add(constraint.position.copy().sub(camera.position).mul(scale));
+        const proportions = vec2(constraint.width * scale, constraint.height * scale);
+        
+        const { points, lineSegments } = squareShape();
+        
+        const trianglePoints = points
         .map(point => vec2(point[0], point[1]))
         .map(point => point.mulVec(proportions.copy().div(2)).add(centerPosition));
-  
-      ctx.setLineDash([lineWidth, lineWidth]);
-      for (const segmentData of lineSegments) {
-        const start = trianglePoints[segmentData[0]];
-        const end = trianglePoints[segmentData[1]];
+        
+        ctx.setLineDash([lineWidth, lineWidth]);
+        for (const segmentData of lineSegments) {
+          const start = trianglePoints[segmentData[0]];
+          const end = trianglePoints[segmentData[1]];
+          drawLine(ctx, start, end, constraintBorderColorDebug, lineWidth);
+        }
+        ctx.setLineDash([]);
+      } else if (constraint instanceof CircleConstraint) {
+        const position = canvasCenter.copy().add(constraint.position.copy().sub(camera.position).mul(scale));
+        const radius = constraint.radius * scale;
+        drawCircle(ctx, position.x, position.y, radius, constraintBorderColorDebug);
+      } else if (constraint instanceof LineSegmentConstraint) {
+        const start = canvasCenter.copy().add(constraint.start.copy().sub(camera.position).mul(scale));
+        const end = canvasCenter.copy().add(constraint.end.copy().sub(camera.position).mul(scale));
+        ctx.setLineDash([lineWidth, lineWidth]);
         drawLine(ctx, start, end, constraintBorderColorDebug, lineWidth);
+        ctx.setLineDash([]);
+      } else {
+        console.warn("Constraint ainda não implementada");
       }
-      ctx.setLineDash([]);
-    } else if (constraint instanceof CircleConstraint) {
-      const position = canvasCenter.copy().add(constraint.position.copy().sub(camera.position).mul(scale));
-      const radius = constraint.radius * scale;
-      drawCircle(ctx, position.x, position.y, radius, constraintBorderColorDebug);
-    } else if (constraint instanceof LineSegmentConstraint) {
-      const start = canvasCenter.copy().add(constraint.start.copy().sub(camera.position).mul(scale));
-      const end = canvasCenter.copy().add(constraint.end.copy().sub(camera.position).mul(scale));
-      ctx.setLineDash([lineWidth, lineWidth]);
-      drawLine(ctx, start, end, constraintBorderColorDebug, lineWidth);
-      ctx.setLineDash([]);
-    } else {
-      console.warn("Constraint ainda não implementada");
     }
   }
 
