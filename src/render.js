@@ -1,7 +1,7 @@
 import { CircleConstraint, LineSegmentConstraint, RectangleConstraint } from './constraints.js';
 import { squareShape } from './figures.js';
 import { PhysicsSolver } from './physics-solver.js';
-import { Rectangle, Shape } from './shape.js';
+import { Polygon, Rectangle, Shape } from './shape.js';
 import { drawCircle, drawLine, drawRect, drawText } from './utils.js';
 import { vec2 } from './vec2.js';
 
@@ -49,6 +49,8 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
       const width = visualElement.size.x * scale;
       const height = visualElement.size.y * scale;
       drawRect(ctx, visualElement.color, position.x - width / 2, position.y - height / 2, width, height);
+    } else if (visualElement instanceof Polygon) {
+      // @todo João, terminar de implementar a renderização de polígonos
     }
   }
 

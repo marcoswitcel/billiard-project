@@ -28,3 +28,18 @@ export class Rectangle extends Shape {
     this.size = size;
   }
 }
+
+export class Polygon extends Shape {
+  points;
+
+  /**
+   * 
+   * @param {Vec2} position 
+   * @param {string} color
+   * @param {Vec2[]} points 
+   */
+  constructor(position, color, points) {
+    super(position, color);
+    this.points = points;
+  }
+}
