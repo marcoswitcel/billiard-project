@@ -35,7 +35,7 @@ export class Camera {
 export function render(ctx, physicsSolver, camera, renderParams, customDrawRoutine = null, visualElements = []) {
   const debugView = searchParams.has('debugView') && searchParams.get('debugView') === 'true';
   const debugGridView = searchParams.has('debugGridView') && searchParams.get('debugGridView') === 'true';
-  const constraintBorderColorDebug = 'rgba(0, 255, 0, 0.4)';
+  const constraintBorderColorDebug = 'rgba(0, 130, 0, 0.75)';
   const forceDebugColor = 'rgba(0, 0, 255, 1)';
 
   const canvasCenter = vec2(ctx.canvas.width / 2, ctx.canvas.height / 2);

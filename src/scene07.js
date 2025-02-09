@@ -64,7 +64,7 @@ export class Scene07 extends DemonstrationScene {
     
     // this.physicsSolver.constraints.push(new RectangleConstraint(vec2(350, 200), 400, 250, 0, 0.8));
 
-    this.visualElements.push(new Rectangle(vec2(350, 200), vec2(500 * 0.9, 250), '#0A0'));
+    this.visualElements.push(new Rectangle(vec2(350, 200), vec2(500 * 0.9, 250), '#0F0'));
     
     {
       const center = vec2(350, 200);
