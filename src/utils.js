@@ -54,24 +54,26 @@ export function drawLine(ctx, pointA, pointB, strokeStyle = '#FFFFFF', lineWidth
  * 
  * @param {CanvasRenderingContext2D} ctx 
  * @param {Vec2[]} polygon 
+ * @param {string} fillStyle
  * @param {string} strokeStyle 
  * @param {number} lineWidth 
  */
-export function drawPolygon(ctx, polygon, strokeStyle = '#FFFFFF', lineWidth = 1) {
+export function drawPolygon(ctx, polygon, fillStyle = '#FFFFFF', strokeStyle = '#FFFFFF', lineWidth = 1) {
   let point = polygon[0];
-  const { width, height } = ctx.canvas;
   ctx.beginPath();
-  ctx.moveTo((point.x+1)/2 * width, height - (point.y+1)/2 * height);
+  ctx.moveTo(point.x, point.y);
   for (let i = 1; i < polygon.length; i++) {
       point = polygon[i];
-      ctx.lineTo((point.x+1)/2 * width, height - (point.y+1)/2 * height);
+      ctx.lineTo(point.x, point.y);
   }
   point = polygon[0];
-  ctx.lineTo((point.x+1)/2 * width, height - (point.y+1)/2 * height);
+  ctx.lineTo(point.x, point.y);
   ctx.closePath();
   ctx.lineWidth = lineWidth;
+  ctx.fillStyle = fillStyle;
   ctx.strokeStyle = strokeStyle;
   ctx.stroke();
+  ctx.fill();
 }
 
 /**

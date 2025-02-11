@@ -5,7 +5,7 @@ import { Entity } from './entity.js';
 import { table01Shape, triangleShape } from './figures.js';
 import { IN_MOVEMENT_THREASHOLD, PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
-import { Rectangle } from './shape.js';
+import { Polygon, Rectangle } from './shape.js';
 import { drawRect, drawCircle, between, drawLine } from './utils.js';
 import { Vec2, vec2 } from './vec2.js';
 
@@ -65,6 +65,8 @@ export class Scene07 extends DemonstrationScene {
     // this.physicsSolver.constraints.push(new RectangleConstraint(vec2(350, 200), 400, 250, 0, 0.8));
 
     this.visualElements.push(new Rectangle(vec2(350, 200), vec2(500 * 0.9, 250), '#0F0'));
+    // @todo João, @wip decidir se armazenos os pontos no sistema de coordenadas do jogo ou se crio um atributo scale na classe 'Shape' e multiplico...
+    // this.visualElements.push(new Polygon(vec2(350, 200), '#F00', [ vec2(-0.9, -0.4), vec2(-0.8, -0.3), vec2(-0.8, 0.3), vec2(-0.9, 0.4), ]))
     
     {
       const center = vec2(350, 200);
