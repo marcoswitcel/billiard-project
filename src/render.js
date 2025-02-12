@@ -1,7 +1,7 @@
 import { CircleConstraint, LineSegmentConstraint, RectangleConstraint } from './constraints.js';
 import { squareShape } from './figures.js';
 import { PhysicsSolver } from './physics-solver.js';
-import { Polygon, Rectangle, Shape } from './shape.js';
+import { Circle2, Polygon, Rectangle, Shape } from './shape.js';
 import { drawCircle, drawLine, drawPolygon, drawRect, drawText } from './utils.js';
 import { vec2 } from './vec2.js';
 
@@ -53,7 +53,11 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
       const position = canvasCenter.copy().add(visualElement.position.copy().sub(camera.position).mul(scale));
       // @todo João, terminar de implementar, fazer o scale da figura e o posicionamento
       const points = visualElement.points.map(p => p.copy().mul(100).add(vec2(200, 200)));
-      drawPolygon(ctx, points, visualElement.color, visualElement.color, 1);
+      drawPolygon(ctx, points, visualElement.color, visualElement.color, lineWidth);
+    } else if (visualElement instanceof Circle2) {
+      const position = canvasCenter.copy().add(visualElement.position.copy().sub(camera.position).mul(scale));
+      const radius = visualElement.radius * scale;
+      drawCircle(ctx, position.x, position.y, radius, visualElement.color);
     }
   }
 
@@ -81,7 +85,10 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
       } else if (constraint instanceof CircleConstraint) {
         const position = canvasCenter.copy().add(constraint.position.copy().sub(camera.position).mul(scale));
         const radius = constraint.radius * scale;
-        drawCircle(ctx, position.x, position.y, radius, constraintBorderColorDebug);
+        // @todo João, implementar suporte a renderizar só a borda
+        ctx.setLineDash([lineWidth, lineWidth]);
+        drawCircle(ctx, position.x, position.y, radius, 'transparent', constraintBorderColorDebug, 1 * scale);
+        ctx.setLineDash([]);
       } else if (constraint instanceof LineSegmentConstraint) {
         const start = canvasCenter.copy().add(constraint.start.copy().sub(camera.position).mul(scale));
         const end = canvasCenter.copy().add(constraint.end.copy().sub(camera.position).mul(scale));

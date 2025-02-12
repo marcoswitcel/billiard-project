@@ -43,3 +43,18 @@ export class Polygon extends Shape {
     this.points = points;
   }
 }
+
+export class Circle2 extends Shape {
+  radius;
+
+  /**
+   * 
+   * @param {Vec2} position 
+   * @param {string} color
+   * @param {number} radius 
+   */
+  constructor(position, color, radius) {
+    super(position, color);
+    this.radius = radius;
+  }
+}
