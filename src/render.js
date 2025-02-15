@@ -51,8 +51,7 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
       drawRect(ctx, visualElement.color, position.x - width / 2, position.y - height / 2, width, height);
     } else if (visualElement instanceof Polygon) {
       const position = canvasCenter.copy().add(visualElement.position.copy().sub(camera.position).mul(scale));
-      // @todo João, terminar de implementar, fazer o scale da figura e o posicionamento
-      const points = visualElement.points.map(p => p.copy().mul(100).add(vec2(200, 200)));
+      const points = visualElement.points.map(p => p.copy().mul(visualElement.scale * scale).add(position));
       drawPolygon(ctx, points, visualElement.color, visualElement.color, lineWidth);
     } else if (visualElement instanceof Circle2) {
       const position = canvasCenter.copy().add(visualElement.position.copy().sub(camera.position).mul(scale));
