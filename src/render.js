@@ -1,5 +1,6 @@
 import { CircleConstraint, LineSegmentConstraint, RectangleConstraint } from './constraints.js';
 import { squareShape } from './figures.js';
+import { Params } from './params.js';
 import { PhysicsSolver } from './physics-solver.js';
 import { Circle2, Polygon, Rectangle, Shape } from './shape.js';
 import { drawCircle, drawLine, drawPolygon, drawRect, drawText } from './utils.js';
@@ -33,8 +34,8 @@ export class Camera {
  * @param {Shape[]} visualElements
  */
 export function render(ctx, physicsSolver, camera, renderParams, customDrawRoutine = null, visualElements = []) {
-  const debugView = searchParams.has('debugView') && searchParams.get('debugView') === 'true';
-  const debugGridView = searchParams.has('debugGridView') && searchParams.get('debugGridView') === 'true';
+  const debugView = Params.is('debugView');
+  const debugGridView = Params.is('debugGridView');
   const constraintBorderColorDebug = 'rgba(0, 130, 0, 0.75)';
   const forceDebugColor = 'rgba(0, 0, 255, 1)';
 
