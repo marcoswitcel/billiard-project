@@ -52,7 +52,7 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
     } else if (visualElement instanceof Polygon) {
       const position = canvasCenter.copy().add(visualElement.position.copy().sub(camera.position).mul(scale));
       const points = visualElement.points.map(p => p.copy().mul(visualElement.scale * scale).add(position));
-      drawPolygon(ctx, points, visualElement.color, visualElement.color, lineWidth);
+      drawPolygon(ctx, points, visualElement.color, null, lineWidth);
     } else if (visualElement instanceof Circle2) {
       const position = canvasCenter.copy().add(visualElement.position.copy().sub(camera.position).mul(scale));
       const radius = visualElement.radius * scale;
