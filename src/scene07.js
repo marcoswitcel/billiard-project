@@ -2,7 +2,7 @@ import { Circle } from './circle.js';
 import { LineSegmentConstraint, RectangleConstraint } from './constraints.js';
 import { DemonstrationScene } from './demonstration-scene.js';
 import { Entity } from './entity.js';
-import { table01Shape, triangleShape } from './figures.js';
+import { table01Shape, tableBordersPolygonShape, triangleShape } from './figures.js';
 import { IN_MOVEMENT_THREASHOLD, PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
 import { Polygon, Rectangle } from './shape.js';
@@ -62,25 +62,29 @@ export class Scene07 extends DemonstrationScene {
     this.physicsSolver.entities.push(new Entity(vec2(450, 185), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0A')));
     this.physicsSolver.entities.push(new Entity(vec2(450, 215), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0A')));
     
-    // this.physicsSolver.constraints.push(new RectangleConstraint(vec2(350, 200), 400, 250, 0, 0.8));
-
     this.visualElements.push(new Rectangle(vec2(350, 200), vec2(500 * 0.9, 250), '#0F0'));
-    // @note João, avaliar se armazeno os pontos no sistema de coordenadas do jogo ou se crio um atributo scale na classe 'Shape' e multiplico...
-    this.visualElements.push(new Polygon(vec2(350, 200), '#0C0', [ vec2(-0.9, -0.4), vec2(-0.8, -0.3), vec2(-0.8, 0.3), vec2(-0.9, 0.4), ], 250))
-    
     {
       const center = vec2(350, 200);
       const size = vec2(500, 500);
       
       const { points, lineSegments } = table01Shape();
-  
+      
       const trianglePoints = points
-        .map(point => vec2(point[0], point[1]))
-        .map(point => point.mulVec(size.copy().div(2)).add(center));
-  
+      .map(point => vec2(point[0], point[1]))
+      .map(point => point.mulVec(size.copy().div(2)).add(center));
+      
       for (const segmentData of lineSegments) {
         this.physicsSolver.constraints.push(new LineSegmentConstraint(trianglePoints[segmentData[0]], trianglePoints[segmentData[1]], 0.8));
       }
+
+      const { polygons } = tableBordersPolygonShape();
+
+      // @note João, avaliar se armazeno os pontos no sistema de coordenadas do jogo ou se crio um atributo scale na classe 'Shape' e multiplico...
+      for (const polygon of polygons) {
+        const points = polygon.map(p => vec2(p[0], p[1]));
+        this.visualElements.push(new Polygon(center, 'rgba(0,0,0,0.18)', points, 250))
+      }
+      
     }
 
     this.renderParams.lightSource = vec2(350, 200);
