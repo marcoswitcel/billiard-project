@@ -66,7 +66,7 @@ export class Scene07 extends DemonstrationScene {
 
     this.visualElements.push(new Rectangle(vec2(350, 200), vec2(500 * 0.9, 250), '#0F0'));
     // @note João, avaliar se armazeno os pontos no sistema de coordenadas do jogo ou se crio um atributo scale na classe 'Shape' e multiplico...
-    this.visualElements.push(new Polygon(vec2(350, 200), '#0A0', [ vec2(-0.9, -0.4), vec2(-0.8, -0.3), vec2(-0.8, 0.3), vec2(-0.9, 0.4), ], 250))
+    this.visualElements.push(new Polygon(vec2(350, 200), '#0C0', [ vec2(-0.9, -0.4), vec2(-0.8, -0.3), vec2(-0.8, 0.3), vec2(-0.9, 0.4), ], 250))
     
     {
       const center = vec2(350, 200);
