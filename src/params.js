@@ -1,3 +1,5 @@
+import { makeAGlobal } from './utils.js';
+
 const searchParams = new URLSearchParams(window.location.search);
 
 export class Params {
@@ -5,11 +7,11 @@ export class Params {
 
   static is(name) {
     if (this.map.has(name)) {
-        return this.map.get(name);
+      return this.map.get(name);
     }
 
     const value = searchParams.has(name) && searchParams.get(name) === 'true';
-    this.map.set(value);
+    this.map.set(name, value);
 
     return value;
   }
@@ -17,7 +19,12 @@ export class Params {
   static set(name, value) {
     this.map.set(name, value);
   }
+
+  static allParams() {
+    return [...this.map.keys()];
+  }
 }
 
-window['Params'] = Params;
+// exportando globalmente
+makeAGlobal('Params', Params);
 

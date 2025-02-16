@@ -228,3 +228,7 @@ export function rotatePoint(origin, point, angle) {
 export function toDegrees(radians) {
   return radians * (180 / Math.PI);
 }
+
+export function makeAGlobal(name, value) {
+  window[name] = value;
+}
