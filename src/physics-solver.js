@@ -111,6 +111,7 @@ export class PhysicsSolver {
         // @todo João, testar e avaliar se deve reportar no loop ou em algum outro ponto.
         // Até porque, em teoria a entidade pode ganhar força antes do termino da 'pipeline' de física.
         // Seria legal checar no final do processo se as posições seguem iguais...
+        // Outra coisa é que reporta sem parar que as entidades 'pararam' sendo que nem estavam em movimento...
         if (this.reportStoped) {
           this.reportStoped(entity);
         }
