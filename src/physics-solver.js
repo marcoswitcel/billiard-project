@@ -30,6 +30,10 @@ export class PhysicsSolver {
    * @type {((a: Entity, b: Entity) => void)|null}
    */
   reportCollision = null;
+  /**
+   * @type {((a: Entity) => void)|null}
+   */
+  reportStoped = null;
 
   /**
    * @todo João, o sub-stepping da física está produzindo resultado incorretos,
@@ -104,6 +108,12 @@ export class PhysicsSolver {
         }
       } else {
         entity.oldPosition = entity.currentPosition.copy();
+        // @todo João, testar e avaliar se deve reportar no loop ou em algum outro ponto.
+        // Até porque, em teoria a entidade pode ganhar força antes do termino da 'pipeline' de física.
+        // Seria legal checar no final do processo se as posições seguem iguais...
+        if (this.reportStoped) {
+          this.reportStoped(entity);
+        }
       }
     }
   }
