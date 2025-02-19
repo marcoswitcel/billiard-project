@@ -85,9 +85,8 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
       } else if (constraint instanceof CircleConstraint) {
         const position = canvasCenter.copy().add(constraint.position.copy().sub(camera.position).mul(scale));
         const radius = constraint.radius * scale;
-        // @todo João, implementar suporte a renderizar só a borda
         ctx.setLineDash([lineWidth, lineWidth]);
-        drawCircle(ctx, position.x, position.y, radius, 'transparent', constraintBorderColorDebug, 1 * scale);
+        drawCircle(ctx, position.x, position.y, radius, null, constraintBorderColorDebug, 1 * scale);
         ctx.setLineDash([]);
       } else if (constraint instanceof LineSegmentConstraint) {
         const start = canvasCenter.copy().add(constraint.start.copy().sub(camera.position).mul(scale));

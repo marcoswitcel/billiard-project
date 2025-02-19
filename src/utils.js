@@ -19,13 +19,18 @@ export function drawRect(ctx, color, x, y, width, height) {
  * @param {number} x 
  * @param {number} y 
  * @param {number} radius
- * @param {string} color 
+ * @param {string|null} color 
+ * @param {number?} lineWidth 
  */
-export function drawCircle(ctx, x, y, radius, color, strokeStyle = null, lineWidth = 0) {
-  ctx.fillStyle = color;
+export function drawCircle(ctx, x, y, radius, color = null, strokeStyle = null, lineWidth = 0) {
   ctx.beginPath();
   ctx.arc(x, y, radius, 0, 2 * Math.PI);
-  ctx.fill();
+
+  if (color) {
+    ctx.fillStyle = color;
+    ctx.fill();
+  }
+  
   if (strokeStyle && lineWidth) {
     ctx.lineWidth = lineWidth;
     ctx.strokeStyle = strokeStyle;
