@@ -5,7 +5,7 @@ import { Entity } from './entity.js';
 import { PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
 import { Rectangle } from './shape.js';
-import { drawRect } from './utils.js';
+import { between, drawRect } from './utils.js';
 import { vec2 } from './vec2.js';
 
 
@@ -40,6 +40,10 @@ export class Scene03 extends DemonstrationScene {
         const color = `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
         this.physicsSolver.entities.push(new Entity(vec2(265 + Math.random() * 10, 200), vec2(0, 0), new Circle(vec2(250, 200), radius, color)));
       }
+    });
+
+    this.ctx.canvas.addEventListener('wheel', (event) => {
+      this.camera.scale = between(this.camera.scale + event.deltaY * 0.001, 0.1, 2);
     });
   }
 

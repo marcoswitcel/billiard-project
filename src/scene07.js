@@ -162,7 +162,6 @@ export class Scene07 extends DemonstrationScene {
       ball.currentPosition.add(force);
     });
 
-    // @todo João, adicionar esse handler nas outras cenas para testar a funcionalidade de 'scale' melhor
     canvas.addEventListener('wheel', (event) => {
       this.camera.scale = between(this.camera.scale + event.deltaY * 0.001, 0.1, 2);
     });

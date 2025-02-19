@@ -4,7 +4,7 @@ import { DemonstrationScene } from './demonstration-scene.js';
 import { Entity } from './entity.js';
 import { PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
-import { drawRect, drawCircle } from './utils.js';
+import { drawRect, drawCircle, between } from './utils.js';
 import { vec2 } from './vec2.js';
 
 
@@ -37,6 +37,10 @@ export class Scene06 extends DemonstrationScene {
     this.physicsSolver.constraints.push(new LineSegmentConstraint(vec2(200, 250), vec2(300, 250)));
     this.physicsSolver.constraints.push(new LineSegmentConstraint(vec2(300, 425), vec2(400, 375)));
     
+
+    this.ctx.canvas.addEventListener('wheel', (event) => {
+      this.camera.scale = between(this.camera.scale + event.deltaY * 0.001, 0.1, 2);
+    });
   }
 
   update(deltaTimeMs) {

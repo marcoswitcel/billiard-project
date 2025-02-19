@@ -3,7 +3,7 @@ import { DemonstrationScene } from './demonstration-scene.js';
 import { Entity } from './entity.js';
 import { PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
-import { drawRect } from './utils.js';
+import { between, drawRect } from './utils.js';
 import { vec2 } from './vec2.js';
 
 
@@ -60,6 +60,10 @@ export class Scene02 extends DemonstrationScene {
         .mul(shootForce);
 
       ball.currentPosition.add(force);
+    });
+
+    this.ctx.canvas.addEventListener('wheel', (event) => {
+      this.camera.scale = between(this.camera.scale + event.deltaY * 0.001, 0.1, 2);
     });
   }
 
