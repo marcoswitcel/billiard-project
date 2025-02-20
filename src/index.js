@@ -64,6 +64,7 @@ if (parameters.has('scene')) {
 
 updateScene();
 
+window['theSlowdownFactor'] = 1;
 let lastTimestamp = 0;
 requestAnimationFrame(function loop(timestamp) {
   requestAnimationFrame(loop);
@@ -79,7 +80,7 @@ requestAnimationFrame(function loop(timestamp) {
   if (scene) {
     // @todo João, considerar pausar ou definir um limite máximo de valor para o deltaTime ou no update da física
     // const DELTA_TIME_MAX_SPAN = 0.016;
-    if (application.state === 'running') scene.update(deltaTimeMs);
+    if (application.state === 'running') scene.update(deltaTimeMs / window['theSlowdownFactor']);
     scene.render();
   }
   
