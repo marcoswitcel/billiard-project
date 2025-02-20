@@ -156,7 +156,10 @@ export class LineSegmentConstraint extends Constraint {
   applyConstraint(entities) {
     // @todo João, a constraint de linha é sensível e facilmente a bola atravessa a linha.
     // Um exemplo é quando a bola está perto da borda e a bola branca a atinge com velocidade elevada.
-    // Acredito que o sistema de colisão das bolas a empurra para fora da constraint da linha... necessário verificação.
+    // Acredito que o sistema de colisão das bolas a empurra para fora da constraint da linha...
+    // @note 19/02/2025 Foi invertido a ordem das validações e a questão supracitada parece ter se resolvido...
+    // No entando outro tipo de defeito foi observador com relação a aplicação de restrições de linhas em casos onde
+    // mais de uma linha é cruzada simultâneamente.
     for (const entity of entities) {
       const radiusDir =  entity.currentPosition.copy().sub(entity.oldPosition).normalize().mul(entity.shape.radius);
       // @todo João, avaliar como considerar a borda do círculo. Por hora fiz assim.
