@@ -154,7 +154,7 @@ export class LineSegmentConstraint extends Constraint {
    * @param {Entity[]} entities 
    */
   applyConstraint(entities) {
-    // @todo João, a constraint de linha é sensível e facilmente a bola atravessa a linha.
+    // @wip João, a constraint de linha é sensível e facilmente a bola atravessa a linha.
     // Um exemplo é quando a bola está perto da borda e a bola branca a atinge com velocidade elevada.
     // Acredito que o sistema de colisão das bolas a empurra para fora da constraint da linha...
     // @note 19/02/2025 Foi invertido a ordem das validações e a questão supracitada parece ter se resolvido...
@@ -190,4 +190,3 @@ export class LineSegmentConstraint extends Constraint {
   }
 }
 
-// @todo João, implementar uma contraint de semi-circulo
