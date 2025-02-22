@@ -167,5 +167,6 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
       // @ts-expect-error
       drawText(ctx, 'Memória Usada (KB): ' + (performance.memory.usedJSHeapSize / 1024).toFixed(2), vec2(15, 105), 20, 'white', 'monospace', 'left', 'middle');
     }
+    drawText(ctx, 'Speed Factor: ' + (1 * Params.get('speedFactor', 1)).toFixed(2), vec2(15, 125), 20, 'white', 'monospace', 'left', 'middle');
   }
 }
