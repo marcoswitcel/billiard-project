@@ -3,7 +3,7 @@ import { LineSegmentConstraint, RectangleConstraint } from './constraints.js';
 import { DemonstrationScene } from './demonstration-scene.js';
 import { Entity } from './entity.js';
 import { table01Shape, tableBordersPolygonShape, triangleShape } from './figures.js';
-import { IN_MOVEMENT_THREASHOLD, PhysicsSolver } from './physics-solver.js';
+import { PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
 import { Polygon, Rectangle } from './shape.js';
 import { drawRect, drawCircle, between, drawLine } from './utils.js';
@@ -100,6 +100,12 @@ export class Scene07 extends DemonstrationScene {
       }
     }
 
+    /* @wip aguardar corrigir reportStoped
+    this.physicsSolver.reportStoped = (e1) => {
+      console.log(e1)
+    }
+    */
+
     const shootForce = 350;
 
     document.addEventListener('keyup', event => {
@@ -125,9 +131,7 @@ export class Scene07 extends DemonstrationScene {
     canvas.addEventListener('mousedown', event => {
       if (event.which !== 1) return;
 
-      const velocity = this.ball.getCurrentVelocity();
-
-      if (velocity.length() <= IN_MOVEMENT_THREASHOLD) {
+      if (this.ball.isStoped()) {
         this.lastClick = Date.now();
       }
     });

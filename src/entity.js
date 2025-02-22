@@ -1,4 +1,5 @@
 import { Circle } from './circle.js';
+import { IN_MOVEMENT_THREASHOLD } from './physics-solver.js';
 import { vec2, Vec2 } from './vec2.js';
 
 export class Entity {
@@ -73,5 +74,13 @@ export class Entity {
    */
   getCurrentVelocity() {
     return this.lastDt === 0 ? vec2(0, 0) : this.currentPosition.copy().sub(this.oldPosition).div(this.lastDt);
+  }
+
+  /**
+   * reporta se a entidade está em estado 'estacionário'
+   * @returns {boolean}
+   */
+  isStoped() {
+    return this.getCurrentVelocity().length() <= IN_MOVEMENT_THREASHOLD;
   }
 }
