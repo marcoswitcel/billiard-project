@@ -131,7 +131,9 @@ export class Scene07 extends DemonstrationScene {
     canvas.addEventListener('mousedown', event => {
       if (event.which !== 1) return;
 
-      if (this.ball.isStoped()) {
+      const allBallsStoped = !this.physicsSolver.entities.find(e => !e.isStoped());
+
+      if (allBallsStoped) {
         this.lastClick = Date.now();
       }
     });
