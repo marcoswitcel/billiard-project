@@ -3,6 +3,7 @@ import { LineSegmentConstraint, RectangleConstraint } from './constraints.js';
 import { DemonstrationScene } from './demonstration-scene.js';
 import { Entity } from './entity.js';
 import { table01Shape, tableBordersPolygonShape, triangleShape } from './figures.js';
+import { GameContex } from './game-context.js';
 import { PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
 import { Polygon, Rectangle } from './shape.js';
@@ -11,6 +12,15 @@ import { Vec2, vec2 } from './vec2.js';
 
 
 const calculateForce = (start, now) => Math.min((now - start), 2000) / 1000;
+
+/**
+ * 
+ * @param {PhysicsSolver} physicsSolver 
+ * @returns {boolean}
+ */
+const allBallsStoped = (physicsSolver) => {
+  return !physicsSolver.entities.find(e => !e.isStoped())
+}
 
 export class Scene07 extends DemonstrationScene {
   physicsSolver = new PhysicsSolver();
@@ -45,6 +55,9 @@ export class Scene07 extends DemonstrationScene {
     this.renderParams = new RenderParams();
     this.mouseCoords = vec2(0, 0);
     this.visualElements = [];
+    this.gameContext = new GameContex();
+    // @note temporário
+    this.gameContext.state = 'player_a';
   }
 
   setup() {
@@ -131,9 +144,7 @@ export class Scene07 extends DemonstrationScene {
     canvas.addEventListener('mousedown', event => {
       if (event.which !== 1) return;
 
-      const allBallsStoped = !this.physicsSolver.entities.find(e => !e.isStoped());
-
-      if (allBallsStoped) {
+      if (allBallsStoped(this.physicsSolver)) {
         this.lastClick = Date.now();
       }
     });
@@ -166,6 +177,9 @@ export class Scene07 extends DemonstrationScene {
         .mul(ball.lastDt);
 
       ball.currentPosition.add(force);
+
+      // sinaliza a espera do término do movimento
+      this.gameContext.waitingStop = true;
     });
 
     canvas.addEventListener('wheel', (event) => {
@@ -179,6 +193,14 @@ export class Scene07 extends DemonstrationScene {
      * dessa forma ficou mais estável a simualação.
      */
     this.physicsSolver.update(deltaTimeMs);
+
+    if (allBallsStoped(this.physicsSolver) && this.gameContext.waitingStop) {
+      this.gameContext.waitingStop = false;
+
+      if (this.physicsSolver.entities.length > 1) {
+        this.gameContext.changePlayer();
+      }
+    }
   }
 
   render() {
