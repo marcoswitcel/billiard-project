@@ -68,12 +68,15 @@ export class Scene07 extends DemonstrationScene {
     // player ball
     this.physicsSolver.entities.push(ball);
 
+    const ballRadius = 10;
+    const colorA = '#F0F';
+    const colorB = '#F0A';
 
-    this.physicsSolver.entities.push(new Entity(vec2(380, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0F')));
-    this.physicsSolver.entities.push(new Entity(vec2(420, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0F')));
+    this.physicsSolver.entities.push(new Entity(vec2(380, 200), vec2(0, 0), new Circle(vec2(250, 200), ballRadius, colorA)));
+    this.physicsSolver.entities.push(new Entity(vec2(420, 200), vec2(0, 0), new Circle(vec2(250, 200), ballRadius, colorA)));
 
-    this.physicsSolver.entities.push(new Entity(vec2(450, 185), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0A')));
-    this.physicsSolver.entities.push(new Entity(vec2(450, 215), vec2(0, 0), new Circle(vec2(250, 200), 10, '#F0A')));
+    this.physicsSolver.entities.push(new Entity(vec2(450, 185), vec2(0, 0), new Circle(vec2(250, 200), ballRadius, colorB)));
+    this.physicsSolver.entities.push(new Entity(vec2(450, 215), vec2(0, 0), new Circle(vec2(250, 200), ballRadius, colorB)));
     
     this.visualElements.push(new Rectangle(vec2(350, 200), vec2(500 * 0.9, 250), '#0F0'));
     {
@@ -194,7 +197,7 @@ export class Scene07 extends DemonstrationScene {
      */
     this.physicsSolver.update(deltaTimeMs);
 
-    if (allBallsStoped(this.physicsSolver) && this.gameContext.waitingStop) {
+    if (this.gameContext.waitingStop && allBallsStoped(this.physicsSolver)) {
       this.gameContext.waitingStop = false;
 
       if (this.physicsSolver.entities.length > 1) {
