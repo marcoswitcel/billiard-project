@@ -13,6 +13,9 @@ import { Vec2, vec2 } from './vec2.js';
 
 const calculateForce = (start, now) => Math.min((now - start), 2000) / 1000;
 
+const colorA = '#F0F';
+const colorB = '#F0A';
+
 /**
  * 
  * @param {PhysicsSolver} physicsSolver 
@@ -69,8 +72,6 @@ export class Scene07 extends DemonstrationScene {
     this.physicsSolver.entities.push(ball);
 
     const ballRadius = 10;
-    const colorA = '#F0F';
-    const colorB = '#F0A';
 
     this.physicsSolver.entities.push(new Entity(vec2(380, 200), vec2(0, 0), new Circle(vec2(250, 200), ballRadius, colorA)));
     this.physicsSolver.entities.push(new Entity(vec2(420, 200), vec2(0, 0), new Circle(vec2(250, 200), ballRadius, colorA)));
@@ -112,7 +113,9 @@ export class Scene07 extends DemonstrationScene {
      */
     this.physicsSolver.reportCollision = (e1, e2) => {
       if (e1 === ball || e2 === ball) {
-        console.log('hitted');
+        const other = e1 === ball ? e2 : e1;
+        console.log(this.gameContext.state + ' hitted: ' + other.shape.color);
+        this.gameContext.hittedAnyBall = true;
       }
     }
 
@@ -183,6 +186,7 @@ export class Scene07 extends DemonstrationScene {
 
       // sinaliza a espera do término do movimento
       this.gameContext.waitingStop = true;
+      this.gameContext.hittedAnyBall = false;
     });
 
     canvas.addEventListener('wheel', (event) => {
@@ -200,7 +204,12 @@ export class Scene07 extends DemonstrationScene {
     if (this.gameContext.waitingStop && allBallsStoped(this.physicsSolver)) {
       this.gameContext.waitingStop = false;
 
-      if (this.physicsSolver.entities.length > 1) {
+      if (!this.gameContext.hittedAnyBall) {
+        if (this.gameContext.state === 'player_b') this.gameContext.state = 'win_a';
+        else if (this.gameContext.state === 'player_a') this.gameContext.state = 'win_b';
+      }
+
+      if (this.physicsSolver.entities.length > 1 && this.gameContext.state.startsWith('player')) {
         this.gameContext.changePlayer();
       }
     }

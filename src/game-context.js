@@ -6,6 +6,7 @@ export class GameContex {
   state = 'not_started';
   
   waitingStop = false;
+  hittedAnyBall = false;
 
   changePlayer() {
     if (this.state === 'player_a') {

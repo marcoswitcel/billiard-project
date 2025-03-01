@@ -53,7 +53,7 @@ export class PhysicsSolver {
       this.applyGravity();
       this.applyFriction(dt);
       // @note João, invertendo a ordem das validações aqui tive mais consistência nas restrições impostas pela
-      // contraint 'LineSegment' sobre os círuclos.
+      // contraint 'LineSegment' sobre os círculos.
       this.solveCollision();
       this.applyConstraint();
       
