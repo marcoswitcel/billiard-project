@@ -7,6 +7,8 @@ import { Scene04 } from './scene04.js';
 import { Scene05 } from './scene05.js';
 import { Scene06 } from './scene06.js';
 import { Scene07 } from './scene07.js';
+import { drawText } from './utils.js';
+import { vec2 } from './vec2.js';
 
 console.log('Olá mundo')
 
@@ -82,6 +84,10 @@ requestAnimationFrame(function loop(timestamp) {
     // const DELTA_TIME_MAX_SPAN = 0.016;
     if (application.state === 'running') scene.update(deltaTimeMs * Params.get('speedFactor', 1));
     scene.render();
+  }
+
+  if (application.state === 'paused') {
+    drawText(ctx, 'pausado', vec2(10, ctx.canvas.height - 40), 40, 'white', 'monospace', 'left', 'middle');
   }
   
   lastTimestamp = timestamp;
