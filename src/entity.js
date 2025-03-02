@@ -2,6 +2,8 @@ import { Circle } from './circle.js';
 import { IN_MOVEMENT_THREASHOLD } from './physics-solver.js';
 import { vec2, Vec2 } from './vec2.js';
 
+export const symMarkedForRemoval = Symbol('Entity@markedForRemoval:boolean');
+
 export class Entity {
   /**
    * @type {Vec2}

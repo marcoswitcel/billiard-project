@@ -1,12 +1,12 @@
 import { Circle } from './circle.js';
 import { LineSegmentConstraint, RectangleConstraint } from './constraints.js';
 import { DemonstrationScene } from './demonstration-scene.js';
-import { Entity } from './entity.js';
+import { Entity, symMarkedForRemoval } from './entity.js';
 import { table01Shape, tableBordersPolygonShape, triangleShape } from './figures.js';
 import { GameContex } from './game-context.js';
 import { PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
-import { Polygon, Rectangle } from './shape.js';
+import { Circle2, Polygon, Rectangle } from './shape.js';
 import { drawRect, drawCircle, between, drawLine } from './utils.js';
 import { Vec2, vec2 } from './vec2.js';
 
@@ -103,6 +103,9 @@ export class Scene07 extends DemonstrationScene {
       }
       
     }
+
+    // @todo João, posicionar melhor
+    this.visualElements.push(new Circle2(vec2(145, 95), 'rgba(0,0,0,0.6)', 13));
 
     this.renderParams.lightSource = vec2(350, 200);
 
@@ -201,6 +204,8 @@ export class Scene07 extends DemonstrationScene {
      */
     this.physicsSolver.update(deltaTimeMs);
 
+    this.checkForPoints();
+
     if (this.gameContext.waitingStop && allBallsStoped(this.physicsSolver)) {
       this.gameContext.waitingStop = false;
 
@@ -213,6 +218,22 @@ export class Scene07 extends DemonstrationScene {
         this.gameContext.changePlayer();
       }
     }
+  }
+  checkForPoints() {
+    const circles = this.visualElements.filter(e => e instanceof Circle2);
+    
+    for (const entity of this.physicsSolver.entities) {
+      for (const circle of circles) {
+        const toObj = entity.currentPosition.copy().sub(circle.position);
+        const dist = toObj.length();
+  
+        if (dist < circle.radius) {
+          entity[symMarkedForRemoval] = true;
+        }
+      }
+    }
+
+    this.physicsSolver.entities = this.physicsSolver.entities.filter(e => !e[symMarkedForRemoval]);
   }
 
   render() {
