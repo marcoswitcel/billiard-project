@@ -17,6 +17,13 @@ export class Params {
   }
 
   static set(name, value) {
+    
+    // atualiza na url
+    searchParams.set(name, value);
+    const { protocol, host, pathname } = window.location;
+    const url = `${protocol}//${host}${pathname}?${searchParams}`;
+    window.history.pushState({ path: url }, '', url);
+
     this.map.set(name, value);
   }
 
