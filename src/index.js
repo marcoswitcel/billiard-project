@@ -68,19 +68,29 @@ if (parameters.has('scene')) {
 updateScene();
 
 let lastTimestamp = 0;
+// usado para saber qual era a taxa de refresh no momento que o programa iniciou... o refresh pode mudar, mas por hora
+// não considero isso
+let baseDeltaTime = 0;
 requestAnimationFrame(function loop(timestamp) {
   requestAnimationFrame(loop);
   
-  if (lastTimestamp == 0) {
+  if (baseDeltaTime === 0 && lastTimestamp !== 0) {
+    baseDeltaTime = timestamp - lastTimestamp;
+  }
+
+  if (lastTimestamp === 0) {
     lastTimestamp = timestamp;
     return;
   }
 
   const deltaTime = timestamp - lastTimestamp;
-  const deltaTimeMs = deltaTime / 1000;
+  const deltaTimeMs = Math.min(deltaTime, baseDeltaTime) / 1000;
 
   if (scene) {
-    // @todo João, considerar pausar ou definir um limite máximo de valor para o deltaTime ou no update da física
+    // @note João, considerar pausar ou definir um limite máximo de valor para o deltaTime ou no update da física.
+    // Usei um deltaTime base pra evitar erros por suspensão da thread do navegador, ou hibernação do computador.
+    // É uma solução incompleta para o problema de interrupções na thread, ainda vale considerar limitar a nível de simulação
+    // o deltaTime máximo.
     // const DELTA_TIME_MAX_SPAN = 0.016;
     if (application.state === 'running') scene.update(deltaTimeMs * Params.get('speedFactor', 1));
     scene.render();
