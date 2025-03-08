@@ -3,6 +3,7 @@ import { makeAGlobal } from './utils.js';
 const searchParams = new URLSearchParams(window.location.search);
 
 export class Params {
+  static eventTarget = new EventTarget();
   static map = new Map();
 
   static is(name) {
@@ -25,6 +26,8 @@ export class Params {
     window.history.pushState({ path: url }, '', url);
 
     this.map.set(name, value);
+
+    this.eventTarget.dispatchEvent(new Event(`set.${name}`))
   }
 
   static get(name, defaultValue) {

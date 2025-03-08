@@ -119,3 +119,7 @@ document.addEventListener('keyup', event => {
   }
 });
 
+
+Params.eventTarget.addEventListener('set.scene', (e) => {
+  window.location.reload();
+})
