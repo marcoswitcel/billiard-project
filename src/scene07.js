@@ -13,6 +13,8 @@ import { Vec2, vec2 } from './vec2.js';
 
 const calculateForce = (start, now) => Math.min((now - start), 2000) / 1000;
 
+const ballRadius = 10;
+
 const colorA = '#F0F';
 const colorB = '#F0A';
 
@@ -53,7 +55,7 @@ export class Scene07 extends DemonstrationScene {
     super();
 
     this.ctx = ctx;
-    this.ball = new Entity(vec2(265, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#FFF'));
+    
     this.camera = new Camera(vec2(350, 200), vec2(this.ctx.canvas.width, this.ctx.canvas.height), 1.25);
     this.renderParams = new RenderParams();
     this.mouseCoords = vec2(0, 0);
@@ -64,20 +66,10 @@ export class Scene07 extends DemonstrationScene {
   }
 
   setup() {
-    const ball = this.ball;
-
     this.physicsSolver.gravity.set(0, 0);
     this.physicsSolver.friction = 60;
-    // player ball
-    this.physicsSolver.entities.push(ball);
-
-    const ballRadius = 10;
-
-    this.physicsSolver.entities.push(new Entity(vec2(380, 200), vec2(0, 0), new Circle(vec2(250, 200), ballRadius, colorA)));
-    this.physicsSolver.entities.push(new Entity(vec2(420, 200), vec2(0, 0), new Circle(vec2(250, 200), ballRadius, colorA)));
-
-    this.physicsSolver.entities.push(new Entity(vec2(450, 185), vec2(0, 0), new Circle(vec2(250, 200), ballRadius, colorB)));
-    this.physicsSolver.entities.push(new Entity(vec2(450, 215), vec2(0, 0), new Circle(vec2(250, 200), ballRadius, colorB)));
+    
+    this.addBalls();
     
     this.visualElements.push(new Rectangle(vec2(350, 200), vec2(500 * 0.9, 250), '#0F0'));
     {
@@ -115,8 +107,8 @@ export class Scene07 extends DemonstrationScene {
      * alguma bola.
      */
     this.physicsSolver.reportCollision = (e1, e2) => {
-      if (e1 === ball || e2 === ball) {
-        const other = e1 === ball ? e2 : e1;
+      if (e1 === this.ball || e2 === this.ball) {
+        const other = e1 === this.ball ? e2 : e1;
         console.log(this.gameContext.state + ' hitted: ' + other.shape.color);
         this.gameContext.hittedAnyBall = true;
       }
@@ -132,6 +124,8 @@ export class Scene07 extends DemonstrationScene {
     document.addEventListener('keyup', event => {
       if (event.key === ' ') {
         //ball.currentPosition.add(vec2(shootForce, 0));
+      } else if (event.key === 'r') {
+        this.addBalls();
       }
     });
 
@@ -179,12 +173,12 @@ export class Scene07 extends DemonstrationScene {
         .sub(vec2(canvas.width / 2, canvas.height / 2))
         .div(this.camera.scale)
         .add(this.camera.position)
-        .sub(ball.currentPosition)
+        .sub(this.ball.currentPosition)
         .normalize()
         .mul(shootForce * modifier)
-        .mul(ball.lastDt);
+        .mul(this.ball.lastDt);
 
-      ball.currentPosition.add(force);
+      this.ball.currentPosition.add(force);
 
       // sinaliza a espera do término do movimento
       this.gameContext.waitingStop = true;
@@ -259,5 +253,20 @@ export class Scene07 extends DemonstrationScene {
     if (this.lastClick) {
       drawRect(this.ctx, '#00F', 0, 0, calculateForce(this.lastClick, Date.now()) * 100, 10);
     }
+  }
+
+  addBalls() {
+    this.physicsSolver.entities.length = 0;
+
+    this.ball = new Entity(vec2(265, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#FFF'));
+
+    // player ball
+    this.physicsSolver.entities.push(this.ball);
+
+    this.physicsSolver.entities.push(new Entity(vec2(380, 200), vec2(0, 0), new Circle(vec2(250, 200), ballRadius, colorA)));
+    this.physicsSolver.entities.push(new Entity(vec2(420, 200), vec2(0, 0), new Circle(vec2(250, 200), ballRadius, colorA)));
+
+    this.physicsSolver.entities.push(new Entity(vec2(450, 185), vec2(0, 0), new Circle(vec2(250, 200), ballRadius, colorB)));
+    this.physicsSolver.entities.push(new Entity(vec2(450, 215), vec2(0, 0), new Circle(vec2(250, 200), ballRadius, colorB)));
   }
 }
