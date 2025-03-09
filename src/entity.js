@@ -26,6 +26,8 @@ export class Entity {
    */
   shape;
 
+  wasMoving = false;
+
   /**
    * 
    * @param {Vec2} currentPosition 

@@ -122,11 +122,10 @@ export class Scene07 extends DemonstrationScene {
       }
     }
 
-    /* @wip aguardar corrigir reportStoped
+    // @note acabei resolvendo isso de outra forma, mas agora funciona...
     this.physicsSolver.reportStoped = (e1) => {
-      console.log(e1)
+      // console.log(e1);
     }
-    */
 
     const shootForce = 350;
 

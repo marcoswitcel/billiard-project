@@ -47,6 +47,11 @@ export class PhysicsSolver {
     
     const dt = deltaTime / substepping;
 
+    // armazena se estava em movimento ou não
+    for (const entity of this.entities) {
+      entity.wasMoving = !entity.isStoped();
+    }
+
     for (let i = 0; i < substepping; i++)
     {
       // aplicando forças
@@ -58,6 +63,18 @@ export class PhysicsSolver {
       this.applyConstraint();
       
       this.updatePositions(dt);
+    }
+
+    /**
+     * @note João, agora reporta apenas quando de fato parou, e também está mais correto o momento da checagem,
+     * porém, acho que esse tipo de coisa seria melhor implementado pelo código que usa essa classe e não na classe em si.
+     */
+    if (this.reportStoped) {
+      for (const entity of this.entities) {
+        if (entity.isStoped() && entity.wasMoving) {
+          this.reportStoped(entity);
+        }
+      }
     }
   }
 
@@ -108,13 +125,7 @@ export class PhysicsSolver {
         }
       } else {
         entity.oldPosition = entity.currentPosition.copy();
-        // @todo João, testar e avaliar se deve reportar no loop ou em algum outro ponto.
-        // Até porque, em teoria a entidade pode ganhar força antes do termino da 'pipeline' de física.
-        // Seria legal checar no final do processo se as posições seguem iguais...
-        // Outra coisa é que reporta sem parar que as entidades 'pararam' sendo que nem estavam em movimento...
-        if (this.reportStoped) {
-          this.reportStoped(entity);
-        }
+
       }
     }
   }
