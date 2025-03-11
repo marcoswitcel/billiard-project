@@ -30,6 +30,7 @@ const app = document.getElementById('app');
 if (!(select instanceof HTMLSelectElement)) throw new Error('HTMLSelectElement');
 if (!(app instanceof HTMLDivElement)) throw new Error('HTMLDivElement');
 
+// @todo João ajustar para ficar com resolução maior em caso de entrar no modo 'tela-cheia'
 canvas.width = 800;
 canvas.height = 600;
 
