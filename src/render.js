@@ -157,16 +157,23 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
   }
 
   if (debugView) {
+    const lines = [];
+    
     const totalForce = physicsSolver.entities.reduce((p, c) => (p + c.getCurrentVelocity().length()), 0);
-    drawText(ctx, 'energia interna: ' + totalForce.toFixed(2), vec2(15, 25), 20, 'white', 'monospace', 'left', 'middle');
-    drawText(ctx, 'gravidade: ' + physicsSolver.gravity.length(), vec2(15, 45), 20, 'white', 'monospace', 'left', 'middle');
-    drawText(ctx, 'fricção: ' + physicsSolver.friction, vec2(15, 65), 20, 'white', 'monospace', 'left', 'middle');
-    drawText(ctx, 'substeps:' + physicsSolver.substepping, vec2(15, 85), 20, 'white', 'monospace', 'left', 'middle');
+    lines.push('energia interna: ' + totalForce.toFixed(2));
+    lines.push('gravidade: ' + physicsSolver.gravity.length());
+    lines.push('fricção: ' + physicsSolver.friction);
+    lines.push('substeps:' + physicsSolver.substepping);
     // @ts-expect-error
     if (performance && performance.memory) {
       // @ts-expect-error
-      drawText(ctx, 'Memória Usada (KB): ' + (performance.memory.usedJSHeapSize / 1024).toFixed(2), vec2(15, 105), 20, 'white', 'monospace', 'left', 'middle');
+      lines.push('Memória Usada (KB): ' + (performance.memory.usedJSHeapSize / 1024).toFixed(2));
     }
-    drawText(ctx, 'Speed Factor: ' + (1 * Params.get('speedFactor', 1)).toFixed(2), vec2(15, 125), 20, 'white', 'monospace', 'left', 'middle');
+    lines.push('Speed Factor: ' + (1 * Params.get('speedFactor', 1)).toFixed(2));
+
+    const fontSize = 20;
+    for (let i = 0; i < lines.length; i++) {
+      drawText(ctx, lines[i], vec2(15, 20 + fontSize * i * 1.1), fontSize, 'white', 'monospace', 'left', 'middle');
+    }
   }
 }
