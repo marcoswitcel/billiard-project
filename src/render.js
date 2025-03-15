@@ -3,8 +3,8 @@ import { squareShape } from './figures.js';
 import { Params } from './params.js';
 import { PhysicsSolver } from './physics-solver.js';
 import { Circle2, Polygon, Rectangle, Shape } from './shape.js';
-import { drawCircle, drawLine, drawPolygon, drawRect, drawText } from './utils.js';
-import { vec2 } from './vec2.js';
+import { drawCircle, drawLine, drawPolygon, drawRect, drawText, renderLines } from './utils.js';
+import { Vec2, vec2 } from './vec2.js';
 
 const searchParams = new URLSearchParams(window.location.search);
 
@@ -172,8 +172,6 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
     lines.push('Speed Factor: ' + (1 * Params.get('speedFactor', 1)).toFixed(2));
 
     const fontSize = 20;
-    for (let i = 0; i < lines.length; i++) {
-      drawText(ctx, lines[i], vec2(15, 20 + fontSize * i * 1.1), fontSize, 'white', 'monospace', 'left', 'middle');
-    }
+    renderLines(ctx, lines, vec2(15, 20), fontSize);
   }
 }

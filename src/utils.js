@@ -1,4 +1,4 @@
-import { Vec2 } from './vec2.js';
+import { vec2, Vec2 } from './vec2.js';
 
 /**
  * 
@@ -237,3 +237,18 @@ export function toDegrees(radians) {
 export function makeAGlobal(name, value) {
   window[name] = value;
 }
+
+/**
+ * 
+ * @param {CanvasRenderingContext2D} ctx 
+ * @param {string[]} lines 
+ * @param {Vec2} offset 
+ * @param {number} fontSize 
+ * @param {number} lineHeight 
+ */
+export function renderLines(ctx, lines, offset, fontSize, lineHeight = 1.1) {
+  for (let i = 0; i < lines.length; i++) {
+    drawText(ctx, lines[i], vec2(offset.x, offset.y + fontSize * i * lineHeight), fontSize, 'white', 'monospace', 'left', 'middle');
+  }
+}
+
