@@ -4,10 +4,11 @@ import { DemonstrationScene } from './demonstration-scene.js';
 import { Entity, symMarkedForRemoval } from './entity.js';
 import { table01Shape, tableBordersPolygonShape, triangleShape } from './figures.js';
 import { GameContex } from './game-context.js';
+import { Params } from './params.js';
 import { PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
 import { Circle2, Polygon, Rectangle } from './shape.js';
-import { drawRect, drawCircle, between, drawLine } from './utils.js';
+import { drawRect, drawCircle, between, drawLine, renderLines } from './utils.js';
 import { Vec2, vec2 } from './vec2.js';
 
 
@@ -253,6 +254,12 @@ export class Scene07 extends DemonstrationScene {
     if (this.lastClick) {
       drawRect(this.ctx, '#00F', 0, 0, calculateForce(this.lastClick, Date.now()) * 100, 10);
     }
+
+    const lines = [];
+
+    if (Params.is('showGameContext')) lines.push(JSON.stringify(this.gameContext));
+
+    renderLines(this.ctx, lines, vec2(15, 550), 16);
   }
 
   addBalls() {
