@@ -83,7 +83,7 @@ export class Scene07 extends DemonstrationScene {
       .map(point => point.mulVec(size.copy().div(2)).add(center));
       
       for (const segmentData of lineSegments) {
-        this.physicsSolver.constraints.push(new LineSegmentConstraint(trianglePoints[segmentData[0]], trianglePoints[segmentData[1]], 0.8));
+        this.physicsSolver.constraints.push(new LineSegmentConstraint(trianglePoints[segmentData[0]], trianglePoints[segmentData[1]], 0.75));
       }
 
       const { polygons } = tableBordersPolygonShape();
