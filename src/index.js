@@ -7,7 +7,7 @@ import { Scene04 } from './scene04.js';
 import { Scene05 } from './scene05.js';
 import { Scene06 } from './scene06.js';
 import { Scene07 } from './scene07.js';
-import { drawText } from './utils.js';
+import { drawText, isFullScreen } from './utils.js';
 import { vec2 } from './vec2.js';
 
 console.log('Olá mundo')
@@ -30,7 +30,6 @@ const app = document.getElementById('app');
 if (!(select instanceof HTMLSelectElement)) throw new Error('HTMLSelectElement');
 if (!(app instanceof HTMLDivElement)) throw new Error('HTMLDivElement');
 
-// @todo João ajustar para ficar com resolução maior em caso de entrar no modo 'tela-cheia'
 canvas.width = 800;
 canvas.height = 600;
 
@@ -112,6 +111,16 @@ select.addEventListener('change', updateScene)
  */
 canvas.addEventListener('dblclick', event => {
   canvas.requestFullscreen();
+});
+
+window.addEventListener('resize', () => {
+  /* if (isFullScreen()) {
+    canvas.width = 800 * 2;
+    canvas.height = 600 * 2;
+  } else {
+    canvas.width = 800;
+    canvas.height = 600;
+  } */
 });
 
 document.addEventListener('keyup', event => {

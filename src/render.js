@@ -41,7 +41,8 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
 
   const canvasCenter = vec2(ctx.canvas.width / 2, ctx.canvas.height / 2);
   
-  const scale = camera.scale;
+  // const screenScale = ctx.canvas.width / 800; // @todo João, avaliar como definir isso melhor
+  const scale = camera.scale; // * screenScale;
   const lineWidth = 2 * scale;
 
   if (visualElements) for (const visualElement of visualElements) {
