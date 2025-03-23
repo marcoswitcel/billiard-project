@@ -1,3 +1,5 @@
+import { Rectangle } from './shape.js';
+import { Button } from './ui.js';
 import { drawRect, drawText, isFullScreen } from './utils.js';
 import { vec2 } from './vec2.js';
 
@@ -10,6 +12,11 @@ const application = {
 }
 
 const app = document.getElementById('app');
+const button = new Button();
+
+button.text = 'botão de teste';
+button.backgroundColor = 'blue';
+button.targetArea = new Rectangle(vec2(10, 10), vec2(100, 100), 'white');
 
 if (!(app instanceof HTMLDivElement)) throw new Error('HTMLDivElement');
 
@@ -40,6 +47,7 @@ requestAnimationFrame(function loop(timestamp) {
   const deltaTimeMs = Math.min(deltaTime, baseDeltaTime) / 1000;
 
   drawRect(ctx, 'white', 0, 0, canvas.width, canvas.height);
+  button.render(ctx);
 
   if (application.state === 'paused') {
     drawText(ctx, 'pausado', vec2(10, ctx.canvas.height - 40), 40, 'white', 'monospace', 'left', 'middle');
