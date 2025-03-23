@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI Testes</title>
+    <style>
+        html, body {
+            padding: 0;
+            margin: 0;
+            background-color: #333;
+        }
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        canvas {
+            margin: 0;
+        }
+        .app {
+            position: relative;
+        }
+        select {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+        @media (orientation: portrait) {
+            canvas {
+                transform: translateY(-5%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <script type="module" src="../src/index-ui.js"></script>
+    <div class="app" id="app">
+    </div>
+</body>
+</html>
