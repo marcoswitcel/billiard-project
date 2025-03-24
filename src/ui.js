@@ -1,6 +1,25 @@
 import { Rectangle } from './shape.js';
 import { drawRect } from './utils.js';
 
+
+export class GUIGlobals {
+  mouseX;
+  mouseY;
+  mouse_clicked_x;
+  mouse_clicked_y;
+  clicked_in_this_frame;
+  timestamp_last_updated;
+};
+
+export const theGUIGlobals = {
+  mouse_x : 0,
+  mouse_y : 0,
+  mouse_clicked_x : 0,
+  mouse_clicked_y : 0,
+  clicked_in_this_frame : false,
+  timestamp_last_updated : 0,
+};
+
 export class Button {
   /**
    * @type {string}
@@ -45,9 +64,20 @@ export class Button {
     this.timestamp_last_updated = 0;
   }
 
+  updateState() {
+    this.hover = isPointInsideRect(theGUIGlobals.mouse_x, theGUIGlobals.mouse_y, this.targetArea.position.x, this.targetArea.position.y, this.targetArea.size.x, this.targetArea.size.y);
+  }
+
   render(ctx) {
     const margin = 5; // @todo João, deixar mais flexível isso aqui
 
-    drawRect(ctx, 'black', this.targetArea.position.x, this.targetArea.position.y, this.targetArea.size.x, this.targetArea.size.y);
+    const color = this.hover ? 'rgba(0,0,0,.1)' : this.backgroundColor;
+
+    drawRect(ctx, color, this.targetArea.position.x, this.targetArea.position.y, this.targetArea.size.x, this.targetArea.size.y);
   }
+}
+
+export function isPointInsideRect(pX, pY, rX, rY, rW, rH) {
+  const result = (pX >= rX && pX <= (rX + rW)) && (pY >= rY && pY <= (rY + rH));
+  return result;
 }

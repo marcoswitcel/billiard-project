@@ -1,5 +1,5 @@
 import { Rectangle } from './shape.js';
-import { Button } from './ui.js';
+import { Button, theGUIGlobals } from './ui.js';
 import { drawRect, drawText, isFullScreen } from './utils.js';
 import { vec2 } from './vec2.js';
 
@@ -47,6 +47,7 @@ requestAnimationFrame(function loop(timestamp) {
   const deltaTimeMs = Math.min(deltaTime, baseDeltaTime) / 1000;
 
   drawRect(ctx, 'white', 0, 0, canvas.width, canvas.height);
+  button.updateState();
   button.render(ctx);
 
   if (application.state === 'paused') {
@@ -78,4 +79,15 @@ document.addEventListener('keyup', event => {
   if (event.code === 'KeyP') {
     application.state = (application.state === 'running') ? 'paused' : 'running';
   }
+});
+
+canvas.addEventListener('mousedown', event => {
+  // @todo João, last click
+});
+
+canvas.addEventListener('mousemove', event => {
+  const boundings = canvas.getBoundingClientRect();
+
+  theGUIGlobals.mouse_x =(event.clientX - boundings.x); //  / canvas.clientWidth;
+  theGUIGlobals.mouse_y = (event.clientY - boundings.y); //  / canvas.clientHeight;
 });
