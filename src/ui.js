@@ -1,5 +1,6 @@
+import { Color } from './color.js';
 import { Rectangle } from './shape.js';
-import { drawRect } from './utils.js';
+import { drawRect, drawText } from './utils.js';
 
 
 export class GUIGlobals {
@@ -38,11 +39,11 @@ export class Button {
    */
   targetArea;
   /**
-   * @type {string}
+   * @type {Color}
    */
   backgroundColor;
   /**
-   * @type {string}
+   * @type {Color}
    */
   highlightBackgroundColor;
   /**
@@ -71,9 +72,10 @@ export class Button {
   render(ctx) {
     const margin = 5; // @todo João, deixar mais flexível isso aqui
 
-    const color = this.hover ? 'rgba(0,0,0,.1)' : this.backgroundColor;
+    const color = this.hover ? this.backgroundColor.copy().darken(0.9) : this.backgroundColor;
 
-    drawRect(ctx, color, this.targetArea.position.x, this.targetArea.position.y, this.targetArea.size.x, this.targetArea.size.y);
+    drawRect(ctx, color.toString(), this.targetArea.position.x, this.targetArea.position.y, this.targetArea.size.x, this.targetArea.size.y);
+    drawText(ctx, this.text, this.targetArea.position.copy().add(this.targetArea.size.copy().div(2)), 14, 'white', 'monospace', 'center', 'middle');
   }
 }
 

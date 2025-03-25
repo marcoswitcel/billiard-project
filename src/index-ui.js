@@ -1,3 +1,4 @@
+import { Color } from './color.js';
 import { Rectangle } from './shape.js';
 import { Button, theGUIGlobals } from './ui.js';
 import { drawRect, drawText, isFullScreen } from './utils.js';
@@ -15,7 +16,7 @@ const app = document.getElementById('app');
 const button = new Button();
 
 button.text = 'botão de teste';
-button.backgroundColor = 'blue';
+button.backgroundColor = new Color(0, 0, 255);
 button.targetArea = new Rectangle(vec2(10, 10), vec2(100, 100), 'white');
 
 if (!(app instanceof HTMLDivElement)) throw new Error('HTMLDivElement');
