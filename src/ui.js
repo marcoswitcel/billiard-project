@@ -4,22 +4,15 @@ import { drawRect, drawText } from './utils.js';
 
 
 export class GUIGlobals {
-  mouseX;
-  mouseY;
-  mouse_clicked_x;
-  mouse_clicked_y;
-  clicked_in_this_frame;
-  timestamp_last_updated;
+  mouseX = 0;
+  mouseY = 0;
+  mouseClickedX = 0;
+  mouseClickedY = 0;
+  clickedInThisFrame = false;
+  timestampLastUpdated = 0;
 };
 
-export const theGUIGlobals = {
-  mouse_x : 0,
-  mouse_y : 0,
-  mouse_clicked_x : 0,
-  mouse_clicked_y : 0,
-  clicked_in_this_frame : false,
-  timestamp_last_updated : 0,
-};
+export const theGUIGlobals = new GUIGlobals;
 
 export class Button {
   /**
@@ -49,7 +42,9 @@ export class Button {
   /**
    * @type {number}
    */
-  timestamp_last_updated;
+  timestampLastUpdated;
+
+  fontSize = 14;
 
   constructor(text) {
     this.setInitialState();
@@ -62,20 +57,23 @@ export class Button {
     this.targetArea = targetArea;
     this.backgroundColor = backgroundColor;
     this.highlightBackgroundColor = highlightBackgroundColor;
-    this.timestamp_last_updated = 0;
+    this.timestampLastUpdated = 0;
   }
 
   updateState() {
-    this.hover = isPointInsideRect(theGUIGlobals.mouse_x, theGUIGlobals.mouse_y, this.targetArea.position.x, this.targetArea.position.y, this.targetArea.size.x, this.targetArea.size.y);
+    this.hover = isPointInsideRect(theGUIGlobals.mouseX, theGUIGlobals.mouseY, this.targetArea.position.x, this.targetArea.position.y, this.targetArea.size.x, this.targetArea.size.y);
   }
 
   render(ctx) {
-    const margin = 5; // @todo João, deixar mais flexível isso aqui
-
     const color = this.hover ? this.backgroundColor.copy().darken(0.9) : this.backgroundColor;
 
     drawRect(ctx, color.toString(), this.targetArea.position.x, this.targetArea.position.y, this.targetArea.size.x, this.targetArea.size.y);
-    drawText(ctx, this.text, this.targetArea.position.copy().add(this.targetArea.size.copy().div(2)), 14, 'white', 'monospace', 'center', 'middle');
+    drawText(ctx, this.text, this.targetArea.position.copy().add(this.targetArea.size.copy().div(2)), this.fontSize, 'white', 'monospace', 'center', 'middle');
+  }
+
+  resizeToFitContent(margin = 0) {
+    this.targetArea.size.x = this.text.length * this.fontSize * 0.75 + (margin * 2);
+    this.targetArea.size.y = this.text.split('\n').length * this.fontSize * 1.1 + (margin * 2);
   }
 }
 

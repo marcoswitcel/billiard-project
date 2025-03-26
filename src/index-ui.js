@@ -19,6 +19,8 @@ button.text = 'botão de teste';
 button.backgroundColor = new Color(0, 0, 255);
 button.targetArea = new Rectangle(vec2(10, 10), vec2(100, 100), 'white');
 
+button.resizeToFitContent(10);
+
 if (!(app instanceof HTMLDivElement)) throw new Error('HTMLDivElement');
 
 canvas.width = 800;
@@ -32,6 +34,7 @@ let lastTimestamp = 0;
 // usado para saber qual era a taxa de refresh no momento que o programa iniciou... o refresh pode mudar, mas por hora
 // não considero isso
 let baseDeltaTime = 0;
+let mouseDown = false;
 requestAnimationFrame(function loop(timestamp) {
   requestAnimationFrame(loop);
   
@@ -47,9 +50,24 @@ requestAnimationFrame(function loop(timestamp) {
   const deltaTime = timestamp - lastTimestamp;
   const deltaTimeMs = Math.min(deltaTime, baseDeltaTime) / 1000;
 
+  theGUIGlobals.timestampLastUpdated = deltaTime;
+  theGUIGlobals.clickedInThisFrame = mouseDown;
+  if (mouseDown) {
+    theGUIGlobals.mouseClickedX = theGUIGlobals.mouseX;
+    theGUIGlobals.mouseClickedY = theGUIGlobals.mouseY;
+  } else {
+    theGUIGlobals.mouseClickedX = 0;
+    theGUIGlobals.mouseClickedY = 0;
+  }
+  mouseDown = false;
+
   drawRect(ctx, 'white', 0, 0, canvas.width, canvas.height);
   button.updateState();
   button.render(ctx);
+  // @todo João, refatorar tudo isso, só testando
+  if (theGUIGlobals.clickedInThisFrame) {
+    if (button.hover) console.log('clicked');
+  }
 
   if (application.state === 'paused') {
     drawText(ctx, 'pausado', vec2(10, ctx.canvas.height - 40), 40, 'white', 'monospace', 'left', 'middle');
@@ -82,13 +100,15 @@ document.addEventListener('keyup', event => {
   }
 });
 
+
 canvas.addEventListener('mousedown', event => {
-  // @todo João, last click
+  mouseDown = true;
 });
 
 canvas.addEventListener('mousemove', event => {
   const boundings = canvas.getBoundingClientRect();
 
-  theGUIGlobals.mouse_x =(event.clientX - boundings.x); //  / canvas.clientWidth;
-  theGUIGlobals.mouse_y = (event.clientY - boundings.y); //  / canvas.clientHeight;
+  theGUIGlobals.mouseX =(event.clientX - boundings.x); //  / canvas.clientWidth;
+  theGUIGlobals.mouseY = (event.clientY - boundings.y); //  / canvas.clientHeight;
+
 });
