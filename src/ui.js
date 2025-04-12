@@ -10,6 +10,26 @@ export class GUIGlobals {
   mouseClickedY = 0;
   clickedInThisFrame = false;
   timestampLastUpdated = 0;
+  mouseDown = false;
+
+  setupListeners(canvas) {
+    canvas.addEventListener('mousedown', event => {
+      this.mouseDown = true;
+    });
+  }
+
+  update(deltaTime) {
+    theGUIGlobals.timestampLastUpdated = deltaTime;
+    theGUIGlobals.clickedInThisFrame = this.mouseDown;
+    if (this.mouseDown) {
+      theGUIGlobals.mouseClickedX = theGUIGlobals.mouseX;
+      theGUIGlobals.mouseClickedY = theGUIGlobals.mouseY;
+    } else {
+      theGUIGlobals.mouseClickedX = 0;
+      theGUIGlobals.mouseClickedY = 0;
+    }
+    this.mouseDown = false;
+  }
 };
 
 export const theGUIGlobals = new GUIGlobals;
