@@ -13,13 +13,20 @@ const application = {
 }
 
 const app = document.getElementById('app');
-const button = new Button();
+const buttonA = new Button();
+const buttonB = new Button();
+const buttons = [buttonA, buttonB];
 
-button.text = 'botão de teste';
-button.backgroundColor = new Color(0, 0, 255);
-button.targetArea = new Rectangle(vec2(10, 10), vec2(100, 100), 'white');
+buttonA.text = 'botão de teste';
+buttonA.backgroundColor = new Color(0, 0, 255);
+buttonA.targetArea = new Rectangle(vec2(10, 10), vec2(100, 100), 'white');
 
-button.resizeToFitContent(10);
+buttonB.text = 'botão de teste2';
+buttonB.backgroundColor = new Color(0, 0, 255);
+buttonB.targetArea = new Rectangle(vec2(50, 50), vec2(100, 100), 'white');
+
+buttonA.resizeToFitContent(10);
+buttonB.resizeToFitContent(10);
 
 if (!(app instanceof HTMLDivElement)) throw new Error('HTMLDivElement');
 
@@ -53,11 +60,13 @@ requestAnimationFrame(function loop(timestamp) {
 
   drawRect(ctx, 'white', 0, 0, canvas.width, canvas.height);
 
-  button.updateState();
-  button.render(ctx);
-  // @todo João, refatorar tudo isso, só testando
-  if (theGUIGlobals.clickedInThisFrame) {
-    if (button.hover) console.log('clicked');
+  for (const button of buttons) {
+    button.updateState();
+    button.render(ctx);
+    // @todo João, refatorar tudo isso, só testando
+    if (theGUIGlobals.clickedInThisFrame) {
+      if (button.hover) console.log('clicked');
+    }
   }
 
   if (application.state === 'paused') {

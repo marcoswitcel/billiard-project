@@ -1,6 +1,7 @@
 import { Color } from './color.js';
 import { Rectangle } from './shape.js';
 import { drawRect, drawText } from './utils.js';
+import { vec2 } from './vec2.js';
 
 
 export class GUIGlobals {
@@ -29,6 +30,11 @@ export class GUIGlobals {
       theGUIGlobals.mouseClickedY = 0;
     }
     this.mouseDown = false;
+  }
+
+  static buttonSequencial = 0;
+  static buttonId() {
+    return ++this.buttonSequencial;
   }
 };
 
@@ -66,11 +72,13 @@ export class Button {
 
   fontSize = 14;
 
-  constructor(text) {
+  id = GUIGlobals.buttonId();
+
+  constructor() {
     this.setInitialState();
   }
 
-  setInitialState(text = this.text, targetArea = this.targetArea, backgroundColor = this.backgroundColor, highlightBackgroundColor = this.highlightBackgroundColor) {
+  setInitialState(text = `botão@${this.id}`, targetArea = new Rectangle(vec2(0, 0), vec2(100, 100), 'white'), backgroundColor = new Color(0, 0, 0), highlightBackgroundColor = new Color(0, 0, 0)) {
     this.text = text;
     this.hover = false;
     this.active = false;
