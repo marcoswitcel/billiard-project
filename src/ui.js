@@ -72,6 +72,8 @@ export class Button {
 
   fontSize = 14;
 
+  textColor = new Color(255, 255, 255);
+
   id = GUIGlobals.buttonId();
 
   constructor() {
@@ -96,7 +98,7 @@ export class Button {
     const color = this.hover ? this.backgroundColor.copy().darken(0.9) : this.backgroundColor;
 
     drawRect(ctx, color.toString(), this.targetArea.position.x, this.targetArea.position.y, this.targetArea.size.x, this.targetArea.size.y);
-    drawText(ctx, this.text, this.targetArea.position.copy().add(this.targetArea.size.copy().div(2)), this.fontSize, 'white', 'monospace', 'center', 'middle');
+    drawText(ctx, this.text, this.targetArea.position.copy().add(this.targetArea.size.copy().div(2)), this.fontSize, this.textColor.toString(), 'monospace', 'center', 'middle');
   }
 
   resizeToFitContent(margin = 0) {
