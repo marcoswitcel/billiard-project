@@ -72,12 +72,20 @@ export class Button {
 
   fontSize = 14;
 
-  textColor = new Color(255, 255, 255);
+  textColor = new Color(0, 0, 0);
 
   id = GUIGlobals.buttonId();
 
   constructor() {
     this.setInitialState();
+  }
+
+  get width() {
+    return this.targetArea.size.x;
+  }
+
+  get height() {
+    return this.targetArea.size.y;
   }
 
   setInitialState(text = `botão@${this.id}`, targetArea = new Rectangle(vec2(0, 0), vec2(100, 100), 'white'), backgroundColor = new Color(0, 0, 0), highlightBackgroundColor = new Color(0, 0, 0)) {

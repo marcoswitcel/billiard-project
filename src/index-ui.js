@@ -18,10 +18,12 @@ const buttonB = new Button();
 const buttons = [buttonA, buttonB];
 
 buttonA.text = 'botão de teste';
+buttonA.textColor = new Color(255, 255, 255);
 buttonA.backgroundColor = new Color(0, 0, 255);
 buttonA.targetArea = new Rectangle(vec2(10, 10), vec2(100, 100), 'white');
 
 buttonB.text = 'botão de teste2';
+buttonB.textColor = new Color(255, 255, 255);
 buttonB.backgroundColor = new Color(0, 0, 255);
 buttonB.targetArea = new Rectangle(vec2(50, 50), vec2(100, 100), 'white');
 
