@@ -88,14 +88,19 @@ export class Button {
     return this.targetArea.size.y;
   }
 
-  setInitialState(text = `botão@${this.id}`, targetArea = new Rectangle(vec2(0, 0), vec2(100, 100), 'white'), backgroundColor = new Color(0, 0, 0), highlightBackgroundColor = new Color(0, 0, 0)) {
+  setInitialState(text = `botão@${this.id}`, targetArea = new Rectangle(vec2(0, 0), vec2(100, 100), 'white'), backgroundColor = new Color(0, 0, 0)) {
     this.text = text;
     this.hover = false;
     this.active = false;
     this.targetArea = targetArea;
     this.backgroundColor = backgroundColor;
-    this.highlightBackgroundColor = highlightBackgroundColor;
+    this.highlightBackgroundColor = backgroundColor.copy().darken(0.9);
     this.timestampLastUpdated = 0;
+  }
+
+  setBackgroundColorWithHighlightColor(color) {
+    this.backgroundColor = color;
+    this.highlightBackgroundColor = color.copy().darken(0.9)
   }
 
   updateState() {
@@ -103,7 +108,7 @@ export class Button {
   }
 
   render(ctx) {
-    const color = this.hover ? this.backgroundColor.copy().darken(0.9) : this.backgroundColor;
+    const color = this.hover ? this.highlightBackgroundColor : this.backgroundColor;
 
     drawRect(ctx, color.toString(), this.targetArea.position.x, this.targetArea.position.y, this.targetArea.size.x, this.targetArea.size.y);
     drawText(ctx, this.text, this.targetArea.position.copy().add(this.targetArea.size.copy().div(2)), this.fontSize, this.textColor.toString(), 'monospace', 'center', 'middle');
