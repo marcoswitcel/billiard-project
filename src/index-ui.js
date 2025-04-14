@@ -18,17 +18,19 @@ const buttonB = new Button();
 const buttons = [buttonA, buttonB];
 
 buttonA.text = 'botão de teste';
+buttonA.fontSize = 20;
 buttonA.textColor = new Color(255, 255, 255);
 buttonA.setBackgroundColorWithHighlightColor(new Color(0, 0, 255));
 
 buttonB.text = 'botão de teste2';
+buttonB.fontSize = 20;
 buttonB.textColor = new Color(255, 255, 255);
 buttonB.setBackgroundColorWithHighlightColor(new Color(0, 0, 255));
 
 const xOffset = 10;
 let yOffset = 10;
 for (const button of buttons) {
-  button.resizeToFitContent(10);
+  button.resizeToFitContent(button.fontSize);
   button.targetArea.position.x = xOffset;
   button.targetArea.position.y = yOffset;
   yOffset += button.height + 5;
