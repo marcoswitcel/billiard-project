@@ -108,7 +108,11 @@ export class Button {
   }
 
   render(ctx) {
-    const color = this.hover ? this.highlightBackgroundColor : this.backgroundColor;
+    let color = this.hover ? this.highlightBackgroundColor : this.backgroundColor;
+    
+    if (theGUIGlobals.clickedInThisFrame && this.hover) {
+      color = this.highlightBackgroundColor.copy().darken(0.9);
+    }
 
     drawRect(ctx, color.toString(), this.targetArea.position.x, this.targetArea.position.y, this.targetArea.size.x, this.targetArea.size.y);
     drawText(ctx, this.text, this.targetArea.position.copy().add(this.targetArea.size.copy().div(2)), this.fontSize, this.textColor.toString(), 'monospace', 'center', 'middle');
