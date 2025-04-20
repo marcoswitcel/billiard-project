@@ -49,6 +49,10 @@ export class BilliardScene extends GameScene {
  update(deltaTimeMs) {
   for (const button of this.components) {
     button.updateState();
+
+    if (button.isClicked) {
+      this.newScene = new MenuScene();
+    }
   }
  }
  render(ctx, deltaTimeMs) {

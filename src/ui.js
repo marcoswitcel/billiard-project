@@ -76,6 +76,8 @@ export class Button {
 
   id = GUIGlobals.buttonId();
 
+  gui = theGUIGlobals;
+
   constructor() {
     this.setInitialState();
   }
@@ -86,6 +88,10 @@ export class Button {
 
   get height() {
     return this.targetArea.size.y;
+  }
+
+  get isClicked() {
+    return this.hover && this.gui.clickedInThisFrame;
   }
 
   setInitialState(text = `botão@${this.id}`, targetArea = new Rectangle(vec2(0, 0), vec2(100, 100), 'white'), backgroundColor = new Color(0, 0, 0)) {
@@ -104,13 +110,13 @@ export class Button {
   }
 
   updateState() {
-    this.hover = isPointInsideRect(theGUIGlobals.mouseX, theGUIGlobals.mouseY, this.targetArea.position.x, this.targetArea.position.y, this.targetArea.size.x, this.targetArea.size.y);
+    this.hover = isPointInsideRect(this.gui.mouseX, this.gui.mouseY, this.targetArea.position.x, this.targetArea.position.y, this.targetArea.size.x, this.targetArea.size.y);
   }
 
   render(ctx) {
     let color = this.hover ? this.highlightBackgroundColor : this.backgroundColor;
     
-    if (theGUIGlobals.clickedInThisFrame && this.hover) {
+    if (this.gui.clickedInThisFrame && this.hover) {
       color = this.highlightBackgroundColor.copy().darken(0.9);
     }
 
