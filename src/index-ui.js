@@ -25,7 +25,10 @@ app.append(canvas);
  * @type {GameScene}
  */
 let scene  = null;
-let newScene = new MenuScene();
+/**
+ * @type {GameScene}
+ */
+let newScene = new MenuScene(ctx);
 
 const parameters = new URLSearchParams(window.location.search);
 
@@ -63,7 +66,7 @@ requestAnimationFrame(function loop(timestamp) {
 
   if (scene) {
     scene.update(deltaTimeMs);
-    scene.render(ctx, deltaTimeMs);
+    scene.render(deltaTimeMs);
 
     if (scene.newScene) {
       newScene = scene.newScene;

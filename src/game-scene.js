@@ -3,18 +3,37 @@ import { Button, theGUIGlobals } from './ui.js';
 
 export class GameScene {
 
+  /**
+   * @type {GameScene|null} 
+   */
   newScene = null;
 
+  /**
+   * @type {CanvasRenderingContext2D} 
+   */
+  ctx;
+
+  /**
+   * 
+   * @param {CanvasRenderingContext2D} ctx 
+   */
+  constructor(ctx) {
+    this.ctx = ctx;
+  }
+
   setup() {}
+
   /**
    * @param {number} deltaTimeMs
    */
   update(deltaTimeMs) {}
+
   /**
-   * @param {CanvasRenderingContext2D} ctx
+
    * @param {number} deltaTimeMs
    */
-  render(ctx, deltaTimeMs) {}
+  render(deltaTimeMs) {}
+  
   cleanup() {}
 }
 
@@ -51,13 +70,13 @@ export class BilliardScene extends GameScene {
     button.updateState();
 
     if (button.isClicked) {
-      this.newScene = new MenuScene();
+      this.newScene = new MenuScene(this.ctx);
     }
   }
  }
- render(ctx, deltaTimeMs) {
+ render(deltaTimeMs) {
     for (const button of this.components) {
-      button.render(ctx);
+      button.render(this.ctx);
     }
   }
 }
@@ -103,14 +122,14 @@ export class MenuScene extends GameScene {
 
       if (theGUIGlobals.clickedInThisFrame) {
         if (button.hover) {
-          this.newScene = new BilliardScene();
+          this.newScene = new BilliardScene(this.ctx);
         }
       }
     }
   }
-  render(ctx, deltaTimeMs) {
+  render(deltaTimeMs) {
     for (const button of this.components) {
-      button.render(ctx);
+      button.render(this.ctx);
     }
   }
   cleanup() {}
