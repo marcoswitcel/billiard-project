@@ -104,13 +104,4 @@ document.addEventListener('keyup', event => {
   }
 });
 
-
 theGUIGlobals.setupListeners(canvas);
-
-canvas.addEventListener('mousemove', event => {
-  const boundings = canvas.getBoundingClientRect();
-
-  theGUIGlobals.mouseX =(event.clientX - boundings.x); //  / canvas.clientWidth;
-  theGUIGlobals.mouseY = (event.clientY - boundings.y); //  / canvas.clientHeight;
-
-});

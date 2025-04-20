@@ -17,6 +17,13 @@ export class GUIGlobals {
     canvas.addEventListener('mousedown', event => {
       this.mouseDown = true;
     });
+
+    canvas.addEventListener('mousemove', event => {
+      const boundings = canvas.getBoundingClientRect();
+
+      this.mouseX = (event.clientX - boundings.x); //  / canvas.clientWidth;
+      this.mouseY = (event.clientY - boundings.y); //  / canvas.clientHeight;
+    });
   }
 
   update(deltaTime) {
