@@ -1,4 +1,5 @@
 import { Color } from './color.js';
+import { GameScene, MenuScene } from './game-scene.js';
 import { Rectangle } from './shape.js';
 import { Button, GUIGlobals, theGUIGlobals } from './ui.js';
 import { drawRect, drawText, isFullScreen } from './utils.js';
@@ -13,28 +14,6 @@ const application = {
 }
 
 const app = document.getElementById('app');
-const buttonA = new Button();
-const buttonB = new Button();
-const buttons = [buttonA, buttonB];
-
-buttonA.text = 'botão de teste';
-buttonA.fontSize = 20;
-buttonA.textColor = new Color(255, 255, 255);
-buttonA.setBackgroundColorWithHighlightColor(new Color(0, 0, 255));
-
-buttonB.text = 'botão de teste2';
-buttonB.fontSize = 20;
-buttonB.textColor = new Color(255, 255, 255);
-buttonB.setBackgroundColorWithHighlightColor(new Color(0, 0, 255));
-
-const xOffset = 10;
-let yOffset = 10;
-for (const button of buttons) {
-  button.resizeToFitContent(button.fontSize);
-  button.targetArea.position.x = xOffset;
-  button.targetArea.position.y = yOffset;
-  yOffset += button.height + 5;
-}
 
 if (!(app instanceof HTMLDivElement)) throw new Error('HTMLDivElement');
 
@@ -42,6 +21,11 @@ canvas.width = 800;
 canvas.height = 600;
 
 app.append(canvas);
+/**
+ * @type {GameScene}
+ */
+let scene  = null;
+let newScene = new MenuScene();
 
 const parameters = new URLSearchParams(window.location.search);
 
@@ -68,17 +52,26 @@ requestAnimationFrame(function loop(timestamp) {
 
   drawRect(ctx, 'white', 0, 0, canvas.width, canvas.height);
 
-  for (const button of buttons) {
-    button.updateState();
-    button.render(ctx);
-    // @todo João, refatorar tudo isso, só testando
-    if (theGUIGlobals.clickedInThisFrame) {
-      if (button.hover) console.log('clicked');
+  if (newScene) {
+    if (scene) scene.cleanup();
+
+    scene = newScene;
+    scene.setup();
+
+    newScene = null;
+  }
+
+  if (scene) {
+    scene.update(deltaTimeMs);
+    scene.render(ctx, deltaTimeMs);
+
+    if (scene.newScene) {
+      newScene = scene.newScene;
     }
   }
 
   if (application.state === 'paused') {
-    drawText(ctx, 'pausado', vec2(10, ctx.canvas.height - 40), 40, 'white', 'monospace', 'left', 'middle');
+    drawText(ctx, 'pausado', vec2(10, ctx.canvas.height - 40), 40, 'black', 'monospace', 'left', 'middle');
   }
   
   lastTimestamp = timestamp;
