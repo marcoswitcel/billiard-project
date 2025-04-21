@@ -66,6 +66,10 @@ export class BilliardScene extends GameScene {
     const buttonA = new Button();
     const buttonPaused = new Button();
 
+    // @todo João analisar se os handlers serão feitos assim
+    buttonA['handlers'] = [() => { this.newScene = new MenuScene(this.ctx); }];
+    buttonPaused['handlers'] = [() => { this.paused = false; }];
+
     this.components = [buttonA, buttonPaused];
 
     buttonA.text = 'Voltar';
@@ -93,15 +97,21 @@ export class BilliardScene extends GameScene {
   }
 
   update(deltaTimeMs) {
-    for (const button of this.components) {
-      button.updateState();
- 
-      if (button.isClicked) {
-        this.newScene = new MenuScene(this.ctx);
+    if (this.paused) {
+      for (const button of this.components) {
+        button.updateState();
+   
+        if (button.isClicked) {
+          if (button['handlers']) {
+            for (const handler of button['handlers']) {
+              handler();
+            }
+          }
+        }
       }
+    } else {
+      this.scene.update(deltaTimeMs);
     }
-
-    this.scene.update(deltaTimeMs);
   }
 
   render(deltaTimeMs) {

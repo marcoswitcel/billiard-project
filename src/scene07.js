@@ -122,25 +122,8 @@ export class Scene07 extends DemonstrationScene {
 
     const shootForce = 350;
 
-    document.addEventListener('keyup', event => {
-      if (event.key === ' ') {
-        //ball.currentPosition.add(vec2(shootForce, 0));
-      } else if (event.key === 'r') {
-        this.addBalls();
-      }
-    });
-
-    document.addEventListener('keydown', event => {
-      if (event.key === 'ArrowRight') {
-        this.camera.position.x++;
-      } if (event.key === 'ArrowLeft') {
-        this.camera.position.x--;
-      } if (event.key === 'ArrowUp') {
-        this.camera.position.y--;
-      } if (event.key === 'ArrowDown') {
-        this.camera.position.y++;
-      }
-    });
+    document.addEventListener('keyup', this.handleKeyup);
+    document.addEventListener('keydown', this.handleKeydown);
 
     const canvas = this.ctx.canvas;
 
@@ -186,9 +169,7 @@ export class Scene07 extends DemonstrationScene {
       this.gameContext.hittedAnyBall = false;
     });
 
-    canvas.addEventListener('wheel', (event) => {
-      this.camera.scale = between(this.camera.scale + event.deltaY * 0.001, 0.1, 2);
-    });
+    this.ctx.canvas.addEventListener('wheel', this.handleWheel);
   }
 
   update(deltaTimeMs) {
@@ -280,5 +261,34 @@ export class Scene07 extends DemonstrationScene {
   cleanup() {
     // @todo João, implementar o cleanup
     console.log("// @todo João, implementar o cleanup")
+    
+    document.removeEventListener('keyup', this.handleKeyup);
+    document.removeEventListener('keydown', this.handleKeydown);
+    this.ctx.canvas.removeEventListener('wheel', this.handleWheel);
   }
+
+  handleKeyup = (event) => {
+    console.log(2);
+    if (event.key === ' ') {
+      //ball.currentPosition.add(vec2(shootForce, 0));
+    } else if (event.key === 'r') {
+      this.addBalls();
+    }
+  };
+
+  handleKeydown = (event) => {
+    if (event.key === 'ArrowRight') {
+      this.camera.position.x++;
+    } if (event.key === 'ArrowLeft') {
+      this.camera.position.x--;
+    } if (event.key === 'ArrowUp') {
+      this.camera.position.y--;
+    } if (event.key === 'ArrowDown') {
+      this.camera.position.y++;
+    }
+  };
+
+  handleWheel = (event) => {
+    this.camera.scale = between(this.camera.scale + event.deltaY * 0.001, 0.1, 2);
+  };
 }
