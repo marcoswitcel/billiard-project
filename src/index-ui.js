@@ -9,9 +9,6 @@ console.log('Olá mundo')
 
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
-const application = {
-  state: 'running',
-}
 
 const app = document.getElementById('app');
 
@@ -72,10 +69,6 @@ requestAnimationFrame(function loop(timestamp) {
       newScene = scene.newScene;
     }
   }
-
-  if (application.state === 'paused') {
-    drawText(ctx, 'pausado', vec2(10, ctx.canvas.height - 40), 40, 'black', 'monospace', 'left', 'middle');
-  }
   
   lastTimestamp = timestamp;
 });
@@ -96,12 +89,6 @@ window.addEventListener('resize', () => {
     canvas.width = 800;
     canvas.height = 600;
   } */
-});
-
-document.addEventListener('keyup', event => {
-  if (event.code === 'KeyP') {
-    application.state = (application.state === 'running') ? 'paused' : 'running';
-  }
 });
 
 theGUIGlobals.setupListeners(canvas);

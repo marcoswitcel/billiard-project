@@ -1,6 +1,7 @@
 import { Color } from './color.js';
 import { Scene07 } from './scene07.js';
 import { Button, theGUIGlobals } from './ui.js';
+import { drawRect } from './utils.js';
 
 export class GameScene {
 
@@ -48,20 +49,34 @@ export class BilliardScene extends GameScene {
 
   scene;
 
+  paused = false;
+
   constructor(ctx) {
     super(ctx);
     this.scene = new Scene07(ctx);
   }
 
+  handlePause = (event) => {
+    if (event.code === 'KeyP') {
+      this.paused = !this.paused;
+    }
+  };
+
   setup() {
     const buttonA = new Button();
+    const buttonPaused = new Button();
 
-    this.components = [buttonA];
+    this.components = [buttonA, buttonPaused];
 
     buttonA.text = 'Voltar';
     buttonA.fontSize = 20;
-    buttonA.textColor = new Color(255, 255, 255, 0.5);
-    buttonA.setBackgroundColorWithHighlightColor(new Color(255, 255, 255, 0.3));
+    buttonA.textColor = new Color(255, 255, 255);
+    buttonA.setBackgroundColorWithHighlightColor(new Color(0, 0, 255, 0.9));
+    
+    buttonPaused.text = 'Retomar';
+    buttonPaused.fontSize = 20;
+    buttonPaused.textColor = new Color(255, 255, 255);
+    buttonPaused.setBackgroundColorWithHighlightColor(new Color(0, 0, 255, 0.9));
 
     const xOffset = 10;
     let yOffset = 10;
@@ -71,6 +86,8 @@ export class BilliardScene extends GameScene {
       button.targetArea.position.y = yOffset;
       yOffset += button.height + 5;
     }
+
+    document.addEventListener('keyup', this.handlePause);
 
     this.scene.setup();
   }
@@ -89,12 +106,19 @@ export class BilliardScene extends GameScene {
 
   render(deltaTimeMs) {
     this.scene.render();
-    for (const button of this.components) {
-      button.render(this.ctx);
+
+    if (this.paused) {
+      drawRect(this.ctx, 'rgba(0,0,0,.7)', 0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+
+      for (const button of this.components) {
+        button.render(this.ctx);
+      }
     }
   }
 
   cleanup() {
+    document.removeEventListener('keyup', this.handlePause);
+
     this.scene.cleanup();
   }
 }
