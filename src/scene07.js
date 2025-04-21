@@ -276,4 +276,9 @@ export class Scene07 extends DemonstrationScene {
     this.physicsSolver.entities.push(new Entity(vec2(450, 185), vec2(0, 0), new Circle(vec2(250, 200), ballRadius, colorB)));
     this.physicsSolver.entities.push(new Entity(vec2(450, 215), vec2(0, 0), new Circle(vec2(250, 200), ballRadius, colorB)));
   }
+
+  cleanup() {
+    // @todo João, implementar o cleanup
+    console.log("// @todo João, implementar o cleanup")
+  }
 }

@@ -1,4 +1,5 @@
 import { Color } from './color.js';
+import { Scene07 } from './scene07.js';
 import { Button, theGUIGlobals } from './ui.js';
 
 export class GameScene {
@@ -38,46 +39,63 @@ export class GameScene {
 }
 
 export class BilliardScene extends GameScene {
- /**
+  /**
    * @type {Button[]}
    */
- components = [];
+  components = [];
 
- newScene = null;
+  newScene = null;
 
- setup() {
-  const buttonA = new Button();
+  scene;
 
-  this.components = [buttonA];
-
-  buttonA.text = 'Jogando';
-  buttonA.fontSize = 20;
-  buttonA.textColor = new Color(255, 255, 255);
-  buttonA.setBackgroundColorWithHighlightColor(new Color(0, 0, 255));
-
-  const xOffset = 10;
-  let yOffset = 10;
-  for (const button of this.components) {
-    button.resizeToFitContent(button.fontSize);
-    button.targetArea.position.x = xOffset;
-    button.targetArea.position.y = yOffset;
-    yOffset += button.height + 5;
+  constructor(ctx) {
+    super(ctx);
+    this.scene = new Scene07(ctx);
   }
 
- }
- update(deltaTimeMs) {
-  for (const button of this.components) {
-    button.updateState();
+  setup() {
+    const buttonA = new Button();
 
-    if (button.isClicked) {
-      this.newScene = new MenuScene(this.ctx);
+    this.components = [buttonA];
+
+    buttonA.text = 'Voltar';
+    buttonA.fontSize = 20;
+    buttonA.textColor = new Color(255, 255, 255, 0.5);
+    buttonA.setBackgroundColorWithHighlightColor(new Color(255, 255, 255, 0.3));
+
+    const xOffset = 10;
+    let yOffset = 10;
+    for (const button of this.components) {
+      button.resizeToFitContent(button.fontSize);
+      button.targetArea.position.x = xOffset;
+      button.targetArea.position.y = yOffset;
+      yOffset += button.height + 5;
     }
+
+    this.scene.setup();
   }
- }
- render(deltaTimeMs) {
+
+  update(deltaTimeMs) {
+    for (const button of this.components) {
+      button.updateState();
+ 
+      if (button.isClicked) {
+        this.newScene = new MenuScene(this.ctx);
+      }
+    }
+
+    this.scene.update(deltaTimeMs);
+  }
+
+  render(deltaTimeMs) {
+    this.scene.render();
     for (const button of this.components) {
       button.render(this.ctx);
     }
+  }
+
+  cleanup() {
+    this.scene.cleanup();
   }
 }
 
