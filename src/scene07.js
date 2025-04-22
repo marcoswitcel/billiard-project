@@ -120,55 +120,11 @@ export class Scene07 extends DemonstrationScene {
       // console.log(e1);
     }
 
-    const shootForce = 350;
-
     document.addEventListener('keyup', this.handleKeyup);
     document.addEventListener('keydown', this.handleKeydown);
-
-    const canvas = this.ctx.canvas;
-
-    canvas.addEventListener('mousedown', event => {
-      if (event.which !== 1) return;
-
-      if (allBallsStoped(this.physicsSolver)) {
-        this.lastClick = Date.now();
-      }
-    });
-
-    canvas.addEventListener('mousemove', event => {
-      const boundings = canvas.getBoundingClientRect();
-      this.mouseCoords = vec2((event.clientX - boundings.x) / canvas.clientWidth, (event.clientY - boundings.y) / canvas.clientHeight);
-    });
-
-    canvas.addEventListener('mouseup', event => {
-      if (event.which !== 1) return;
-      if (this.lastClick === null) return;
-
-      const modifier = calculateForce(this.lastClick, Date.now());
-      this.lastClick = null;
-
-      // posição menos offset do canvas e reescalado para compensar o escalonamento atual do canvas
-      // @note Calcula em cima das dimensões e offset reais, depois multiplica pelo tamanho da renderização interna (canvas.width, canvas.height)
-      const boundings = canvas.getBoundingClientRect();
-      const coords = { x: (event.clientX - boundings.x) / canvas.clientWidth, y: (event.clientY - boundings.y) / canvas.clientHeight, };
-
-      // @todo João, ainda tem pequenas inconsistências na direção que a força aponta, porém está bom por hora
-      const force = vec2(coords.x * canvas.width, coords.y * canvas.height)
-        .sub(vec2(canvas.width / 2, canvas.height / 2))
-        .div(this.camera.scale)
-        .add(this.camera.position)
-        .sub(this.ball.currentPosition)
-        .normalize()
-        .mul(shootForce * modifier)
-        .mul(this.ball.lastDt);
-
-      this.ball.currentPosition.add(force);
-
-      // sinaliza a espera do término do movimento
-      this.gameContext.waitingStop = true;
-      this.gameContext.hittedAnyBall = false;
-    });
-
+    this.ctx.canvas.addEventListener('mousedown', this.handleMousedown);
+    this.ctx.canvas.addEventListener('mousemove', this.handleMousemove);
+    this.ctx.canvas.addEventListener('mouseup', this.handleMouseup);
     this.ctx.canvas.addEventListener('wheel', this.handleWheel);
   }
 
@@ -259,12 +215,12 @@ export class Scene07 extends DemonstrationScene {
   }
 
   cleanup() {
-    // @todo João, implementar o cleanup
-    console.log("// @todo João, implementar o cleanup")
-    
     document.removeEventListener('keyup', this.handleKeyup);
     document.removeEventListener('keydown', this.handleKeydown);
     this.ctx.canvas.removeEventListener('wheel', this.handleWheel);
+    this.ctx.canvas.removeEventListener('mousedown', this.handleMousedown);
+    this.ctx.canvas.removeEventListener('mousemove', this.handleMousemove);
+    this.ctx.canvas.removeEventListener('mouseup', this.handleMouseup);
   }
 
   handleKeyup = (event) => {
@@ -274,7 +230,7 @@ export class Scene07 extends DemonstrationScene {
     } else if (event.key === 'r') {
       this.addBalls();
     }
-  };
+  }
 
   handleKeydown = (event) => {
     if (event.key === 'ArrowRight') {
@@ -286,9 +242,54 @@ export class Scene07 extends DemonstrationScene {
     } if (event.key === 'ArrowDown') {
       this.camera.position.y++;
     }
-  };
+  }
 
   handleWheel = (event) => {
     this.camera.scale = between(this.camera.scale + event.deltaY * 0.001, 0.1, 2);
-  };
+  }
+
+  handleMousedown = event => {
+    if (event.which !== 1) return;
+
+    if (allBallsStoped(this.physicsSolver)) {
+      this.lastClick = Date.now();
+    }
+  }
+
+  handleMousemove = (event) => {
+    const canvas = this.ctx.canvas;
+    const boundings = canvas.getBoundingClientRect();
+    this.mouseCoords = vec2((event.clientX - boundings.x) / canvas.clientWidth, (event.clientY - boundings.y) / canvas.clientHeight);
+  }
+
+  handleMouseup = (event) => {
+    if (event.which !== 1) return;
+    if (this.lastClick === null) return;
+
+    const canvas = this.ctx.canvas;
+    const shootForce = 350;
+    const modifier = calculateForce(this.lastClick, Date.now());
+    this.lastClick = null;
+
+    // posição menos offset do canvas e reescalado para compensar o escalonamento atual do canvas
+    // @note Calcula em cima das dimensões e offset reais, depois multiplica pelo tamanho da renderização interna (canvas.width, canvas.height)
+    const boundings = canvas.getBoundingClientRect();
+    const coords = { x: (event.clientX - boundings.x) / canvas.clientWidth, y: (event.clientY - boundings.y) / canvas.clientHeight, };
+
+    // @todo João, ainda tem pequenas inconsistências na direção que a força aponta, porém está bom por hora
+    const force = vec2(coords.x * canvas.width, coords.y * canvas.height)
+      .sub(vec2(canvas.width / 2, canvas.height / 2))
+      .div(this.camera.scale)
+      .add(this.camera.position)
+      .sub(this.ball.currentPosition)
+      .normalize()
+      .mul(shootForce * modifier)
+      .mul(this.ball.lastDt);
+
+    this.ball.currentPosition.add(force);
+
+    // sinaliza a espera do término do movimento
+    this.gameContext.waitingStop = true;
+    this.gameContext.hittedAnyBall = false;
+  }
 }
