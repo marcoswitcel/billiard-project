@@ -73,12 +73,12 @@ export class BilliardScene extends GameScene {
     this.components = [buttonA, buttonPaused];
 
     buttonA.text = 'Voltar';
-    buttonA.fontSize = 20;
+    buttonA.fontSize = 18;
     buttonA.textColor = new Color(255, 255, 255);
     buttonA.setBackgroundColorWithHighlightColor(new Color(0, 0, 255, 0.9));
     
     buttonPaused.text = 'Retomar';
-    buttonPaused.fontSize = 20;
+    buttonPaused.fontSize = 18;
     buttonPaused.textColor = new Color(255, 255, 255);
     buttonPaused.setBackgroundColorWithHighlightColor(new Color(0, 0, 255, 0.9));
 
@@ -109,9 +109,10 @@ export class BilliardScene extends GameScene {
           }
         }
       }
-    } else {
-      this.scene.update(deltaTimeMs);
     }
+
+    this.scene.ignoreEvents = this.paused;
+    this.scene.update(deltaTimeMs);
   }
 
   render(deltaTimeMs) {

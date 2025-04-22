@@ -43,6 +43,7 @@ export class Scene07 extends DemonstrationScene {
   camera = null;
   renderParams = null;
   mouseCoords = null;
+  ignoreEvents = false;
 
   /**
    * @type {Entity}
@@ -224,7 +225,8 @@ export class Scene07 extends DemonstrationScene {
   }
 
   handleKeyup = (event) => {
-    console.log(2);
+    if (this.ignoreEvents) return;
+    
     if (event.key === ' ') {
       //ball.currentPosition.add(vec2(shootForce, 0));
     } else if (event.key === 'r') {
@@ -233,6 +235,8 @@ export class Scene07 extends DemonstrationScene {
   }
 
   handleKeydown = (event) => {
+    if (this.ignoreEvents) return;
+    
     if (event.key === 'ArrowRight') {
       this.camera.position.x++;
     } if (event.key === 'ArrowLeft') {
@@ -245,10 +249,14 @@ export class Scene07 extends DemonstrationScene {
   }
 
   handleWheel = (event) => {
+    if (this.ignoreEvents) return;
+    
     this.camera.scale = between(this.camera.scale + event.deltaY * 0.001, 0.1, 2);
   }
 
   handleMousedown = event => {
+    if (this.ignoreEvents) return;
+    
     if (event.which !== 1) return;
 
     if (allBallsStoped(this.physicsSolver)) {
@@ -257,12 +265,16 @@ export class Scene07 extends DemonstrationScene {
   }
 
   handleMousemove = (event) => {
+    if (this.ignoreEvents) return;
+    
     const canvas = this.ctx.canvas;
     const boundings = canvas.getBoundingClientRect();
     this.mouseCoords = vec2((event.clientX - boundings.x) / canvas.clientWidth, (event.clientY - boundings.y) / canvas.clientHeight);
   }
 
   handleMouseup = (event) => {
+    if (this.ignoreEvents) return;
+    
     if (event.which !== 1) return;
     if (this.lastClick === null) return;
 
