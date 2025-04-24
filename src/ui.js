@@ -100,6 +100,8 @@ export class Button {
   get isClicked() {
     return this.hover && this.gui.clickedInThisFrame;
   }
+  
+  // @todo João implementar alguma forma de oclusão para poder criar overlays e considerar botões sobrepostos
 
   setInitialState(text = `botão@${this.id}`, targetArea = new Rectangle(vec2(0, 0), vec2(100, 100), 'white'), backgroundColor = new Color(0, 0, 0)) {
     this.text = text;
