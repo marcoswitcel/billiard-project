@@ -126,7 +126,7 @@ export class Scene07 extends DemonstrationScene {
     this.ctx.canvas.addEventListener('mousedown', this.handleMousedown);
     this.ctx.canvas.addEventListener('mousemove', this.handleMousemove);
     this.ctx.canvas.addEventListener('mouseup', this.handleMouseup);
-    this.ctx.canvas.addEventListener('wheel', this.handleWheel);
+    this.ctx.canvas.addEventListener('wheel', this.handleWheel, { passive: true });
   }
 
   update(deltaTimeMs) {
