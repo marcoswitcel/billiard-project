@@ -72,12 +72,12 @@ export class BilliardScene extends GameScene {
 
     this.components = [buttonA, buttonPaused];
 
-    buttonA.text = 'Voltar';
-    buttonA.fontSize = 18;
+    buttonA.text = 'Menu';
+    buttonA.fontSize = 16;
     buttonA.textColor = new Color(255, 255, 255);
     buttonA.setBackgroundColorWithHighlightColor(new Color(0, 0, 255, 0.9));
     
-    buttonPaused.text = 'Retomar';
+    buttonPaused.text = 'Voltar ao Jogo';
     buttonPaused.fontSize = 18;
     buttonPaused.textColor = new Color(255, 255, 255);
     buttonPaused.setBackgroundColorWithHighlightColor(new Color(0, 0, 255, 0.9));
@@ -145,8 +145,9 @@ export class MenuScene extends GameScene {
   setup() {
     const buttonA = new Button();
     const buttonB = new Button();
+    const buttonPlacar = new Button();
 
-    this.components = [buttonA, buttonB];
+    this.components = [buttonA, buttonB, buttonPlacar];
 
     buttonA.text = 'Jogar';
     buttonA.fontSize = 20;
@@ -157,14 +158,19 @@ export class MenuScene extends GameScene {
     buttonB.fontSize = 20;
     buttonB.textColor = new Color(255, 255, 255);
     buttonB.setBackgroundColorWithHighlightColor(new Color(0, 0, 255));
+    
+    buttonPlacar.text = 'Placar';
+    buttonPlacar.fontSize = 20;
+    buttonPlacar.textColor = new Color(255, 255, 255);
+    buttonPlacar.setBackgroundColorWithHighlightColor(new Color(0, 0, 255));
 
 
-    const xOffset = 10;
-    let yOffset = 10;
+    const xOffset = this.ctx.canvas.width / 2;
+    let yOffset = this.ctx.canvas.height / 3;
     for (const button of this.components) {
       button.resizeToFitContent(button.fontSize);
-      button.targetArea.position.x = xOffset;
-      button.targetArea.position.y = yOffset;
+      button.targetArea.position.x = xOffset - button.width / 2;
+      button.targetArea.position.y = yOffset - button.height / 2;
       yOffset += button.height + 5;
     }
 
@@ -173,14 +179,14 @@ export class MenuScene extends GameScene {
     for (const button of this.components) {
       button.updateState();
 
-      if (theGUIGlobals.clickedInThisFrame) {
-        if (button.hover) {
-          this.newScene = new BilliardScene(this.ctx);
-        }
+      if (button.isClicked) {
+        this.newScene = new BilliardScene(this.ctx);
       }
     }
   }
   render(deltaTimeMs) {
+    drawRect(this.ctx, 'rgba(0, 0, 0, 1)', 0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+
     for (const button of this.components) {
       button.render(this.ctx);
     }
