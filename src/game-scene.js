@@ -1,7 +1,8 @@
 import { Color } from './color.js';
 import { Scene07 } from './scene07.js';
 import { Button, theGUIGlobals } from './ui.js';
-import { drawRect } from './utils.js';
+import { drawRect, drawText } from './utils.js';
+import { vec2 } from './vec2.js';
 
 export class GameScene {
 
@@ -134,6 +135,18 @@ export class BilliardScene extends GameScene {
   }
 }
 
+/**
+ * 
+ * @param {Button} button 
+ */
+const applyButtonStyle = (button) => {
+  button.fontSize = 20;
+  button.fontFamily = 'monospace';
+  button.textColor = new Color(255, 255, 255);
+  button.backgroundColor = new Color(0, 0, 255).darken(0.75);
+  button.highlightBackgroundColor = new Color(0, 0, 255);
+}
+
 export class MenuScene extends GameScene {
   /**
    * @type {Button[]}
@@ -150,25 +163,15 @@ export class MenuScene extends GameScene {
     this.components = [buttonA, buttonB, buttonPlacar];
 
     buttonA.text = 'Jogar';
-    buttonA.fontSize = 20;
-    buttonA.textColor = new Color(255, 255, 255);
-    buttonA.setBackgroundColorWithHighlightColor(new Color(0, 0, 255));
-
     buttonB.text = 'Configurações';
-    buttonB.fontSize = 20;
-    buttonB.textColor = new Color(255, 255, 255);
-    buttonB.setBackgroundColorWithHighlightColor(new Color(0, 0, 255));
-    
     buttonPlacar.text = 'Placar';
-    buttonPlacar.fontSize = 20;
-    buttonPlacar.textColor = new Color(255, 255, 255);
-    buttonPlacar.setBackgroundColorWithHighlightColor(new Color(0, 0, 255));
-
 
     const xOffset = this.ctx.canvas.width / 2;
-    let yOffset = this.ctx.canvas.height / 3;
+    let yOffset = this.ctx.canvas.height / 2;
     for (const button of this.components) {
-      button.resizeToFitContent(button.fontSize);
+      applyButtonStyle(button);
+
+      button.resizeToFitContent(button.fontSize * 0.75);
       button.targetArea.position.x = xOffset - button.width / 2;
       button.targetArea.position.y = yOffset - button.height / 2;
       yOffset += button.height + 5;
@@ -176,8 +179,16 @@ export class MenuScene extends GameScene {
 
   }
   update(deltaTimeMs) {
+    // @note ajustar para atualizar menos o dom :titleThing
+    this.ctx.canvas.removeAttribute('title');
+
     for (const button of this.components) {
       button.updateState();
+
+      if (button.hover) {
+        // @note adicionar textos significativos aqui :titleThing
+        this.ctx.canvas.setAttribute('title', button.text);
+      }
 
       if (button.isClicked) {
         this.newScene = new BilliardScene(this.ctx);
@@ -187,10 +198,15 @@ export class MenuScene extends GameScene {
   render(deltaTimeMs) {
     drawRect(this.ctx, 'rgba(0, 0, 0, 1)', 0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
+    drawText(this.ctx, 'Project: Billiard', vec2(this.ctx.canvas.width / 2, this.ctx.canvas.height * 0.25), 40, 'white', 'monospace', 'center', 'middle');
+
     for (const button of this.components) {
       button.render(this.ctx);
     }
   }
-  cleanup() {}
+  cleanup() {
+    // :titleThing
+    this.ctx.canvas.removeAttribute('title');
+  }
 }
 

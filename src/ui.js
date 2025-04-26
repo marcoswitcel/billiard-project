@@ -78,6 +78,8 @@ export class Button {
   timestampLastUpdated;
 
   fontSize = 14;
+  
+  fontFamily = 'monospace';
 
   textColor = new Color(0, 0, 0);
 
@@ -113,9 +115,9 @@ export class Button {
     this.timestampLastUpdated = 0;
   }
 
-  setBackgroundColorWithHighlightColor(color) {
+  setBackgroundColorWithHighlightColor(color, darkenBy = 0.9) {
     this.backgroundColor = color;
-    this.highlightBackgroundColor = color.copy().darken(0.9)
+    this.highlightBackgroundColor = color.copy().darken(darkenBy)
   }
 
   updateState() {
@@ -130,7 +132,7 @@ export class Button {
     }
 
     drawRect(ctx, color.toString(), this.targetArea.position.x, this.targetArea.position.y, this.targetArea.size.x, this.targetArea.size.y);
-    drawText(ctx, this.text, this.targetArea.position.copy().add(this.targetArea.size.copy().div(2)), this.fontSize, this.textColor.toString(), 'monospace', 'center', 'middle');
+    drawText(ctx, this.text, this.targetArea.position.copy().add(this.targetArea.size.copy().div(2)), this.fontSize, this.textColor.toString(), this.fontFamily, 'center', 'middle');
   }
 
   resizeToFitContent(margin = 0) {
