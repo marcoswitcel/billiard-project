@@ -147,6 +147,8 @@ const applyButtonStyle = (button) => {
   button.highlightBackgroundColor = new Color(0, 0, 255);
 }
 
+const sDescription = Symbol('Button.description');
+
 export class MenuScene extends GameScene {
   /**
    * @type {Button[]}
@@ -159,6 +161,10 @@ export class MenuScene extends GameScene {
     const buttonA = new Button();
     const buttonB = new Button();
     const buttonPlacar = new Button();
+
+    buttonA[sDescription] = 'Modo um jogador e 2 jogadores';
+    buttonB[sDescription] = 'Preferências do jogador';
+    buttonPlacar[sDescription] = 'Veja seus placares';
 
     this.components = [buttonA, buttonB, buttonPlacar];
 
@@ -185,9 +191,9 @@ export class MenuScene extends GameScene {
     for (const button of this.components) {
       button.updateState();
 
-      if (button.hover) {
+      if (button.hover && button[sDescription]) {
         // @note adicionar textos significativos aqui :titleThing
-        this.ctx.canvas.setAttribute('title', button.text);
+        this.ctx.canvas.setAttribute('title', button[sDescription]);
       }
 
       if (button.isClicked) {
