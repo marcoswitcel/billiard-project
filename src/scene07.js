@@ -93,13 +93,18 @@ export class Scene07 extends DemonstrationScene {
       // @note João, avaliar se armazeno os pontos no sistema de coordenadas do jogo ou se crio um atributo scale na classe 'Shape' e multiplico...
       for (const polygon of polygons) {
         const points = polygon.map(p => vec2(p[0], p[1]));
-        this.visualElements.push(new Polygon(center, 'rgba(0,0,0,0.18)', points, 250))
+        this.visualElements.push(new Polygon(center, 'rgba(0,0,0,0.25)', points, 250))
       }
       
     }
 
-    // @todo João, posicionar melhor
-    this.visualElements.push(new Circle2(vec2(145, 95), 'rgba(0,0,0,0.6)', 13));
+    // @todo João, posicionar melhor...
+    this.visualElements.push(new Circle2(vec2(145, 95), 'rgba(0,0,0,0.60)', 13));
+    this.visualElements.push(new Circle2(vec2(145, 305), 'rgba(0,0,0,0.60)', 13));
+    this.visualElements.push(new Circle2(vec2(350, 90), 'rgba(0,0,0,0.60)', 13));
+    this.visualElements.push(new Circle2(vec2(350, 310), 'rgba(0,0,0,0.60)', 13));
+    this.visualElements.push(new Circle2(vec2(555, 95), 'rgba(0,0,0,0.60)', 13));
+    this.visualElements.push(new Circle2(vec2(555, 305), 'rgba(0,0,0,0.60)', 13));
 
     this.renderParams.lightSource = vec2(350, 200);
 
