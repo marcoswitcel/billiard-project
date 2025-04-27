@@ -66,16 +66,23 @@ export class BilliardScene extends GameScene {
   setup() {
     const buttonA = new Button();
     const buttonPaused = new Button();
+    const buttonRestart = new Button();
 
     // @todo João analisar se os handlers serão feitos assim
     buttonA['handlers'] = [() => { this.newScene = new MenuScene(this.ctx); }];
     buttonPaused['handlers'] = [() => { this.paused = false; }];
+    buttonRestart['handlers'] = [() => { this.scene.resetGame(); this.paused = false; }];
 
-    this.components = [buttonA, buttonPaused];
+    this.components = [buttonA, buttonRestart, buttonPaused, ];
 
     buttonA.text = 'Menu';
     applyButtonStyle(buttonA);
     buttonA.fontSize = 16;
+
+
+    buttonRestart.text = 'Reiniciar';
+    applyButtonStyle(buttonRestart);
+    buttonRestart.fontSize = 16;
     
     buttonPaused.text = 'Voltar ao Jogo';
     applyButtonStyle(buttonPaused);
