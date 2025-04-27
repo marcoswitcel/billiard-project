@@ -8,7 +8,7 @@ import { Params } from './params.js';
 import { PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
 import { Circle2, Polygon, Rectangle } from './shape.js';
-import { drawRect, drawCircle, between, drawLine, renderLines } from './utils.js';
+import { drawRect, drawCircle, between, drawLine, renderLines, drawText } from './utils.js';
 import { Vec2, vec2 } from './vec2.js';
 
 
@@ -197,6 +197,15 @@ export class Scene07 extends DemonstrationScene {
 
     if (Params.is('showGameContext')) lines.push(JSON.stringify(this.gameContext));
 
+    if (this.gameContext.state.startsWith('player_')) {
+      const offsetX = (this.gameContext.state === 'player_a') ? this.ctx.canvas.width * 0.1 : this.ctx.canvas.width * 0.9;
+      drawText(this.ctx, this.gameContext.state, vec2(offsetX, this.ctx.canvas.height * 0.1), 20, 'white', 'monospace', 'center', 'middle');
+    }
+
+    if (this.gameContext.state.startsWith('win_')) {
+      drawText(this.ctx, this.gameContext.state, vec2(this.ctx.canvas.width / 2, this.ctx.canvas.height * 0.1), 40, 'white', 'monospace', 'center', 'middle');
+    }
+
     renderLines(this.ctx, lines, vec2(15, 550), 16);
   }
 
@@ -224,13 +233,22 @@ export class Scene07 extends DemonstrationScene {
     this.ctx.canvas.removeEventListener('mouseup', this.handleMouseup);
   }
 
+  resetGame() {
+    this.gameContext.state = 'player_a';
+    
+    this.gameContext.waitingStop = false;
+    this.gameContext.hittedAnyBall = false;
+
+    this.addBalls();
+  }
+
   handleKeyup = (event) => {
     if (this.ignoreEvents) return;
     
     if (event.key === ' ') {
       //ball.currentPosition.add(vec2(shootForce, 0));
     } else if (event.key === 'r') {
-      this.addBalls();
+      this.resetGame();
     }
   }
 
@@ -258,6 +276,8 @@ export class Scene07 extends DemonstrationScene {
     if (this.ignoreEvents) return;
     
     if (event.which !== 1) return;
+
+    if (this.gameContext.state.startsWith('win_')) return;
 
     if (allBallsStoped(this.physicsSolver)) {
       this.lastClick = Date.now();
