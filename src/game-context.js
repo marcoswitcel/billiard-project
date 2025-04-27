@@ -7,6 +7,9 @@ export class GameContex {
   
   waitingStop = false;
   hittedAnyBall = false;
+  playerBallSelected = false;
+
+  ballsInTheBucket = [];
 
   changePlayer() {
     if (this.state === 'player_a') {

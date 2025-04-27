@@ -143,9 +143,14 @@ export class Scene07 extends DemonstrationScene {
     if (this.gameContext.waitingStop && allBallsStoped(this.physicsSolver)) {
       this.gameContext.waitingStop = false;
 
-      if (!this.gameContext.hittedAnyBall) {
+      if (!this.gameContext.hittedAnyBall && this.gameContext.playerBallSelected) {
         if (this.gameContext.state === 'player_b') this.gameContext.state = 'win_a';
         else if (this.gameContext.state === 'player_a') this.gameContext.state = 'win_b';
+      }
+
+      if (this.gameContext.ballsInTheBucket.length) {
+        this.gameContext.playerBallSelected = true;
+        this.gameContext.ballsInTheBucket.length = 0;
       }
 
       if (this.physicsSolver.entities.length > 1 && this.gameContext.state.startsWith('player')) {
@@ -163,6 +168,7 @@ export class Scene07 extends DemonstrationScene {
   
         if (dist < circle.radius) {
           entity[symMarkedForRemoval] = true;
+          this.gameContext.ballsInTheBucket.push(entity);
         }
       }
     }
@@ -240,6 +246,9 @@ export class Scene07 extends DemonstrationScene {
 
     this.gameContext.waitingStop = false;
     this.gameContext.hittedAnyBall = false;
+
+    this.gameContext.ballsInTheBucket = [];
+    this.gameContext.playerBallSelected = false;
 
     this.addBalls();
   }
