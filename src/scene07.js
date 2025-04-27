@@ -16,7 +16,7 @@ const calculateForce = (start, now) => Math.min((now - start), 2000) / 1000;
 
 const ballRadius = 10;
 
-const colorA = '#F0F';
+const colorA = '#FF0';
 const colorB = '#F0A';
 
 /**
