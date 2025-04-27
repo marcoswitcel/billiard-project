@@ -111,15 +111,12 @@ export class Scene07 extends DemonstrationScene {
     this.physicsSolver.reportCollision = (e1, e2) => {
       if (e1 === this.ball || e2 === this.ball) {
         const other = e1 === this.ball ? e2 : e1;
-        console.log(this.gameContext.state + ' hitted: ' + other.shape.color);
         this.gameContext.hittedAnyBall = true;
       }
-    }
+    };
 
     // @note acabei resolvendo isso de outra forma, mas agora funciona...
-    this.physicsSolver.reportStoped = (e1) => {
-      // console.log(e1);
-    }
+    this.physicsSolver.reportStoped = (e1) => {};
 
     document.addEventListener('keyup', this.handleKeyup);
     document.addEventListener('keydown', this.handleKeydown);
@@ -235,7 +232,7 @@ export class Scene07 extends DemonstrationScene {
 
   resetGame() {
     this.gameContext.state = 'player_a';
-    
+
     this.gameContext.waitingStop = false;
     this.gameContext.hittedAnyBall = false;
 
