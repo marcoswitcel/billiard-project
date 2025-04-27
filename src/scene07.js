@@ -58,7 +58,7 @@ export class Scene07 extends DemonstrationScene {
 
     this.ctx = ctx;
     
-    this.camera = new Camera(vec2(350, 200), vec2(this.ctx.canvas.width, this.ctx.canvas.height), 1.25);
+    this.camera = new Camera(vec2(350, 200), vec2(this.ctx.canvas.width, this.ctx.canvas.height), 1.50);
     this.renderParams = new RenderParams();
     this.mouseCoords = vec2(0, 0);
     this.visualElements = [];
