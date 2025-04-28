@@ -140,10 +140,12 @@ export class Scene07 extends DemonstrationScene {
 
     this.checkForPoints();
 
+    const isWhiteBallRemoved = this.physicsSolver.entities.indexOf(this.ball) == -1;
+
     if (this.gameContext.waitingStop && allBallsStoped(this.physicsSolver)) {
       this.gameContext.waitingStop = false;
 
-      if (!this.gameContext.hittedAnyBall && this.gameContext.playerBallSelected) {
+      if (!this.gameContext.hittedAnyBall && this.gameContext.playerBallSelected && !isWhiteBallRemoved) {
         if (this.gameContext.state === 'player_b') this.gameContext.state = 'win_a';
         else if (this.gameContext.state === 'player_a') this.gameContext.state = 'win_b';
       }
@@ -153,8 +155,12 @@ export class Scene07 extends DemonstrationScene {
         this.gameContext.ballsInTheBucket.length = 0;
       }
 
-      if (this.physicsSolver.entities.length > 1 && this.gameContext.state.startsWith('player')) {
+      if (this.physicsSolver.entities.length > 0 && this.gameContext.state.startsWith('player')) {
         this.gameContext.changePlayer();
+        if (isWhiteBallRemoved) {
+          this.ball = new Entity(vec2(265, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#FFF'));
+          this.physicsSolver.entities.push(this.ball);
+        }
       }
     }
   }
