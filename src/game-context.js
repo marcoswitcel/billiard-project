@@ -1,3 +1,4 @@
+import { Entity } from "./entity";
 
 export class GameContex {
   /**
@@ -6,7 +7,11 @@ export class GameContex {
   state = 'not_started';
   
   waitingStop = false;
-  hittedAnyBall = false;
+  /**
+   * Response se foi atingido alguma bola e qual foi a primeira
+   * @type {Entity | null}
+   */
+  firstBallHitted = null;
   playerBallSelected = false;
 
   ballsInTheBucket = [];

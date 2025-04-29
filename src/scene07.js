@@ -116,7 +116,7 @@ export class Scene07 extends DemonstrationScene {
     this.physicsSolver.reportCollision = (e1, e2) => {
       if (e1 === this.ball || e2 === this.ball) {
         const other = e1 === this.ball ? e2 : e1;
-        this.gameContext.hittedAnyBall = true;
+        if (!this.gameContext.firstBallHitted) this.gameContext.firstBallHitted = other;
       }
     };
 
@@ -145,7 +145,7 @@ export class Scene07 extends DemonstrationScene {
     if (this.gameContext.waitingStop && allBallsStoped(this.physicsSolver)) {
       this.gameContext.waitingStop = false;
 
-      if (!this.gameContext.hittedAnyBall && this.gameContext.playerBallSelected && !isWhiteBallRemoved) {
+      if (!this.gameContext.firstBallHitted && this.gameContext.playerBallSelected && !isWhiteBallRemoved) {
         if (this.gameContext.state === 'player_b') this.gameContext.state = 'win_a';
         else if (this.gameContext.state === 'player_a') this.gameContext.state = 'win_b';
       }
@@ -251,7 +251,7 @@ export class Scene07 extends DemonstrationScene {
     this.gameContext.state = 'player_a';
 
     this.gameContext.waitingStop = false;
-    this.gameContext.hittedAnyBall = false;
+    this.gameContext.firstBallHitted = null;
 
     this.gameContext.ballsInTheBucket = [];
     this.gameContext.playerBallSelected = false;
@@ -339,6 +339,6 @@ export class Scene07 extends DemonstrationScene {
 
     // sinaliza a espera do término do movimento
     this.gameContext.waitingStop = true;
-    this.gameContext.hittedAnyBall = false;
+    this.gameContext.firstBallHitted = null;
   }
 }
