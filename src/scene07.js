@@ -151,7 +151,8 @@ export class Scene07 extends DemonstrationScene {
       }
 
       if (this.gameContext.ballsInTheBucket.length) {
-        this.gameContext.playerBallSelected = true;
+        // @note pega a cor da primeira bola que encontrar na caçapa
+        this.gameContext.playerBallSelected = this.gameContext.ballsInTheBucket[0].shape.color;
         this.gameContext.ballsInTheBucket.length = 0;
       }
 
@@ -254,7 +255,7 @@ export class Scene07 extends DemonstrationScene {
     this.gameContext.firstBallHitted = null;
 
     this.gameContext.ballsInTheBucket = [];
-    this.gameContext.playerBallSelected = false;
+    this.gameContext.playerBallSelected = null;
 
     this.addBalls();
   }

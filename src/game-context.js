@@ -12,8 +12,14 @@ export class GameContex {
    * @type {Entity | null}
    */
   firstBallHitted = null;
-  playerBallSelected = false;
+  /**
+   * @type {string | null}
+   */
+  playerBallSelected = null;
 
+  /**
+   * @type {Entity[]}
+   */
   ballsInTheBucket = [];
 
   changePlayer() {
