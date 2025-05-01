@@ -208,7 +208,7 @@ export class MenuScene extends GameScene {
     }
   }
   render(deltaTimeMs) {
-    drawRect(this.ctx, 'rgba(0, 0, 0, 1)', 0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+    drawRect(this.ctx, '#2576da', 0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
     drawText(this.ctx, 'Project: Billiard', vec2(this.ctx.canvas.width / 2, this.ctx.canvas.height * 0.25), 40, 'white', 'monospace', 'center', 'middle');
 
