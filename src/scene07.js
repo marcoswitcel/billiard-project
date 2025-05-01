@@ -145,6 +145,7 @@ export class Scene07 extends DemonstrationScene {
     if (this.gameContext.waitingStop && allBallsStoped(this.physicsSolver)) {
       this.gameContext.waitingStop = false;
 
+      // @todo João, se a bola branca estiver removida também deve considerar a lógica de remover bolas ou mover para estado de vitória
       if (!this.gameContext.firstBallHitted && this.gameContext.playerBallSelected && !isWhiteBallRemoved) {
         // @note não gostei disso aqui... como poderia deixar a cor de mais fácil acesso?
         const colorOtherPlayer = (this.gameContext.state === 'player_a') ? ((this.gameContext.playerBallSelected === colorA) ? colorB: colorA) : this.gameContext.playerBallSelected;
