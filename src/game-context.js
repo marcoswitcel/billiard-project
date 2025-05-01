@@ -22,6 +22,9 @@ export class GameContex {
    */
   ballsInTheBucket = [];
 
+  color1 = '#FF0';
+  color2 = '#F0A';
+
   changePlayer() {
     if (this.state === 'player_a') {
       this.state = 'player_b';

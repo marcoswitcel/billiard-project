@@ -16,9 +16,6 @@ const calculateForce = (start, now) => Math.min((now - start), 2000) / 1000;
 
 const ballRadius = 10;
 
-const colorA = '#FF0';
-const colorB = '#F0A';
-
 /**
  * 
  * @param {PhysicsSolver} physicsSolver 
@@ -148,7 +145,7 @@ export class Scene07 extends DemonstrationScene {
       // @todo João, se a bola branca estiver removida também deve considerar a lógica de remover bolas ou mover para estado de vitória
       if (!this.gameContext.firstBallHitted && this.gameContext.playerBallSelected && !isWhiteBallRemoved) {
         // @note não gostei disso aqui... como poderia deixar a cor de mais fácil acesso?
-        const colorOtherPlayer = (this.gameContext.state === 'player_a') ? ((this.gameContext.playerBallSelected === colorA) ? colorB: colorA) : this.gameContext.playerBallSelected;
+        const colorOtherPlayer = (this.gameContext.state === 'player_a') ? ((this.gameContext.playerBallSelected === this.gameContext.color1) ? this.gameContext.color2: this.gameContext.color1) : this.gameContext.playerBallSelected;
 
         if (this.physicsSolver.entities.findIndex(ball => ball.shape.color === colorOtherPlayer) === -1) {
           if (this.gameContext.state === 'player_b') this.gameContext.state = 'win_a';
@@ -251,11 +248,11 @@ export class Scene07 extends DemonstrationScene {
     // player ball
     this.physicsSolver.entities.push(this.ball);
 
-    this.physicsSolver.entities.push(new Entity(vec2(380, 200), vec2(0, 0), new Circle(vec2(250, 200), ballRadius, colorA)));
-    this.physicsSolver.entities.push(new Entity(vec2(420, 200), vec2(0, 0), new Circle(vec2(250, 200), ballRadius, colorA)));
+    this.physicsSolver.entities.push(new Entity(vec2(380, 200), vec2(0, 0), new Circle(vec2(250, 200), ballRadius, this.gameContext.color1)));
+    this.physicsSolver.entities.push(new Entity(vec2(420, 200), vec2(0, 0), new Circle(vec2(250, 200), ballRadius, this.gameContext.color1)));
 
-    this.physicsSolver.entities.push(new Entity(vec2(450, 185), vec2(0, 0), new Circle(vec2(250, 200), ballRadius, colorB)));
-    this.physicsSolver.entities.push(new Entity(vec2(450, 215), vec2(0, 0), new Circle(vec2(250, 200), ballRadius, colorB)));
+    this.physicsSolver.entities.push(new Entity(vec2(450, 185), vec2(0, 0), new Circle(vec2(250, 200), ballRadius, this.gameContext.color2)));
+    this.physicsSolver.entities.push(new Entity(vec2(450, 215), vec2(0, 0), new Circle(vec2(250, 200), ballRadius, this.gameContext.color2)));
   }
 
   cleanup() {
