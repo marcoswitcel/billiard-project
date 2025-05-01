@@ -147,13 +147,24 @@ export class Scene07 extends DemonstrationScene {
 
       if (!this.gameContext.firstBallHitted && this.gameContext.playerBallSelected && !isWhiteBallRemoved) {
         // @note não gostei disso aqui... como poderia deixar a cor de mais fácil acesso?
-        const colorPlayerActive = (this.gameContext.state === 'player_a') ? this.gameContext.playerBallSelected : ((this.gameContext.playerBallSelected === colorA) ? colorB: colorA);
+        const colorOtherPlayer = (this.gameContext.state === 'player_a') ? ((this.gameContext.playerBallSelected === colorA) ? colorB: colorA) : this.gameContext.playerBallSelected;
 
-        if (this.physicsSolver.entities.findIndex(ball => ball.shape.color === colorPlayerActive) === -1) {
+        if (this.physicsSolver.entities.findIndex(ball => ball.shape.color === colorOtherPlayer) === -1) {
           if (this.gameContext.state === 'player_b') this.gameContext.state = 'win_a';
           else if (this.gameContext.state === 'player_a') this.gameContext.state = 'win_b';
         } else {
-          // @todo João, remover uma bola aqui...
+          const entities = this.physicsSolver.entities;
+          const newEntities = [];
+          let removed = false;
+          for (const entity of entities) {
+            if (entity.shape.color === colorOtherPlayer && !removed)  {
+              removed = true;
+              continue;
+            } else {
+              newEntities.push(entity);
+            }
+          }
+          this.physicsSolver.entities = newEntities;
         }
       }
 
