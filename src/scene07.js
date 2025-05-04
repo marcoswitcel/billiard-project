@@ -144,26 +144,14 @@ export class Scene07 extends DemonstrationScene {
 
       // @todo João, se a bola branca estiver removida também deve considerar a lógica de remover bolas ou mover para estado de vitória
       if (!this.gameContext.firstBallHitted && this.gameContext.playerBallSelected) {
-        // @note não gostei disso aqui... como poderia deixar a cor de mais fácil acesso?
-        const colorOtherPlayer = (this.gameContext.state === 'player_a') ? ((this.gameContext.playerBallSelected === this.gameContext.color1) ? this.gameContext.color2: this.gameContext.color1) : this.gameContext.playerBallSelected;
+        const colorOtherPlayer = this.gameContext.getPlayerColor(this.gameContext.state === 'player_a' ? 'player_b' : 'player_a');
 
         if (this.physicsSolver.entities.findIndex(ball => ball.shape.color === colorOtherPlayer) === -1) {
           if (this.gameContext.state === 'player_b') this.gameContext.state = 'win_a';
           else if (this.gameContext.state === 'player_a') this.gameContext.state = 'win_b';
         } else {
           // 'paga' uma bola por ter errado...
-          const entities = this.physicsSolver.entities;
-          const newEntities = [];
-          let removed = false;
-          for (const entity of entities) {
-            if (entity.shape.color === colorOtherPlayer && !removed)  {
-              removed = true;
-              continue;
-            } else {
-              newEntities.push(entity);
-            }
-          }
-          this.physicsSolver.entities = newEntities;
+          this.removeABall(colorOtherPlayer);
         }
       }
 
@@ -190,6 +178,22 @@ export class Scene07 extends DemonstrationScene {
       }
     }
   }
+
+  removeABall(fromColor) {
+    const entities = this.physicsSolver.entities;
+    const newEntities = [];
+    let removed = false;
+    for (const entity of entities) {
+      if (entity.shape.color === fromColor && !removed) {
+        removed = true;
+        continue;
+      } else {
+        newEntities.push(entity);
+      }
+    }
+    this.physicsSolver.entities = newEntities;
+  }
+
   checkForPoints() {
     const circles = this.visualElements.filter(e => e instanceof Circle2);
     
