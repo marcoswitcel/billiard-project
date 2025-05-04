@@ -135,7 +135,7 @@ export class Scene07 extends DemonstrationScene {
      */
     this.physicsSolver.update(deltaTimeMs);
 
-    this.checkForPoints();
+    this.checkForPointsAndRemoveBalls();
 
     if (!this.gameContext.waitingStop || !allBallsStoped(this.physicsSolver)) return;
 
@@ -197,17 +197,17 @@ export class Scene07 extends DemonstrationScene {
     this.physicsSolver.entities = newEntities;
   }
 
-  checkForPoints() {
-    const circles = this.visualElements.filter(e => e instanceof Circle2);
+  checkForPointsAndRemoveBalls() {
+    const buckets = this.visualElements.filter(e => e instanceof Circle2);
     
-    for (const entity of this.physicsSolver.entities) {
-      for (const circle of circles) {
-        const toObj = entity.currentPosition.copy().sub(circle.position);
+    for (const ball of this.physicsSolver.entities) {
+      for (const bucketCircle of buckets) {
+        const toObj = ball.currentPosition.copy().sub(bucketCircle.position);
         const dist = toObj.length();
   
-        if (dist < circle.radius) {
-          entity[symMarkedForRemoval] = true;
-          this.gameContext.ballsInTheBucket.push(entity);
+        if (dist < bucketCircle.radius) {
+          ball[symMarkedForRemoval] = true;
+          this.gameContext.ballsInTheBucket.push(ball);
         }
       }
     }
