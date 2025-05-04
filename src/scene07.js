@@ -137,13 +137,14 @@ export class Scene07 extends DemonstrationScene {
 
     this.checkForPoints();
 
-    const isWhiteBallRemoved = this.physicsSolver.entities.indexOf(this.ball) == -1;
+    const isWhiteBallRemoved = this.gameContext.ballsInTheBucket.indexOf(this.ball) !== -1;
 
     if (this.gameContext.waitingStop && allBallsStoped(this.physicsSolver)) {
       this.gameContext.waitingStop = false;
 
       // @todo João, se a bola branca estiver removida também deve considerar a lógica de remover bolas ou mover para estado de vitória
-      if (!this.gameContext.firstBallHitted && this.gameContext.playerBallSelected && !isWhiteBallRemoved) {
+      console.log(!this.gameContext.firstBallHitted ,this.gameContext.playerBallSelected)
+      if (!this.gameContext.firstBallHitted && this.gameContext.playerBallSelected) {
         // @note não gostei disso aqui... como poderia deixar a cor de mais fácil acesso?
         const colorOtherPlayer = (this.gameContext.state === 'player_a') ? ((this.gameContext.playerBallSelected === this.gameContext.color1) ? this.gameContext.color2: this.gameContext.color1) : this.gameContext.playerBallSelected;
 
@@ -151,6 +152,7 @@ export class Scene07 extends DemonstrationScene {
           if (this.gameContext.state === 'player_b') this.gameContext.state = 'win_a';
           else if (this.gameContext.state === 'player_a') this.gameContext.state = 'win_b';
         } else {
+          // 'paga' uma bola por ter errado...
           const entities = this.physicsSolver.entities;
           const newEntities = [];
           let removed = false;
@@ -166,18 +168,22 @@ export class Scene07 extends DemonstrationScene {
         }
       }
 
-      if (this.gameContext.ballsInTheBucket.length) {
-        // @note pega a cor da primeira bola que encontrar na caçapa
-        this.gameContext.playerBallSelected = this.gameContext.ballsInTheBucket[0].shape.color;
-        this.gameContext.ballsInTheBucket.length = 0;
+      if (this.physicsSolver.entities.length > 0 && this.gameContext.state.startsWith('player')) {
+        if (this.gameContext.ballsInTheBucket.length === 0 || isWhiteBallRemoved) {
+          this.gameContext.changePlayer();
+        }
       }
 
-      if (this.physicsSolver.entities.length > 0 && this.gameContext.state.startsWith('player')) {
-        this.gameContext.changePlayer();
-        if (isWhiteBallRemoved) {
-          this.ball = new Entity(vec2(265, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#FFF'));
-          this.physicsSolver.entities.push(this.ball);
-        }
+      if (isWhiteBallRemoved) {
+        this.ball = new Entity(vec2(265, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#FFF'));
+        this.physicsSolver.entities.push(this.ball);
+      }
+
+      if (this.gameContext.ballsInTheBucket.length) {
+        // @note pega a cor da primeira bola que encontrar na caçapa
+        // @todo joão, iterar e pular a bola branca, causando bug quando apenas acerta a caçapa duas vezes seguida
+        this.gameContext.playerBallSelected = this.gameContext.ballsInTheBucket[0].shape.color;
+        this.gameContext.ballsInTheBucket.length = 0;
       }
     }
   }
