@@ -137,47 +137,47 @@ export class Scene07 extends DemonstrationScene {
 
     this.checkForPoints();
 
+    if (!this.gameContext.waitingStop || !allBallsStoped(this.physicsSolver)) return;
+
     const isWhiteBallRemoved = this.gameContext.ballsInTheBucket.indexOf(this.ball) !== -1;
 
-    if (this.gameContext.waitingStop && allBallsStoped(this.physicsSolver)) {
-      this.gameContext.waitingStop = false;
-      const colorOtherPlayer = this.gameContext.getPlayerColor(this.gameContext.state === 'player_a' ? 'player_b' : 'player_a');
+    this.gameContext.waitingStop = false;
+    const colorOtherPlayer = this.gameContext.getPlayerColor(this.gameContext.state === 'player_a' ? 'player_b' : 'player_a');
 
-      // @todo João, se a bola branca estiver removida também deve considerar a lógica de remover bolas ou mover para estado de vitória
-      if (!this.gameContext.firstBallHitted && this.gameContext.playerBallSelected) {
+    // @todo João, se a bola branca estiver removida também deve considerar a lógica de remover bolas ou mover para estado de vitória
+    if (!this.gameContext.firstBallHitted && this.gameContext.playerBallSelected) {
 
-        if (this.physicsSolver.entities.findIndex(ball => ball.shape.color === colorOtherPlayer) !== -1) {
-          // 'paga' uma bola por ter errado...
-          this.removeABall(colorOtherPlayer);
+      if (this.physicsSolver.entities.findIndex(ball => ball.shape.color === colorOtherPlayer) !== -1) {
+        // 'paga' uma bola por ter errado...
+        this.removeABall(colorOtherPlayer);
+      }
+    }
+
+    if (this.gameContext.ballsInTheBucket.length) {
+      // @note pega a cor da primeira bola que encontrar na caçapa
+      // @todo joão, iterar e pular a bola branca, causando bug quando apenas acerta a caçapa duas vezes seguida
+      for (const entity of this.gameContext.ballsInTheBucket) {
+        if (entity !== this.ball) {
+          this.gameContext.playerBallSelected = entity.shape.color;
         }
       }
+      this.gameContext.ballsInTheBucket.length = 0;
+    }
 
-      if (this.gameContext.ballsInTheBucket.length) {
-        // @note pega a cor da primeira bola que encontrar na caçapa
-        // @todo joão, iterar e pular a bola branca, causando bug quando apenas acerta a caçapa duas vezes seguida
-        for (const entity of this.gameContext.ballsInTheBucket) {
-          if (entity !== this.ball) {
-            this.gameContext.playerBallSelected = entity.shape.color;
-          }
-        }
-        this.gameContext.ballsInTheBucket.length = 0;
-      }
+    if (isWhiteBallRemoved) {
+      this.ball = new Entity(vec2(265, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#FFF'));
+      this.physicsSolver.entities.push(this.ball);
+    }
 
-      if (isWhiteBallRemoved) {
-        this.ball = new Entity(vec2(265, 200), vec2(0, 0), new Circle(vec2(250, 200), 10, '#FFF'));
-        this.physicsSolver.entities.push(this.ball);
-      }
-
-      if (this.gameContext.playerBallSelected && (
-          this.physicsSolver.entities.findIndex(ball => ball.shape.color === this.gameContext.getPlayerColor('player_a')) === -1 ||
-          this.physicsSolver.entities.findIndex(ball => ball.shape.color === this.gameContext.getPlayerColor('player_b')) === -1
-        )) {
-        if (this.gameContext.state === 'player_b') this.gameContext.state = 'win_a';
-        else if (this.gameContext.state === 'player_a') this.gameContext.state = 'win_b';
-      } else if (this.gameContext.state.startsWith('player')) {
-        if (this.gameContext.ballsInTheBucket.length === 0 || isWhiteBallRemoved) {
-          this.gameContext.changePlayer();
-        }
+    if (this.gameContext.playerBallSelected && (
+        this.physicsSolver.entities.findIndex(ball => ball.shape.color === this.gameContext.getPlayerColor('player_a')) === -1 ||
+        this.physicsSolver.entities.findIndex(ball => ball.shape.color === this.gameContext.getPlayerColor('player_b')) === -1
+      )) {
+      if (this.gameContext.state === 'player_b') this.gameContext.state = 'win_a';
+      else if (this.gameContext.state === 'player_a') this.gameContext.state = 'win_b';
+    } else if (this.gameContext.state.startsWith('player')) {
+      if (this.gameContext.ballsInTheBucket.length === 0 || isWhiteBallRemoved) {
+        this.gameContext.changePlayer();
       }
     }
   }
