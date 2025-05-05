@@ -175,8 +175,8 @@ export class Scene07 extends DemonstrationScene {
         this.physicsSolver.entities.findIndex(ball => ball.shape.color === this.gameContext.getPlayerColor('player_b')) === -1
       )) {
       switch (this.gameContext.state) {
-        case 'player_b': this.gameContext.state = 'win_a'; break;
-        case 'player_a': this.gameContext.state = 'win_b'; break;
+        case 'player_b': this.gameContext.state = 'win_b'; break;
+        case 'player_a': this.gameContext.state = 'win_a'; break;
         default: console.assert(false, `Não deveria chegar aqui com estado: ${this.gameContext.state}`);
       }
     } else if (this.gameContext.state.startsWith('player')) {
