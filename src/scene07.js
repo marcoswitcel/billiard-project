@@ -143,7 +143,7 @@ export class Scene07 extends DemonstrationScene {
     const isThereBallsInTheBucket = this.gameContext.ballsInTheBucket.length > 0;
 
     this.gameContext.waitingStop = false;
-    const colorOtherPlayer = this.gameContext.getPlayerColor(this.gameContext.state === 'player_a' ? 'player_b' : 'player_a');
+    const colorOtherPlayer = this.gameContext.state === 'player_a' ? this.gameContext.playerBColor : this.gameContext.playerAColor;
 
     // @todo João, se a bola branca estiver removida também deve considerar a lógica de remover bolas ou mover para estado de vitória
     if (this.gameContext.playerBallSelected && (!this.gameContext.firstBallHitted || isWhiteBallRemoved)) {
@@ -159,7 +159,14 @@ export class Scene07 extends DemonstrationScene {
       // @todo joão, iterar e pular a bola branca, causando bug quando apenas acerta a caçapa duas vezes seguida
       for (const entity of this.gameContext.ballsInTheBucket) {
         if (entity !== this.ball) {
-          this.gameContext.playerBallSelected = entity.shape.color;
+          this.gameContext.playerBallSelected = true;
+          if (this.gameContext.state === 'player_a') {
+            this.gameContext.playerAColor = entity.shape.color;
+            this.gameContext.playerBColor = (entity.shape.color === this.gameContext.color1) ? this.gameContext.color2 : this.gameContext.color1;
+          } else {
+            this.gameContext.playerBColor = entity.shape.color;
+            this.gameContext.playerAColor = (entity.shape.color === this.gameContext.color1) ? this.gameContext.color2 : this.gameContext.color1;
+          }
         }
       }
       this.gameContext.ballsInTheBucket.length = 0;
@@ -170,15 +177,13 @@ export class Scene07 extends DemonstrationScene {
       this.physicsSolver.entities.push(this.ball);
     }
 
-    if (this.gameContext.playerBallSelected && (
-        this.physicsSolver.entities.findIndex(ball => ball.shape.color === this.gameContext.getPlayerColor('player_a')) === -1 ||
-        this.physicsSolver.entities.findIndex(ball => ball.shape.color === this.gameContext.getPlayerColor('player_b')) === -1
-      )) {
-      switch (this.gameContext.state) {
-        case 'player_b': this.gameContext.state = 'win_b'; break;
-        case 'player_a': this.gameContext.state = 'win_a'; break;
-        default: console.assert(false, `Não deveria chegar aqui com estado: ${this.gameContext.state}`);
-      }
+    const playerABallsEnded = this.physicsSolver.entities.findIndex(ball => ball.shape.color === this.gameContext.playerAColor) === -1;
+    const playerBBallsEnded = this.physicsSolver.entities.findIndex(ball => ball.shape.color === this.gameContext.playerBColor) === -1;
+
+    if (this.gameContext.playerBallSelected && (playerABallsEnded || playerBBallsEnded)) {
+      // @todo João, há cenários aonde todas as bolas podem acabar de uma vez... analisar e ajustar
+      if (playerABallsEnded) this.gameContext.state = 'win_a';
+      if (playerBBallsEnded) this.gameContext.state = 'win_b';
     } else if (this.gameContext.state.startsWith('player')) {
       if (!isThereBallsInTheBucket || isWhiteBallRemoved) {
         this.gameContext.changePlayer();
@@ -291,7 +296,7 @@ export class Scene07 extends DemonstrationScene {
     this.gameContext.firstBallHitted = null;
 
     this.gameContext.ballsInTheBucket = [];
-    this.gameContext.playerBallSelected = null;
+    this.gameContext.playerBallSelected = false;
 
     this.addBalls();
   }

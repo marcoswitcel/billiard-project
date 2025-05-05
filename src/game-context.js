@@ -13,9 +13,12 @@ export class GameContex {
    */
   firstBallHitted = null;
   /**
-   * @type {string | null}
+   * @type {boolean}
    */
-  playerBallSelected = null;
+  playerBallSelected = false;
+
+  playerAColor = null;
+  playerBColor = null;
 
   /**
    * @type {Entity[]}
@@ -31,16 +34,5 @@ export class GameContex {
     } else if (this.state === 'player_b') {
       this.state = 'player_a';
     }
-  }
-
-  /**
-   * 
-   * @param {'player_a'|'player_b'} player 
-   * @returns 
-   */
-  getPlayerColor(player) {
-    return (player === 'player_a')
-      ? this.playerBallSelected
-      : ((this.playerBallSelected === this.color1) ? this.color2 : this.color1);
   }
 }
