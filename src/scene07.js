@@ -140,12 +140,13 @@ export class Scene07 extends DemonstrationScene {
     if (!this.gameContext.waitingStop || !allBallsStoped(this.physicsSolver)) return;
 
     const isWhiteBallRemoved = this.gameContext.ballsInTheBucket.indexOf(this.ball) !== -1;
+    const isThereBallsInTheBucket = this.gameContext.ballsInTheBucket.length > 0;
 
     this.gameContext.waitingStop = false;
     const colorOtherPlayer = this.gameContext.getPlayerColor(this.gameContext.state === 'player_a' ? 'player_b' : 'player_a');
 
     // @todo João, se a bola branca estiver removida também deve considerar a lógica de remover bolas ou mover para estado de vitória
-    if (!this.gameContext.firstBallHitted && this.gameContext.playerBallSelected) {
+    if (this.gameContext.playerBallSelected && (!this.gameContext.firstBallHitted || isWhiteBallRemoved)) {
 
       if (this.physicsSolver.entities.findIndex(ball => ball.shape.color === colorOtherPlayer) !== -1) {
         // 'paga' uma bola por ter errado...
@@ -153,7 +154,7 @@ export class Scene07 extends DemonstrationScene {
       }
     }
 
-    if (this.gameContext.ballsInTheBucket.length) {
+    if (isThereBallsInTheBucket) {
       // @note pega a cor da primeira bola que encontrar na caçapa
       // @todo joão, iterar e pular a bola branca, causando bug quando apenas acerta a caçapa duas vezes seguida
       for (const entity of this.gameContext.ballsInTheBucket) {
@@ -179,7 +180,7 @@ export class Scene07 extends DemonstrationScene {
         default: console.assert(false, `Não deveria chegar aqui com estado: ${this.gameContext.state}`);
       }
     } else if (this.gameContext.state.startsWith('player')) {
-      if (this.gameContext.ballsInTheBucket.length === 0 || isWhiteBallRemoved) {
+      if (!isThereBallsInTheBucket || isWhiteBallRemoved) {
         this.gameContext.changePlayer();
       }
     }
