@@ -2,7 +2,7 @@ import { CircleConstraint, LineSegmentConstraint, RectangleConstraint } from './
 import { squareShape } from './figures.js';
 import { Params } from './params.js';
 import { PhysicsSolver } from './physics-solver.js';
-import { Circle2, Polygon, Rectangle, Shape } from './shape.js';
+import { Circle2, ImageShape, Polygon, Rectangle, Shape } from './shape.js';
 import { drawCircle, drawLine, drawPolygon, drawRect, drawText, renderLines } from './utils.js';
 import { Vec2, vec2 } from './vec2.js';
 
@@ -47,6 +47,7 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
 
   if (visualElements) for (const visualElement of visualElements) {
     if (visualElement instanceof Rectangle) {
+      // @todo João, extrair essa declaração duplicada de dentro de cada if...
       const position = canvasCenter.copy().add(visualElement.position.copy().sub(camera.position).mul(scale));
       const width = visualElement.size.x * scale;
       const height = visualElement.size.y * scale;
@@ -59,6 +60,13 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
       const position = canvasCenter.copy().add(visualElement.position.copy().sub(camera.position).mul(scale));
       const radius = visualElement.radius * scale;
       drawCircle(ctx, position.x, position.y, radius, visualElement.color);
+    } else if (visualElement instanceof ImageShape) {
+      const position = canvasCenter.copy().add(visualElement.position.copy().sub(camera.position).mul(scale));
+      const width = visualElement.size.x * scale;
+      const height = visualElement.size.y * scale;
+      // @todo João, implementar aqui o render...
+      // drawImage(ctx, visualElement.image, visualElement.color, position.x - width / 2, position.y - height / 2, width, height);
+      // ctx.drawImage(visualElement.image, position.x - width / 2, position.y - height / 2, width, height);
     }
   }
 

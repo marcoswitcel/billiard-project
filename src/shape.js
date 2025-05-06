@@ -15,6 +15,24 @@ export class Shape {
   }
 }
 
+export class ImageShape extends Shape {
+  size = vec2(1, 1);
+  image = null;
+
+  /**
+   * @param {Vec2} position 
+   * @param {Vec2} size 
+   * @param {any} image 
+   * @param {string} color 
+   */
+  constructor(position, size, image, color) {
+    super(position, color);
+    this.size = size;
+    // @note João, longe do ideal ou mais flexível, mas por hora...
+    this.image = image;
+  }
+}
+
 export class Rectangle extends Shape {
   size = vec2(1, 1);
 

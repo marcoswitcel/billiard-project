@@ -7,7 +7,7 @@ import { GameContex } from './game-context.js';
 import { Params } from './params.js';
 import { PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
-import { Circle2, Polygon, Rectangle } from './shape.js';
+import { Circle2, ImageShape, Polygon, Rectangle } from './shape.js';
 import { drawRect, drawCircle, between, drawLine, renderLines, drawText } from './utils.js';
 import { Vec2, vec2 } from './vec2.js';
 
@@ -93,6 +93,13 @@ export class Scene07 extends DemonstrationScene {
         this.visualElements.push(new Polygon(center, 'rgba(0,0,0,0.25)', points, 250))
       }
       
+
+      // @todo João, fazer o push de uma imagem para background...
+      // avaliar como vou garantir a ordem da renderização.
+      // const image = new Image();
+      // image.src = 'https://upload.wikimedia.org/wikipedia/commons/b/bd/Test.svg';
+
+      // this.visualElements.push(new ImageShape(vec2(350, 200), vec2(500 * 0.9, 250), image,  '#0F0'));
     }
 
     // @todo João, posicionar melhor...
