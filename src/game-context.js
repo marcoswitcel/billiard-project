@@ -35,4 +35,14 @@ export class GameContex {
       this.state = 'player_a';
     }
   }
+
+  reset() {
+    this.state = 'not_started';
+    this.waitingStop = false;
+    this.firstBallHitted = null;
+    this.playerBallSelected = false;
+    this.playerAColor = null;
+    this.playerBColor = null;
+    this.ballsInTheBucket = [];
+  }
 }

@@ -298,13 +298,8 @@ export class Scene07 extends DemonstrationScene {
   }
 
   resetGame() {
+    this.gameContext.reset();
     this.gameContext.state = 'player_a';
-
-    this.gameContext.waitingStop = false;
-    this.gameContext.firstBallHitted = null;
-
-    this.gameContext.ballsInTheBucket = [];
-    this.gameContext.playerBallSelected = false;
 
     this.addBalls();
   }
