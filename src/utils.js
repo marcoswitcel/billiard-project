@@ -26,7 +26,11 @@ export function drawRect(ctx, color, x, y, width, height) {
  * @param {number} height 
  */
 export function drawImage(ctx, image, x, y, width, height) {
-  ctx.drawImage(image, x, y, width, height);
+  try {
+    ctx.drawImage(image, x, y, width, height);
+  } catch (ex) {
+    console.error(ex);
+  }
 }
 
 /**
