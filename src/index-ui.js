@@ -1,5 +1,6 @@
 import { Color } from './color.js';
 import { GameScene, MenuScene } from './game-scene.js';
+import { Params } from './params.js';
 import { Rectangle } from './shape.js';
 import { Button, GUIGlobals, theGUIGlobals } from './ui.js';
 import { drawRect, drawText, isFullScreen } from './utils.js';
@@ -62,8 +63,8 @@ requestAnimationFrame(function loop(timestamp) {
   }
 
   if (scene) {
-    scene.update(deltaTimeMs);
-    scene.render(deltaTimeMs);
+    scene.update(deltaTimeMs * Params.get('speedFactor', 1));
+    scene.render(deltaTimeMs * Params.get('speedFactor', 1));
 
     if (scene.newScene) {
       newScene = scene.newScene;
