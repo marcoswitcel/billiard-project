@@ -55,6 +55,9 @@ export class BilliardScene extends GameScene {
   constructor(ctx) {
     super(ctx);
     this.scene = new Scene07(ctx);
+    // @note configurando a cena
+    this.scene.camera.scale = 1.65;
+    this.scene.camera.position.y -= 20;
   }
 
   handlePause = (event) => {
