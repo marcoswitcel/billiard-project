@@ -46,22 +46,19 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
   const lineWidth = 2 * scale;
 
   if (visualElements) for (const visualElement of visualElements) {
+    const position = canvasCenter.copy().add(visualElement.position.copy().sub(camera.position).mul(scale));
+
     if (visualElement instanceof Rectangle) {
-      // @todo João, extrair essa declaração duplicada de dentro de cada if...
-      const position = canvasCenter.copy().add(visualElement.position.copy().sub(camera.position).mul(scale));
       const width = visualElement.size.x * scale;
       const height = visualElement.size.y * scale;
       drawRect(ctx, visualElement.color, position.x - width / 2, position.y - height / 2, width, height);
     } else if (visualElement instanceof Polygon) {
-      const position = canvasCenter.copy().add(visualElement.position.copy().sub(camera.position).mul(scale));
       const points = visualElement.points.map(p => p.copy().mul(visualElement.scale * scale).add(position));
       drawPolygon(ctx, points, visualElement.color, null, lineWidth);
     } else if (visualElement instanceof Circle2) {
-      const position = canvasCenter.copy().add(visualElement.position.copy().sub(camera.position).mul(scale));
       const radius = visualElement.radius * scale;
       drawCircle(ctx, position.x, position.y, radius, visualElement.color);
     } else if (visualElement instanceof ImageShape) {
-      const position = canvasCenter.copy().add(visualElement.position.copy().sub(camera.position).mul(scale));
       const width = visualElement.size.x * scale;
       const height = visualElement.size.y * scale;
 
