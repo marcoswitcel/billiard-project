@@ -15,6 +15,21 @@ export function drawRect(ctx, color, x, y, width, height) {
 }
 
 /**
+ * 
+ * @note João, talvez retornar se conseguiu desenhar? para poder desenhar um cor ou imagem 'default'
+ * 
+ * @param {CanvasRenderingContext2D} ctx 
+ * @param {CanvasImageSource} image
+ * @param {number} x 
+ * @param {number} y 
+ * @param {number} width 
+ * @param {number} height 
+ */
+export function drawImage(ctx, image, x, y, width, height) {
+  ctx.drawImage(image, x, y, width, height);
+}
+
+/**
  * @param {CanvasRenderingContext2D} ctx 
  * @param {number} x 
  * @param {number} y 

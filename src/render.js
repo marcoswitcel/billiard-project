@@ -3,7 +3,7 @@ import { squareShape } from './figures.js';
 import { Params } from './params.js';
 import { PhysicsSolver } from './physics-solver.js';
 import { Circle2, ImageShape, Polygon, Rectangle, Shape } from './shape.js';
-import { drawCircle, drawLine, drawPolygon, drawRect, drawText, renderLines } from './utils.js';
+import { drawCircle, drawImage, drawLine, drawPolygon, drawRect, drawText, renderLines } from './utils.js';
 import { Vec2, vec2 } from './vec2.js';
 
 const searchParams = new URLSearchParams(window.location.search);
@@ -64,9 +64,8 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
       const position = canvasCenter.copy().add(visualElement.position.copy().sub(camera.position).mul(scale));
       const width = visualElement.size.x * scale;
       const height = visualElement.size.y * scale;
-      // @todo João, implementar aqui o render...
-      // drawImage(ctx, visualElement.image, visualElement.color, position.x - width / 2, position.y - height / 2, width, height);
-      // ctx.drawImage(visualElement.image, position.x - width / 2, position.y - height / 2, width, height);
+
+      drawImage(ctx, visualElement.image, position.x - width / 2, position.y - height / 2, width, height);
     }
   }
 

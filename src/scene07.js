@@ -96,10 +96,10 @@ export class Scene07 extends DemonstrationScene {
 
       // @todo João, fazer o push de uma imagem para background...
       // avaliar como vou garantir a ordem da renderização.
-      // const image = new Image();
-      // image.src = 'https://upload.wikimedia.org/wikipedia/commons/b/bd/Test.svg';
+      const image = new Image();
+      image.src = 'https://upload.wikimedia.org/wikipedia/commons/b/bd/Test.svg'; // @note test image
 
-      // this.visualElements.push(new ImageShape(vec2(350, 200), vec2(500 * 0.9, 250), image,  '#0F0'));
+      //this.visualElements.push(new ImageShape(vec2(350, 200), vec2(500 * 0.9 * 1.1, 250 * 1.1), image,  '#0F0'));
     }
 
     // @todo João, posicionar melhor...
