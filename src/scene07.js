@@ -69,6 +69,15 @@ export class Scene07 extends DemonstrationScene {
     this.physicsSolver.friction = 60;
     
     this.addBalls();
+
+    // @todo João, fazer o push de uma imagem para background...
+    // avaliar como vou garantir a ordem da renderização...
+    // Vou deixar comentado para avaliar...
+    {
+      // const image = new Image();
+      // image.src = 'https://upload.wikimedia.org/wikipedia/commons/b/bd/Test.svg'; // @note test image
+      // this.visualElements.push(new ImageShape(vec2(350, 200), vec2(500 * 0.9 * 2, 250 * 2), image,  '#0F0'));
+    }
     
     this.visualElements.push(new Rectangle(vec2(350, 200), vec2(500 * 0.9, 250), '#0F0'));
     {
@@ -92,14 +101,6 @@ export class Scene07 extends DemonstrationScene {
         const points = polygon.map(p => vec2(p[0], p[1]));
         this.visualElements.push(new Polygon(center, 'rgba(0,0,0,0.25)', points, 250))
       }
-      
-
-      // @todo João, fazer o push de uma imagem para background...
-      // avaliar como vou garantir a ordem da renderização.
-      const image = new Image();
-      image.src = 'https://upload.wikimedia.org/wikipedia/commons/b/bd/Test.svg'; // @note test image
-
-      //this.visualElements.push(new ImageShape(vec2(350, 200), vec2(500 * 0.9 * 1.1, 250 * 1.1), image,  '#0F0'));
     }
 
     // @todo João, posicionar melhor...
