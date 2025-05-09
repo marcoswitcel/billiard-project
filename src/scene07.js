@@ -7,12 +7,12 @@ import { GameContex } from './game-context.js';
 import { Params } from './params.js';
 import { PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
-import { Circle2, ImageShape, Polygon, Rectangle } from './shape.js';
-import { drawRect, drawCircle, between, drawLine, renderLines, drawText } from './utils.js';
+import { Circle2, Polygon, Rectangle } from './shape.js';
+import { drawRect, between, drawLine, renderLines, drawText } from './utils.js';
 import { Vec2, vec2 } from './vec2.js';
 
 
-const calculateForce = (start, now) => Math.min((now - start), 2000) / 1000;
+const calculateForce = (start, now) => ((now - start) % 2000) / 1000;
 
 const ballRadius = 10;
 
