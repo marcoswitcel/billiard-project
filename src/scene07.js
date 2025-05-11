@@ -12,7 +12,7 @@ import { drawRect, between, drawLine, renderLines, drawText } from './utils.js';
 import { Vec2, vec2 } from './vec2.js';
 
 
-const calculateForce = (start, now) => ((now - start) % 2000) / 1000;
+const calculateForce = (start, now) => Math.sin((now - start) / 180 / 2) + 1;
 
 const ballRadius = 10;
 
