@@ -33,7 +33,6 @@ export class Color {
   }
 
   /**
-   * @todo João, testar
    * @param {string} color 
    * @returns 
    */
