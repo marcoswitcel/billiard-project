@@ -164,17 +164,16 @@ export class Scene07 extends DemonstrationScene {
 
     if (isThereBallsInTheBucket) {
       // @note pega a cor da primeira bola que encontrar na caçapa
-      // @todo joão, iterar e pular a bola branca, causando bug quando apenas acerta a caçapa duas vezes seguida
       for (const entity of this.gameContext.ballsInTheBucket) {
-        if (entity !== this.ball) {
-          this.gameContext.playerBallSelected = true;
-          if (this.gameContext.state === 'player_a') {
-            this.gameContext.playerAColor = entity.shape.color;
-            this.gameContext.playerBColor = (entity.shape.color === this.gameContext.color1) ? this.gameContext.color2 : this.gameContext.color1;
-          } else {
-            this.gameContext.playerBColor = entity.shape.color;
-            this.gameContext.playerAColor = (entity.shape.color === this.gameContext.color1) ? this.gameContext.color2 : this.gameContext.color1;
-          }
+        if (entity === this.ball) continue;
+        
+        this.gameContext.playerBallSelected = true;
+        if (this.gameContext.state === 'player_a') {
+          this.gameContext.playerAColor = entity.shape.color;
+          this.gameContext.playerBColor = (entity.shape.color === this.gameContext.color1) ? this.gameContext.color2 : this.gameContext.color1;
+        } else {
+          this.gameContext.playerBColor = entity.shape.color;
+          this.gameContext.playerAColor = (entity.shape.color === this.gameContext.color1) ? this.gameContext.color2 : this.gameContext.color1;
         }
       }
       this.gameContext.ballsInTheBucket.length = 0;
