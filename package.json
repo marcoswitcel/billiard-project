@@ -1,0 +1,23 @@
+{
+  "name": "billiard-project",
+  "version": "1.0.0",
+  "description": "Um pequeno experimento de criação de um jogo de \"billiard\" com as soluções atuais de física que conheço (integração verlet com sistema de constraint simples).",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -p .",
+    "dev": "tsc -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcoswitcel/billiard-project.git"
+  },
+  "author": "João Marcos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marcoswitcel/billiard-project/issues"
+  },
+  "homepage": "https://github.com/marcoswitcel/billiard-project#readme",
+  "devDependencies": {
+    "typescript": "^4.8.4"
+  }
+}

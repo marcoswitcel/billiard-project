@@ -1,2 +1,9 @@
 .vscode
+
+# svg de exmplo
 *.svg
+
+# dependências
+node_modules
+# builds
+public/dist
