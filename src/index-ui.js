@@ -14,17 +14,18 @@ const ctx = canvas.getContext('2d');
 const app = document.getElementById('app');
 
 if (!(app instanceof HTMLDivElement)) throw new Error('HTMLDivElement');
+if (!(ctx instanceof CanvasRenderingContext2D)) throw new Error('CanvasRenderingContext2D');
 
 canvas.width = 800;
 canvas.height = 600;
 
 app.append(canvas);
 /**
- * @type {GameScene}
+ * @type {GameScene?}
  */
 let scene  = null;
 /**
- * @type {GameScene}
+ * @type {GameScene?}
  */
 let newScene = new MenuScene(ctx);
 
