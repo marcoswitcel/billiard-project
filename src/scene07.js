@@ -7,7 +7,7 @@ import { GameContex } from './game-context.js';
 import { Params } from './params.js';
 import { PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
-import { Circle2, Polygon, Rectangle } from './shape.js';
+import { Circle2, Polygon, Rectangle, Shape } from './shape.js';
 import { SoundHandleState, SoundMixer } from './sounds/sound-mixer.js';
 import { SoundResourceManager } from './sounds/sound-resource-manager.js';
 import { drawRect, between, drawLine, renderLines, drawText } from './utils.js';
@@ -39,9 +39,13 @@ export class Scene07 extends DemonstrationScene {
    */
   lastClick = null;
 
-  camera = null;
-  renderParams = null;
-  mouseCoords = null;
+  camera;
+  renderParams;
+  mouseCoords;
+  /**
+   * @type {Shape[]}
+   */
+  visualElements;
   ignoreEvents = false;
 
   /**

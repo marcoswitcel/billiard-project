@@ -18,7 +18,13 @@ export class GameContex {
    */
   playerBallSelected = false;
 
+  /**
+   * @type {string?}
+   */
   playerAColor = null;
+  /**
+   * @type {string?}
+   */
   playerBColor = null;
 
   /**
