@@ -8,7 +8,7 @@ import { Params } from './params.js';
 import { PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
 import { Circle2, Polygon, Rectangle } from './shape.js';
-import { SoundMixer } from './sounds/sound-mixer.js';
+import { SoundHandleState, SoundMixer } from './sounds/sound-mixer.js';
 import { SoundResourceManager } from './sounds/sound-resource-manager.js';
 import { drawRect, between, drawLine, renderLines, drawText } from './utils.js';
 import { Vec2, vec2 } from './vec2.js';
@@ -71,7 +71,6 @@ export class Scene07 extends DemonstrationScene {
     soundResourceManager.loadAll();
 
     this.gameContext.soundMixer = new SoundMixer(soundResourceManager);
-    console.log(this.gameContext.soundMixer)
   }
 
   setup() {
@@ -289,6 +288,10 @@ export class Scene07 extends DemonstrationScene {
     }
 
     renderLines(this.ctx, lines, vec2(15, 550), 16);
+
+    if (Params.is('soundDebugView')) {
+      renderSoundDebugView(this.ctx, this.gameContext.soundMixer);
+    }
   }
 
   addBalls() {
@@ -403,5 +406,36 @@ export class Scene07 extends DemonstrationScene {
     // sinaliza a espera do término do movimento
     this.gameContext.waitingStop = true;
     this.gameContext.firstBallHitted = null;
+  }
+}
+
+/**
+ * 
+ * @param {CanvasRenderingContext2D} ctx 
+ * @param {SoundMixer} soundMixer 
+ */
+function renderSoundDebugView(ctx, soundMixer) {
+  // Deixando a largura da linha escalável
+  const color = '#0f0';
+  const fontFamily = 'monospace';
+  const fontSize = 14;
+  const lineHeight = 1.6;
+  const textXOffset = 14;
+  const textYOffset = 14;
+  
+  {
+    const title = `Total: ${soundMixer.getTotalSounds()} ` +
+        `| Tocando: ${soundMixer.countSoundsInState(SoundHandleState.PLAYING)} ` +
+        `| Pausados: ${soundMixer.countSoundsInState(SoundHandleState.STOPED)}`;
+
+    const position = new Vec2(textXOffset, textYOffset + (fontSize * lineHeight * 1));
+    drawText(ctx, title, position, fontSize, color, fontFamily, 'start');
+  }
+
+  let i = 2; // @note por que dois?
+  for (const soundHandle of soundMixer.getPlayingSoundsIter()) {
+    const position = new Vec2(textXOffset, textYOffset + (fontSize * lineHeight * i));
+    drawText(ctx, soundHandle.getDescription(), position, fontSize, color, fontFamily, 'start');
+    i++;
   }
 }
