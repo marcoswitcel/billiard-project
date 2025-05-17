@@ -1,4 +1,5 @@
 import { Entity } from './entity.js';
+import { SoundMixer } from './sounds/sound-mixer.js';
 
 export class GameContex {
   /**
@@ -27,6 +28,11 @@ export class GameContex {
 
   color1 = '#FF0';
   color2 = '#F0A';
+
+  /**
+   * @type {SoundMixer?}
+   */
+  soundMixer = null;
 
   changePlayer() {
     if (this.state === 'player_a') {

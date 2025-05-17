@@ -8,6 +8,8 @@ import { Params } from './params.js';
 import { PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
 import { Circle2, Polygon, Rectangle } from './shape.js';
+import { SoundMixer } from './sounds/sound-mixer.js';
+import { SoundResourceManager } from './sounds/sound-resource-manager.js';
 import { drawRect, between, drawLine, renderLines, drawText } from './utils.js';
 import { Vec2, vec2 } from './vec2.js';
 
@@ -62,6 +64,14 @@ export class Scene07 extends DemonstrationScene {
     this.gameContext = new GameContex();
     // @note temporário
     this.gameContext.state = 'player_a';
+
+    const soundResourceManager = new SoundResourceManager();
+
+    soundResourceManager.add('collision', './resource/audio/Pen Clicking.mp3');
+    soundResourceManager.loadAll();
+
+    this.gameContext.soundMixer = new SoundMixer(soundResourceManager);
+    console.log(this.gameContext.soundMixer)
   }
 
   setup() {
@@ -122,7 +132,13 @@ export class Scene07 extends DemonstrationScene {
       if (e1 === this.ball || e2 === this.ball) {
         const other = e1 === this.ball ? e2 : e1;
         if (!this.gameContext.firstBallHitted) this.gameContext.firstBallHitted = other;
+        
       }
+
+      // @todo João, checar por colisões duplicadas
+      // @todo João, trocar esse som... talvez implementar vários samples e vincular o volume a força da colisão
+      // para agregar a experiência sonora do jogo...
+      this.gameContext.soundMixer.play('collision', false, .5, true);
     };
 
     // @note acabei resolvendo isso de outra forma, mas agora funciona...
@@ -142,6 +158,9 @@ export class Scene07 extends DemonstrationScene {
      * dessa forma ficou mais estável a simualação.
      */
     this.physicsSolver.update(deltaTimeMs);
+
+    // sistema de som
+    this.gameContext.soundMixer.clear();
 
     this.checkForPointsAndRemoveBalls();
 
