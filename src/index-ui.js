@@ -3,7 +3,7 @@ import { GameScene, MenuScene } from './game-scene.js';
 import { Params } from './params.js';
 import { Rectangle } from './shape.js';
 import { Button, GUIGlobals, theGUIGlobals } from './ui.js';
-import { drawRect, drawText, isFullScreen } from './utils.js';
+import { between, drawRect, drawText, isFullScreen } from './utils.js';
 import { vec2 } from './vec2.js';
 
 console.log('Olá mundo')
@@ -91,6 +91,16 @@ window.addEventListener('resize', () => {
     canvas.width = 800;
     canvas.height = 600;
   } */
+});
+
+document.addEventListener('keydown', (event) => {
+  const speedFactor = Params.get('speedFactor', 1);
+  
+  if (event.key === '+') {
+    Params.set('speedFactor', between(speedFactor + 0.01, 0, 10));
+  } else if (event.key === '-') {
+    Params.set('speedFactor', between(speedFactor - 0.01, 0, 10));
+  }
 });
 
 theGUIGlobals.setupListeners(canvas);
