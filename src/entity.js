@@ -87,4 +87,9 @@ export class Entity {
   isStoped() {
     return this.getCurrentVelocity().length() <= IN_MOVEMENT_THREASHOLD;
   }
+
+  /**
+   * @type {boolean}
+   */
+  [symMarkedForRemoval] = false;
 }

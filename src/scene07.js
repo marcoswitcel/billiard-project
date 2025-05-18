@@ -9,11 +9,15 @@ import { PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
 import { Circle2, Polygon, Rectangle, Shape } from './shape.js';
 import { SoundHandleState, SoundMixer } from './sounds/sound-mixer.js';
-import { SoundResourceManager } from './sounds/sound-resource-manager.js';
 import { drawRect, between, drawLine, renderLines, drawText } from './utils.js';
 import { Vec2, vec2 } from './vec2.js';
 
-
+/**
+ * 
+ * @param {number} start 
+ * @param {number} now 
+ * @returns 
+ */
 const calculateForce = (start, now) => Math.sin((now - start) / 180 / 2) + 1;
 
 const ballRadius = 10;
@@ -51,6 +55,7 @@ export class Scene07 extends DemonstrationScene {
   /**
    * @type {Entity}
    */
+  // @ts-expect-error
   ball;
 
   /**
@@ -68,13 +73,6 @@ export class Scene07 extends DemonstrationScene {
     this.gameContext = new GameContex();
     // @note temporário
     this.gameContext.state = 'player_a';
-
-    const soundResourceManager = new SoundResourceManager();
-
-    soundResourceManager.add('collision', './resource/audio/Pen Clicking.mp3');
-    soundResourceManager.loadAll();
-
-    this.gameContext.soundMixer = new SoundMixer(soundResourceManager);
   }
 
   setup() {
@@ -143,7 +141,7 @@ export class Scene07 extends DemonstrationScene {
       // @todo João, checar por colisões duplicadas
       // @todo João, trocar esse som... talvez implementar vários samples e vincular o volume a força da colisão
       // para agregar a experiência sonora do jogo...
-      this.gameContext.soundMixer.play('collision', false, impactForce, true);
+      this.gameContext.soundMixer?.play('collision', false, impactForce, true);
     };
 
     // @note acabei resolvendo isso de outra forma, mas agora funciona...
@@ -157,6 +155,11 @@ export class Scene07 extends DemonstrationScene {
     this.ctx.canvas.addEventListener('wheel', this.handleWheel, { passive: true });
   }
 
+  /**
+   * 
+   * @param {number} deltaTimeMs 
+   * @returns 
+   */
   update(deltaTimeMs) {
     /**
      * @note tentei implementar um mecanismo simples, onde atualizo 3 vezes passando o deltaTimeMs dividido por três;
@@ -165,7 +168,7 @@ export class Scene07 extends DemonstrationScene {
     this.physicsSolver.update(deltaTimeMs);
 
     // sistema de som
-    this.gameContext.soundMixer.clear();
+    this.gameContext.soundMixer?.clear();
 
     this.checkForPointsAndRemoveBalls();
 
@@ -222,6 +225,9 @@ export class Scene07 extends DemonstrationScene {
     }
   }
 
+  /**
+   * @param {string | null} fromColor
+   */
   removeABall(fromColor) {
     const entities = this.physicsSolver.entities;
     const newEntities = [];
@@ -331,6 +337,10 @@ export class Scene07 extends DemonstrationScene {
     this.addBalls();
   }
 
+  /**
+   * @param {KeyboardEvent} event 
+   * @returns 
+   */
   handleKeyup = (event) => {
     if (this.ignoreEvents) return;
     
@@ -341,6 +351,10 @@ export class Scene07 extends DemonstrationScene {
     }
   }
 
+  /**
+   * @param {KeyboardEvent} event 
+   * @returns 
+   */
   handleKeydown = (event) => {
     if (this.ignoreEvents) return;
     
@@ -355,12 +369,20 @@ export class Scene07 extends DemonstrationScene {
     }
   }
 
+  /**
+   * @param {WheelEvent} event 
+   * @returns 
+   */
   handleWheel = (event) => {
     if (this.ignoreEvents) return;
     
     this.camera.scale = between(this.camera.scale + event.deltaY * 0.001, 0.1, 2);
   }
 
+  /**
+   * @param {MouseEvent} event 
+   * @returns 
+   */
   handleMousedown = event => {
     if (this.ignoreEvents) return;
     
@@ -373,6 +395,10 @@ export class Scene07 extends DemonstrationScene {
     }
   }
 
+  /**
+   * @param {MouseEvent} event 
+   * @returns 
+   */
   handleMousemove = (event) => {
     if (this.ignoreEvents) return;
     
@@ -381,6 +407,10 @@ export class Scene07 extends DemonstrationScene {
     this.mouseCoords = vec2((event.clientX - boundings.x) / canvas.clientWidth, (event.clientY - boundings.y) / canvas.clientHeight);
   }
 
+  /**
+   * @param {MouseEvent} event 
+   * @returns 
+   */
   handleMouseup = (event) => {
     if (this.ignoreEvents) return;
     
