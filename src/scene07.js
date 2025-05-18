@@ -138,7 +138,7 @@ export class Scene07 extends DemonstrationScene {
 
       // @note Não tenho a informação da velocidade na hora da colisão... então improvisando temporariamente assim
       const impactForce = (e1.getCurrentVelocity().length() + e2.getCurrentVelocity().length()) / 2 / 200;
-      // @todo João, checar por colisões duplicadas
+      // @todo João, checar por colisões duplicadas, está de fato reportando duas vezes para cadas colisão... debugar pelo console
       // @todo João, trocar esse som... talvez implementar vários samples e vincular o volume a força da colisão
       // para agregar a experiência sonora do jogo...
       this.gameContext.soundMixer.play('collision', false, impactForce, true);

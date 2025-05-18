@@ -4,6 +4,13 @@ import { vec2, Vec2 } from './vec2.js';
 
 export const symMarkedForRemoval = Symbol('Entity@markedForRemoval:boolean');
 
+const IdGenerator =  {
+  id: Math.round(Math.random() * 1000),
+  generate() {
+    return this.id++;
+  }
+}
+
 export class Entity {
   /**
    * @type {Vec2}
@@ -27,6 +34,12 @@ export class Entity {
   shape;
 
   wasMoving = false;
+
+  /**
+   * @type {number}
+   * @readonly
+   */
+  id = IdGenerator.generate();
 
   /**
    * 
