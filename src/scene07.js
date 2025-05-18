@@ -141,7 +141,7 @@ export class Scene07 extends DemonstrationScene {
       // @todo João, checar por colisões duplicadas
       // @todo João, trocar esse som... talvez implementar vários samples e vincular o volume a força da colisão
       // para agregar a experiência sonora do jogo...
-      this.gameContext.soundMixer?.play('collision', false, impactForce, true);
+      this.gameContext.soundMixer.play('collision', false, impactForce, true);
     };
 
     // @note acabei resolvendo isso de outra forma, mas agora funciona...
@@ -168,7 +168,7 @@ export class Scene07 extends DemonstrationScene {
     this.physicsSolver.update(deltaTimeMs);
 
     // sistema de som
-    this.gameContext.soundMixer?.clear();
+    this.gameContext.soundMixer.clear();
 
     this.checkForPointsAndRemoveBalls();
 
