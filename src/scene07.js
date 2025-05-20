@@ -7,11 +7,17 @@ import { GameContex } from './game-context.js';
 import { Params } from './params.js';
 import { PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
-import { Circle2, Polygon, Rectangle } from './shape.js';
+import { Circle2, Polygon, Rectangle, Shape } from './shape.js';
+import { SoundHandle, SoundHandleState, SoundMixer } from './sounds/sound-mixer.js';
 import { drawRect, between, drawLine, renderLines, drawText } from './utils.js';
 import { Vec2, vec2 } from './vec2.js';
 
-
+/**
+ * 
+ * @param {number} start 
+ * @param {number} now 
+ * @returns 
+ */
 const calculateForce = (start, now) => Math.sin((now - start) / 180 / 2) + 1;
 
 const ballRadius = 10;
@@ -37,15 +43,25 @@ export class Scene07 extends DemonstrationScene {
    */
   lastClick = null;
 
-  camera = null;
-  renderParams = null;
-  mouseCoords = null;
+  camera;
+  renderParams;
+  mouseCoords;
+  /**
+   * @type {Shape[]}
+   */
+  visualElements;
   ignoreEvents = false;
 
   /**
    * @type {Entity}
    */
+  // @ts-expect-error
   ball;
+
+  /**
+   * @type {Map<string, SoundHandle>}
+   */
+  collisionSounds = new Map;
 
   /**
    * @param {CanvasRenderingContext2D} ctx
@@ -122,7 +138,10 @@ export class Scene07 extends DemonstrationScene {
       if (e1 === this.ball || e2 === this.ball) {
         const other = e1 === this.ball ? e2 : e1;
         if (!this.gameContext.firstBallHitted) this.gameContext.firstBallHitted = other;
+        
       }
+
+      this.playCollisionSound(e1, e2);
     };
 
     // @note acabei resolvendo isso de outra forma, mas agora funciona...
@@ -136,12 +155,20 @@ export class Scene07 extends DemonstrationScene {
     this.ctx.canvas.addEventListener('wheel', this.handleWheel, { passive: true });
   }
 
+  /**
+   * 
+   * @param {number} deltaTimeMs 
+   * @returns 
+   */
   update(deltaTimeMs) {
     /**
      * @note tentei implementar um mecanismo simples, onde atualizo 3 vezes passando o deltaTimeMs dividido por três;
      * dessa forma ficou mais estável a simualação.
      */
     this.physicsSolver.update(deltaTimeMs);
+
+    // sistema de som
+    this.gameContext.soundMixer.clear();
 
     this.checkForPointsAndRemoveBalls();
 
@@ -198,6 +225,9 @@ export class Scene07 extends DemonstrationScene {
     }
   }
 
+  /**
+   * @param {string | null} fromColor
+   */
   removeABall(fromColor) {
     const entities = this.physicsSolver.entities;
     const newEntities = [];
@@ -270,6 +300,10 @@ export class Scene07 extends DemonstrationScene {
     }
 
     renderLines(this.ctx, lines, vec2(15, 550), 16);
+
+    if (Params.is('soundDebugView')) {
+      renderSoundDebugView(this.ctx, this.gameContext.soundMixer);
+    }
   }
 
   addBalls() {
@@ -303,6 +337,10 @@ export class Scene07 extends DemonstrationScene {
     this.addBalls();
   }
 
+  /**
+   * @param {KeyboardEvent} event 
+   * @returns 
+   */
   handleKeyup = (event) => {
     if (this.ignoreEvents) return;
     
@@ -313,6 +351,10 @@ export class Scene07 extends DemonstrationScene {
     }
   }
 
+  /**
+   * @param {KeyboardEvent} event 
+   * @returns 
+   */
   handleKeydown = (event) => {
     if (this.ignoreEvents) return;
     
@@ -327,12 +369,20 @@ export class Scene07 extends DemonstrationScene {
     }
   }
 
+  /**
+   * @param {WheelEvent} event 
+   * @returns 
+   */
   handleWheel = (event) => {
     if (this.ignoreEvents) return;
     
     this.camera.scale = between(this.camera.scale + event.deltaY * 0.001, 0.1, 2);
   }
 
+  /**
+   * @param {MouseEvent} event 
+   * @returns 
+   */
   handleMousedown = event => {
     if (this.ignoreEvents) return;
     
@@ -345,6 +395,10 @@ export class Scene07 extends DemonstrationScene {
     }
   }
 
+  /**
+   * @param {MouseEvent} event 
+   * @returns 
+   */
   handleMousemove = (event) => {
     if (this.ignoreEvents) return;
     
@@ -353,6 +407,10 @@ export class Scene07 extends DemonstrationScene {
     this.mouseCoords = vec2((event.clientX - boundings.x) / canvas.clientWidth, (event.clientY - boundings.y) / canvas.clientHeight);
   }
 
+  /**
+   * @param {MouseEvent} event 
+   * @returns 
+   */
   handleMouseup = (event) => {
     if (this.ignoreEvents) return;
     
@@ -384,5 +442,62 @@ export class Scene07 extends DemonstrationScene {
     // sinaliza a espera do término do movimento
     this.gameContext.waitingStop = true;
     this.gameContext.firstBallHitted = null;
+  }
+
+  /**
+   * Executa o som de colisão para um determinado par de entidades, sem permitir duplicar
+   * @param {Entity} e1 
+   * @param {Entity} e2 
+   */
+  playCollisionSound(e1, e2) {
+    const id = e1.id > e2.id ? `${e2.id}-${e1.id}` : `${e1.id}-${e2.id}`;
+
+    const currentHandle = this.collisionSounds.get(id);
+
+    if (currentHandle && currentHandle.status == SoundHandleState.PLAYING)  {
+      return;
+    }
+
+    // @note Não tenho a informação da velocidade na hora da colisão... então improvisando temporariamente assim
+    const impactForce = (e1.getCurrentVelocity().length() + e2.getCurrentVelocity().length()) / 2 / 200;
+    // @todo João, checar por colisões duplicadas, está de fato reportando duas vezes para cadas colisão... debugar pelo console
+    // @todo João, trocar esse som... talvez implementar vários samples e vincular o volume a força da colisão
+    // para agregar a experiência sonora do jogo...
+    const handle = this.gameContext.soundMixer.play('collision', false, impactForce, true);
+
+    if (handle) {
+      this.collisionSounds.set(id, handle);
+    }
+  }
+}
+
+/**
+ * 
+ * @param {CanvasRenderingContext2D} ctx 
+ * @param {SoundMixer} soundMixer 
+ */
+function renderSoundDebugView(ctx, soundMixer) {
+  // Deixando a largura da linha escalável
+  const color = '#0f0';
+  const fontFamily = 'monospace';
+  const fontSize = 14;
+  const lineHeight = 1.6;
+  const textXOffset = 14;
+  const textYOffset = 14;
+  
+  {
+    const title = `Total: ${soundMixer.getTotalSounds()} ` +
+        `| Tocando: ${soundMixer.countSoundsInState(SoundHandleState.PLAYING)} ` +
+        `| Pausados: ${soundMixer.countSoundsInState(SoundHandleState.STOPED)}`;
+
+    const position = new Vec2(textXOffset, textYOffset + (fontSize * lineHeight * 1));
+    drawText(ctx, title, position, fontSize, color, fontFamily, 'start');
+  }
+
+  let i = 2; // @note por que dois?
+  for (const soundHandle of soundMixer.getPlayingSoundsIter()) {
+    const position = new Vec2(textXOffset, textYOffset + (fontSize * lineHeight * i));
+    drawText(ctx, soundHandle.getDescription(), position, fontSize, color, fontFamily, 'start');
+    i++;
   }
 }

@@ -3,7 +3,7 @@ import { GameScene, MenuScene } from './game-scene.js';
 import { Params } from './params.js';
 import { Rectangle } from './shape.js';
 import { Button, GUIGlobals, theGUIGlobals } from './ui.js';
-import { drawRect, drawText, isFullScreen } from './utils.js';
+import { between, drawRect, drawText, isFullScreen } from './utils.js';
 import { vec2 } from './vec2.js';
 
 console.log('Olá mundo')
@@ -14,17 +14,18 @@ const ctx = canvas.getContext('2d');
 const app = document.getElementById('app');
 
 if (!(app instanceof HTMLDivElement)) throw new Error('HTMLDivElement');
+if (!(ctx instanceof CanvasRenderingContext2D)) throw new Error('CanvasRenderingContext2D');
 
 canvas.width = 800;
 canvas.height = 600;
 
 app.append(canvas);
 /**
- * @type {GameScene}
+ * @type {GameScene?}
  */
 let scene  = null;
 /**
- * @type {GameScene}
+ * @type {GameScene?}
  */
 let newScene = new MenuScene(ctx);
 
@@ -90,6 +91,16 @@ window.addEventListener('resize', () => {
     canvas.width = 800;
     canvas.height = 600;
   } */
+});
+
+document.addEventListener('keydown', (event) => {
+  const speedFactor = Params.get('speedFactor', 1);
+  
+  if (event.key === '+') {
+    Params.set('speedFactor', between(speedFactor + 0.01, 0, 10));
+  } else if (event.key === '-') {
+    Params.set('speedFactor', between(speedFactor - 0.01, 0, 10));
+  }
 });
 
 theGUIGlobals.setupListeners(canvas);
