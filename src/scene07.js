@@ -8,7 +8,7 @@ import { Params } from './params.js';
 import { PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
 import { Circle2, Polygon, Rectangle, Shape } from './shape.js';
-import { SoundHandleState, SoundMixer } from './sounds/sound-mixer.js';
+import { SoundHandle, SoundHandleState, SoundMixer } from './sounds/sound-mixer.js';
 import { drawRect, between, drawLine, renderLines, drawText } from './utils.js';
 import { Vec2, vec2 } from './vec2.js';
 
@@ -57,6 +57,11 @@ export class Scene07 extends DemonstrationScene {
    */
   // @ts-expect-error
   ball;
+
+  /**
+   * @type {Map<string, SoundHandle>}
+   */
+  collisionSounds = new Map;
 
   /**
    * @param {CanvasRenderingContext2D} ctx
@@ -136,12 +141,7 @@ export class Scene07 extends DemonstrationScene {
         
       }
 
-      // @note Não tenho a informação da velocidade na hora da colisão... então improvisando temporariamente assim
-      const impactForce = (e1.getCurrentVelocity().length() + e2.getCurrentVelocity().length()) / 2 / 200;
-      // @todo João, checar por colisões duplicadas, está de fato reportando duas vezes para cadas colisão... debugar pelo console
-      // @todo João, trocar esse som... talvez implementar vários samples e vincular o volume a força da colisão
-      // para agregar a experiência sonora do jogo...
-      this.gameContext.soundMixer.play('collision', false, impactForce, true);
+      this.playCollisionSound(e1, e2);
     };
 
     // @note acabei resolvendo isso de outra forma, mas agora funciona...
@@ -442,6 +442,32 @@ export class Scene07 extends DemonstrationScene {
     // sinaliza a espera do término do movimento
     this.gameContext.waitingStop = true;
     this.gameContext.firstBallHitted = null;
+  }
+
+  /**
+   * Executa o som de colisão para um determinado par de entidades, sem permitir duplicar
+   * @param {Entity} e1 
+   * @param {Entity} e2 
+   */
+  playCollisionSound(e1, e2) {
+    const id = e1.id > e2.id ? `${e2.id}-${e1.id}` : `${e1.id}-${e2.id}`;
+
+    const currentHandle = this.collisionSounds.get(id);
+
+    if (currentHandle && currentHandle.status == SoundHandleState.PLAYING)  {
+      return;
+    }
+
+    // @note Não tenho a informação da velocidade na hora da colisão... então improvisando temporariamente assim
+    const impactForce = (e1.getCurrentVelocity().length() + e2.getCurrentVelocity().length()) / 2 / 200;
+    // @todo João, checar por colisões duplicadas, está de fato reportando duas vezes para cadas colisão... debugar pelo console
+    // @todo João, trocar esse som... talvez implementar vários samples e vincular o volume a força da colisão
+    // para agregar a experiência sonora do jogo...
+    const handle = this.gameContext.soundMixer.play('collision', false, impactForce, true);
+
+    if (handle) {
+      this.collisionSounds.set(id, handle);
+    }
   }
 }
 
