@@ -1,4 +1,6 @@
 import { Entity } from './entity.js';
+import { SoundMixer } from './sounds/sound-mixer.js';
+import { SoundResourceManager } from './sounds/sound-resource-manager.js';
 export class GameContex {
     constructor() {
         /**
@@ -15,7 +17,13 @@ export class GameContex {
          * @type {boolean}
          */
         this.playerBallSelected = false;
+        /**
+         * @type {string?}
+         */
         this.playerAColor = null;
+        /**
+         * @type {string?}
+         */
         this.playerBColor = null;
         /**
          * @type {Entity[]}
@@ -23,6 +31,10 @@ export class GameContex {
         this.ballsInTheBucket = [];
         this.color1 = '#FF0';
         this.color2 = '#F0A';
+        const soundResourceManager = new SoundResourceManager();
+        soundResourceManager.add('collision', './resource/audio/Pen Clicking.mp3');
+        soundResourceManager.loadAll();
+        this.soundMixer = new SoundMixer(soundResourceManager);
     }
     changePlayer() {
         if (this.state === 'player_a') {

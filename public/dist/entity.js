@@ -1,7 +1,14 @@
+var _a;
 import { Circle } from './circle.js';
 import { IN_MOVEMENT_THREASHOLD } from './physics-solver.js';
 import { vec2, Vec2 } from './vec2.js';
 export const symMarkedForRemoval = Symbol('Entity@markedForRemoval:boolean');
+const IdGenerator = {
+    id: Math.round(Math.random() * 1000),
+    generate() {
+        return this.id++;
+    }
+};
 export class Entity {
     /**
      *
@@ -11,6 +18,15 @@ export class Entity {
      */
     constructor(currentPosition, acceleration, shape) {
         this.wasMoving = false;
+        /**
+         * @type {number}
+         * @readonly
+         */
+        this.id = IdGenerator.generate();
+        /**
+         * @type {boolean}
+         */
+        this[_a] = false;
         this.currentPosition = currentPosition;
         this.oldPosition = currentPosition;
         this.lastDt = 0;
@@ -56,3 +72,4 @@ export class Entity {
         return this.getCurrentVelocity().length() <= IN_MOVEMENT_THREASHOLD;
     }
 }
+_a = symMarkedForRemoval;

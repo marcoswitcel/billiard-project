@@ -7,9 +7,16 @@ import { GameContex } from './game-context.js';
 import { Params } from './params.js';
 import { PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
-import { Circle2, Polygon, Rectangle } from './shape.js';
+import { Circle2, Polygon, Rectangle, Shape } from './shape.js';
+import { SoundHandle, SoundHandleState, SoundMixer } from './sounds/sound-mixer.js';
 import { drawRect, between, drawLine, renderLines, drawText } from './utils.js';
 import { Vec2, vec2 } from './vec2.js';
+/**
+ *
+ * @param {number} start
+ * @param {number} now
+ * @returns
+ */
 const calculateForce = (start, now) => Math.sin((now - start) / 180 / 2) + 1;
 const ballRadius = 10;
 /**
@@ -31,10 +38,15 @@ export class Scene07 extends DemonstrationScene {
          * @type {number|null}
          */
         this.lastClick = null;
-        this.camera = null;
-        this.renderParams = null;
-        this.mouseCoords = null;
         this.ignoreEvents = false;
+        /**
+         * @type {Map<string, SoundHandle>}
+         */
+        this.collisionSounds = new Map;
+        /**
+         * @param {KeyboardEvent} event
+         * @returns
+         */
         this.handleKeyup = (event) => {
             if (this.ignoreEvents)
                 return;
@@ -45,6 +57,10 @@ export class Scene07 extends DemonstrationScene {
                 this.resetGame();
             }
         };
+        /**
+         * @param {KeyboardEvent} event
+         * @returns
+         */
         this.handleKeydown = (event) => {
             if (this.ignoreEvents)
                 return;
@@ -61,11 +77,19 @@ export class Scene07 extends DemonstrationScene {
                 this.camera.position.y++;
             }
         };
+        /**
+         * @param {WheelEvent} event
+         * @returns
+         */
         this.handleWheel = (event) => {
             if (this.ignoreEvents)
                 return;
             this.camera.scale = between(this.camera.scale + event.deltaY * 0.001, 0.1, 2);
         };
+        /**
+         * @param {MouseEvent} event
+         * @returns
+         */
         this.handleMousedown = event => {
             if (this.ignoreEvents)
                 return;
@@ -77,6 +101,10 @@ export class Scene07 extends DemonstrationScene {
                 this.lastClick = Date.now();
             }
         };
+        /**
+         * @param {MouseEvent} event
+         * @returns
+         */
         this.handleMousemove = (event) => {
             if (this.ignoreEvents)
                 return;
@@ -84,6 +112,10 @@ export class Scene07 extends DemonstrationScene {
             const boundings = canvas.getBoundingClientRect();
             this.mouseCoords = vec2((event.clientX - boundings.x) / canvas.clientWidth, (event.clientY - boundings.y) / canvas.clientHeight);
         };
+        /**
+         * @param {MouseEvent} event
+         * @returns
+         */
         this.handleMouseup = (event) => {
             if (this.ignoreEvents)
                 return;
@@ -171,6 +203,7 @@ export class Scene07 extends DemonstrationScene {
                 if (!this.gameContext.firstBallHitted)
                     this.gameContext.firstBallHitted = other;
             }
+            this.playCollisionSound(e1, e2);
         };
         // @note acabei resolvendo isso de outra forma, mas agora funciona...
         this.physicsSolver.reportStoped = (e1) => { };
@@ -181,12 +214,19 @@ export class Scene07 extends DemonstrationScene {
         this.ctx.canvas.addEventListener('mouseup', this.handleMouseup);
         this.ctx.canvas.addEventListener('wheel', this.handleWheel, { passive: true });
     }
+    /**
+     *
+     * @param {number} deltaTimeMs
+     * @returns
+     */
     update(deltaTimeMs) {
         /**
          * @note tentei implementar um mecanismo simples, onde atualizo 3 vezes passando o deltaTimeMs dividido por três;
          * dessa forma ficou mais estável a simualação.
          */
         this.physicsSolver.update(deltaTimeMs);
+        // sistema de som
+        this.gameContext.soundMixer.clear();
         this.checkForPointsAndRemoveBalls();
         if (!this.gameContext.waitingStop || !allBallsStoped(this.physicsSolver))
             return;
@@ -237,6 +277,9 @@ export class Scene07 extends DemonstrationScene {
             }
         }
     }
+    /**
+     * @param {string | null} fromColor
+     */
     removeABall(fromColor) {
         const entities = this.physicsSolver.entities;
         const newEntities = [];
@@ -297,6 +340,9 @@ export class Scene07 extends DemonstrationScene {
             drawText(this.ctx, this.gameContext.state, vec2(this.ctx.canvas.width / 2, this.ctx.canvas.height * 0.1), 40, 'white', 'monospace', 'center', 'middle');
         }
         renderLines(this.ctx, lines, vec2(15, 550), 16);
+        if (Params.is('soundDebugView')) {
+            renderSoundDebugView(this.ctx, this.gameContext.soundMixer);
+        }
     }
     addBalls() {
         this.physicsSolver.entities.length = 0;
@@ -320,5 +366,53 @@ export class Scene07 extends DemonstrationScene {
         this.gameContext.reset();
         this.gameContext.state = 'player_a';
         this.addBalls();
+    }
+    /**
+     * Executa o som de colisão para um determinado par de entidades, sem permitir duplicar
+     * @param {Entity} e1
+     * @param {Entity} e2
+     */
+    playCollisionSound(e1, e2) {
+        const id = e1.id > e2.id ? `${e2.id}-${e1.id}` : `${e1.id}-${e2.id}`;
+        const currentHandle = this.collisionSounds.get(id);
+        if (currentHandle && currentHandle.status == SoundHandleState.PLAYING) {
+            return;
+        }
+        // @note Não tenho a informação da velocidade na hora da colisão... então improvisando temporariamente assim
+        const impactForce = (e1.getCurrentVelocity().length() + e2.getCurrentVelocity().length()) / 2 / 200;
+        // @todo João, checar por colisões duplicadas, está de fato reportando duas vezes para cadas colisão... debugar pelo console
+        // @todo João, trocar esse som... talvez implementar vários samples e vincular o volume a força da colisão
+        // para agregar a experiência sonora do jogo...
+        const handle = this.gameContext.soundMixer.play('collision', false, impactForce, true);
+        if (handle) {
+            this.collisionSounds.set(id, handle);
+        }
+    }
+}
+/**
+ *
+ * @param {CanvasRenderingContext2D} ctx
+ * @param {SoundMixer} soundMixer
+ */
+function renderSoundDebugView(ctx, soundMixer) {
+    // Deixando a largura da linha escalável
+    const color = '#0f0';
+    const fontFamily = 'monospace';
+    const fontSize = 14;
+    const lineHeight = 1.6;
+    const textXOffset = 14;
+    const textYOffset = 14;
+    {
+        const title = `Total: ${soundMixer.getTotalSounds()} ` +
+            `| Tocando: ${soundMixer.countSoundsInState(SoundHandleState.PLAYING)} ` +
+            `| Pausados: ${soundMixer.countSoundsInState(SoundHandleState.STOPED)}`;
+        const position = new Vec2(textXOffset, textYOffset + (fontSize * lineHeight * 1));
+        drawText(ctx, title, position, fontSize, color, fontFamily, 'start');
+    }
+    let i = 2; // @note por que dois?
+    for (const soundHandle of soundMixer.getPlayingSoundsIter()) {
+        const position = new Vec2(textXOffset, textYOffset + (fontSize * lineHeight * i));
+        drawText(ctx, soundHandle.getDescription(), position, fontSize, color, fontFamily, 'start');
+        i++;
     }
 }

@@ -141,6 +141,9 @@ export class PhysicsSolver {
                     // console.log('depois:', entity1.getCurrentVelocity().length() + entity2.getCurrentVelocity().length());
                     // const lengthAfter = entity1.getCurrentVelocity().length() + entity2.getCurrentVelocity().length();
                     // @todo João, acredito que isso aqui reporte muitas colisões duplicadas, avaliar...
+                    // @note aparenta não estar empurrando o suficiente para fora e por isso colide duas vezes em sequência?
+                    // ou é por causa da velocidade que colide duas vezes em sequência, analisar.. dando uma tacada com
+                    // força máxima na direção da primeira bola da cena é possível ver o bug acontecer
                     if (this.reportCollision) {
                         this.reportCollision(entity1, entity2);
                     }

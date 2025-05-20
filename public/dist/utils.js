@@ -88,8 +88,12 @@ export function drawPolygon(ctx, polygon, fillStyle = '#FFFFFF', strokeStyle = '
     ctx.lineTo(point.x, point.y);
     ctx.closePath();
     ctx.lineWidth = lineWidth;
-    ctx.fillStyle = fillStyle;
-    ctx.strokeStyle = strokeStyle;
+    if (fillStyle) {
+        ctx.fillStyle = fillStyle;
+    }
+    if (strokeStyle) {
+        ctx.strokeStyle = strokeStyle;
+    }
     if (strokeStyle) {
         ctx.stroke();
     }
@@ -117,6 +121,13 @@ export function drawText(ctx, text, position, size, fillStyle = '#FFFFFF', fontF
     ctx.textBaseline = textBaseline;
     ctx.fillText(text, position.x, position.y);
 }
+/**
+ * Restringe um 'valor' entre dois limites: valor mínimo e máximo
+ * @param {number} value
+ * @param {number} min
+ * @param {number} max
+ * @returns
+ */
 export function between(value, min, max) {
     return Math.max(Math.min(value, max), min);
 }
@@ -225,7 +236,13 @@ export function rotatePoint(origin, point, angle) {
 export function toDegrees(radians) {
     return radians * (180 / Math.PI);
 }
+/**
+ *
+ * @param {string} name
+ * @param {any} value
+ */
 export function makeAGlobal(name, value) {
+    // @ts-ignore
     window[name] = value;
 }
 /**

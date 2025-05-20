@@ -1,26 +1,17 @@
 export class Vec2 {
     /**
      *
-     * @param {number} x
-     * @param {number} y
+     * @param x
+     * @param y
      */
-    constructor(x, y) {
-        /**
-         * @type {number}
-         */
-        this.x = 0;
-        /**
-         * @type {number}
-         */
-        this.y = 0;
+    constructor(x = 0, y = 0) {
         this.x = x;
         this.y = y;
     }
     /**
      * Adiciona o valor do outro vetor ao vetor atual
-     * @public
-     * @param {Vec2} otherVec
-     * @return {Vec2}
+     * @param otherVec
+     * @return
      */
     add(otherVec) {
         this.x += otherVec.x;
@@ -30,8 +21,8 @@ export class Vec2 {
     /**
      * Subtrai o valor do outro vetor do vetor atual
      * @public
-     * @param {Vec2} otherVec
-     * @return {Vec2}
+     * @param otherVec
+     * @return
      */
     sub(otherVec) {
         this.x -= otherVec.x;
@@ -40,8 +31,8 @@ export class Vec2 {
     }
     /**
      *
-     * @param {number} scalarValue
-     * @returns {Vec2}
+     * @param scalarValue
+     * @returns
      */
     mul(scalarValue) {
         this.x *= scalarValue;
@@ -50,8 +41,8 @@ export class Vec2 {
     }
     /**
      *
-     * @param {number} scalarValue
-     * @returns {Vec2}
+     * @param scalarValue
+     * @returns
      */
     div(scalarValue) {
         this.x /= scalarValue;
@@ -60,15 +51,15 @@ export class Vec2 {
     }
     /**
      * Faz uma cópia do vetor
-     * @returns {Vec2}
+     * @returns
      */
     copy() {
         return new Vec2(this.x, this.y);
     }
     /**
      * seta os valores do vetor
-     * @param {number} x
-     * @param {number} y
+     * @param x
+     * @param y
      */
     set(x, y) {
         this.x = x;
@@ -76,7 +67,7 @@ export class Vec2 {
     }
     /**
      *
-     * @returns {Vec2} novo vetor
+     * @returns  novo vetor
      */
     normalized() {
         const length = this.length();
@@ -97,8 +88,8 @@ export class Vec2 {
     }
     /**
      * @note Avaliar se essa será a função padrão para a multiplicação de vetores. Não sei se é intuitivo, pesquisar...
-     * @param {Vec2} otherVec
-     * @returns {Vec2}
+     * @param otherVec
+     * @returns
      */
     mulVec(otherVec) {
         this.x *= otherVec.x;
@@ -106,8 +97,8 @@ export class Vec2 {
         return this;
     }
     /**
-     * Calcula a 'magnetude' ou 'comprimento' do vetor
-     * @returns {number}
+     * Calcula a 'magnitude' ou 'comprimento' do vetor
+     * @returns
      */
     length() {
         return Math.sqrt(this.x * this.x + this.y * this.y);
@@ -115,8 +106,8 @@ export class Vec2 {
 }
 /**
  *
- * @param {number} x
- * @param {number} y
- * @returns {Vec2}
+ * @param x
+ * @param y
+ * @returns
  */
 export const vec2 = (x, y) => new Vec2(x, y);
