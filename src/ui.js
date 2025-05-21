@@ -13,6 +13,10 @@ export class GUIGlobals {
   timestampLastUpdated = 0;
   mouseDown = false;
 
+  /**
+   * 
+   * @param {HTMLCanvasElement} canvas 
+   */
   setupListeners(canvas) {
     canvas.addEventListener('mousedown', event => {
       this.mouseDown = true;
@@ -21,11 +25,15 @@ export class GUIGlobals {
     canvas.addEventListener('mousemove', event => {
       const boundings = canvas.getBoundingClientRect();
 
-      this.mouseX = (event.clientX - boundings.x); //  / canvas.clientWidth;
-      this.mouseY = (event.clientY - boundings.y); //  / canvas.clientHeight;
+      // @todo João, em fullscreen não está sendo passado 'getBoundingClientRect' para o canvas... vem tudo zerado
+      this.mouseX = (event.clientX - boundings.x) * (canvas.width / canvas.clientWidth);
+      this.mouseY = (event.clientY - boundings.y) * (canvas.height / canvas.clientHeight);
     });
   }
 
+  /**
+   * @param {number} deltaTime
+   */
   update(deltaTime) {
     theGUIGlobals.timestampLastUpdated = deltaTime;
     theGUIGlobals.clickedInThisFrame = this.mouseDown;
@@ -115,6 +123,9 @@ export class Button {
     this.timestampLastUpdated = 0;
   }
 
+  /**
+   * @param {Color} color
+   */
   setBackgroundColorWithHighlightColor(color, darkenBy = 0.9) {
     this.backgroundColor = color;
     this.highlightBackgroundColor = color.copy().darken(darkenBy)
@@ -124,6 +135,9 @@ export class Button {
     this.hover = isPointInsideRect(this.gui.mouseX, this.gui.mouseY, this.targetArea.position.x, this.targetArea.position.y, this.targetArea.size.x, this.targetArea.size.y);
   }
 
+  /**
+   * @param {CanvasRenderingContext2D} ctx
+   */
   render(ctx) {
     let color = this.hover ? this.highlightBackgroundColor : this.backgroundColor;
     
@@ -141,6 +155,14 @@ export class Button {
   }
 }
 
+/**
+ * @param {number} pX
+ * @param {number} pY
+ * @param {number} rX
+ * @param {number} rY
+ * @param {number} rW
+ * @param {number} rH
+ */
 export function isPointInsideRect(pX, pY, rX, rY, rW, rH) {
   const result = (pX >= rX && pX <= (rX + rW)) && (pY >= rY && pY <= (rY + rH));
   return result;
