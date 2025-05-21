@@ -132,6 +132,9 @@ export class PhysicsSolver {
 
 
   /**
+   * @todo João, as constraints precisarão reportar colisões também. Vou precisar modificar a interface para
+   * poder 'retornar' informação de colisão... ou talvez chamar diretamente a função de reportCollision, embora isso me
+   * pareça uma ideia ruim.
    * @private
    */
   applyConstraint() {
