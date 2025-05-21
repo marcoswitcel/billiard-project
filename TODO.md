@@ -16,6 +16,14 @@
 * Validar movimentos individuais e usar para testes de regressão conforme a física for sendo calibrada com os parâmetros ideias
 * Avaliar movimentos em comparação com movimento na vida real, exemplo, avaliar a forma como a força é transferida de uma bola para a outra
 
+# Ideias
+
+* Implementar suporte ao mobile
+ * Suporte a touch-events
+ * Rotacionar a mesa?
+ * Habilitar por padrão um modo de mira invertida para não precisar clicar em cima da bola e ter mais visibilidade
+ * Verificar se a resolução e a proporção do canvas ficam legais no mobile
+
 # Renderização
 
 * Decidir e implementar forma de renderizar figuras complexas como por exemplo o taco de bilhar
