@@ -120,7 +120,7 @@ export class SoundHandle {
      * @returns 
      */
     public getDescription(): string {
-        return (this.audioElement.getAttribute('src') || '[Sem nome]') + ` - ${(this.currentTime / this.duration * 100).toFixed(2)}%`;
+        return (this.audioElement.getAttribute('src') || '[Sem nome]') + ` - ${(this.currentTime / this.duration * 100).toFixed(2)}% (vol. ${this.volume.toFixed(2)})`;
     }
 }
 
