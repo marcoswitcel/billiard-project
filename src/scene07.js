@@ -269,11 +269,14 @@ export class Scene07 extends DemonstrationScene {
       if (this.lastClick) {
         const canvasCenter = vec2(ctx.canvas.width / 2, ctx.canvas.height / 2);
         
+        // @todo João, sanitizar esse valor e considerar puxar das configurações...
+        const aimType = Params.get('aim', 1);
         const dir = vec2(this.mouseCoords.x * this.ctx.canvas.width, this.mouseCoords.y * this.ctx.canvas.height)
           .sub(vec2(this.ctx.canvas.width / 2, this.ctx.canvas.height / 2))
           .div(this.camera.scale)
           .add(this.camera.position)
           .sub(this.ball.currentPosition)
+          .mul(aimType)
           .normalize();
         
         const start = canvasCenter.copy().add(this.ball.currentPosition.copy().sub(this.camera.position).mul(this.camera.scale).sub(dir.copy().mul(10 + (calculateForce(this.lastClick, Date.now()) * 15)).mul(this.camera.scale)));
@@ -427,6 +430,8 @@ export class Scene07 extends DemonstrationScene {
     const boundings = canvas.getBoundingClientRect();
     const coords = { x: (event.clientX - boundings.x) / canvas.clientWidth, y: (event.clientY - boundings.y) / canvas.clientHeight, };
 
+    // @todo João, sanitizar esse valor e considerar puxar das configurações...
+    const aimType = Params.get('aim', 1);
     // @todo João, ainda tem pequenas inconsistências na direção que a força aponta, porém está bom por hora
     const force = vec2(coords.x * canvas.width, coords.y * canvas.height)
       .sub(vec2(canvas.width / 2, canvas.height / 2))
@@ -434,6 +439,7 @@ export class Scene07 extends DemonstrationScene {
       .add(this.camera.position)
       .sub(this.ball.currentPosition)
       .normalize()
+      .mul(aimType)
       .mul(shootForce * modifier)
       .mul(this.ball.lastDt);
 
