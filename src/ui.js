@@ -84,19 +84,35 @@ export class Button {
    * @type {number}
    */
   timestampLastUpdated;
-
+  /**
+   * @type {number}
+   */
   fontSize = 14;
-  
+  /**
+   * @type {string}
+   */
   fontFamily = 'monospace';
-
+  /**
+   * @type {Color}
+   */
   textColor = new Color(0, 0, 0);
-
+  /**
+   * @type {number}
+   */
   id = GUIGlobals.buttonId();
-
+  /**
+   * @type {GUIGlobals}
+   */
   gui = theGUIGlobals;
 
   constructor() {
-    this.setInitialState();
+    this.text = `botão@${this.id}`;
+    this.hover = false;
+    this.active = false;
+    this.targetArea = new Rectangle(vec2(0, 0), vec2(100, 100), 'white');
+    this.backgroundColor = new Color(0, 0, 0);
+    this.highlightBackgroundColor = this.backgroundColor.copy().darken(0.9);
+    this.timestampLastUpdated = 0;
   }
 
   get width() {
@@ -112,16 +128,6 @@ export class Button {
   }
   
   // @todo João implementar alguma forma de oclusão para poder criar overlays e considerar botões sobrepostos
-
-  setInitialState(text = `botão@${this.id}`, targetArea = new Rectangle(vec2(0, 0), vec2(100, 100), 'white'), backgroundColor = new Color(0, 0, 0)) {
-    this.text = text;
-    this.hover = false;
-    this.active = false;
-    this.targetArea = targetArea;
-    this.backgroundColor = backgroundColor;
-    this.highlightBackgroundColor = backgroundColor.copy().darken(0.9);
-    this.timestampLastUpdated = 0;
-  }
 
   /**
    * @param {Color} color

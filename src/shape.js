@@ -48,7 +48,13 @@ export class Rectangle extends Shape {
 }
 
 export class Polygon extends Shape {
+  /**
+   * @type {Vec2[]}
+   */
   points;
+  /**
+   * @type {number}
+   */
   scale;
 
   /**
@@ -56,6 +62,7 @@ export class Polygon extends Shape {
    * @param {Vec2} position 
    * @param {string} color
    * @param {Vec2[]} points 
+   * @param {number} scale 
    */
   constructor(position, color, points, scale) {
     super(position, color);
