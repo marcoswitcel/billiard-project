@@ -2,12 +2,17 @@ import { Entity } from './entity.js';
 import { calculateIntersectionOfLineSegments, isLineSegmentIntersecting, rotatePoint } from './utils.js';
 import { Vec2, vec2 } from './vec2.js';
 
+/**
+ * @typedef {(a: Entity, c: Constraint) => void} ConstraintReportHandler
+ */
+
 export class Constraint {
   /**
    * 
    * @param {Entity[]} entities 
+   * @param {ConstraintReportHandler|null} reportConstraint
    */
-  applyConstraint(entities) {}
+  applyConstraint(entities, reportConstraint = null) {}
 }
 
 export class CircleConstraint extends Constraint {
@@ -152,8 +157,9 @@ export class LineSegmentConstraint extends Constraint {
   /**
    * 
    * @param {Entity[]} entities 
+   * @param {((a: Entity, c: Constraint) => void)|null} reportConstraint
    */
-  applyConstraint(entities) {
+  applyConstraint(entities, reportConstraint) {
     // @wip João, a constraint de linha é sensível e facilmente a bola atravessa a linha.
     // Um exemplo é quando a bola está perto da borda e a bola branca a atinge com velocidade elevada.
     // Acredito que o sistema de colisão das bolas a empurra para fora da constraint da linha...
@@ -185,6 +191,13 @@ export class LineSegmentConstraint extends Constraint {
         force.normalize().mul(length * this.collisionElasticity);
 
         entity.oldPosition = entity.currentPosition.copy().add(force);
+
+        /**
+         * @note Mesmo problema do report de colisão, deve duplicar... resolver isso.
+         */
+        if (reportConstraint) {
+          reportConstraint(entity, this);
+        }
       }
     }
   }

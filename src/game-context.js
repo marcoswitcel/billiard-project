@@ -45,6 +45,7 @@ export class GameContex {
     const soundResourceManager = new SoundResourceManager();
 
     soundResourceManager.add('collision', './resource/audio/Pen Clicking.mp3');
+    soundResourceManager.add('wall-collision', './resource/audio/Pen Clicking.mp3');
     soundResourceManager.loadAll();
 
     this.soundMixer = new SoundMixer(soundResourceManager);

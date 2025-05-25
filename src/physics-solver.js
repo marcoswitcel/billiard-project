@@ -35,6 +35,11 @@ export class PhysicsSolver {
    */
   reportCollision = null;
   /**
+   * @note Não, ficou a coisa mais organizada do mundo mas funciona por hora...
+   * @type {import('./constraints.js').ConstraintReportHandler|null}
+   */
+  reportConstraintMovement = null;
+  /**
    * @type {((a: Entity) => void)|null}
    */
   reportStoped = null;
@@ -143,7 +148,7 @@ export class PhysicsSolver {
    */
   applyConstraint() {
     for (const constraint of this.constraints) {
-      constraint.applyConstraint(this.entities)
+      constraint.applyConstraint(this.entities, this.reportConstraintMovement)
     }
   }
 

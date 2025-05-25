@@ -144,6 +144,11 @@ export class Scene07 extends DemonstrationScene {
       this.playCollisionSound(e1, e2);
     };
 
+    this.physicsSolver.reportConstraintMovement = (e, c) => {
+      // @todo João, avaliar, debugar e melhorar...
+      const handle = this.gameContext.soundMixer.play('wall-collision', false, 0.15, true);
+    }
+
     // @note acabei resolvendo isso de outra forma, mas agora funciona...
     this.physicsSolver.reportStoped = (e1) => {};
 
