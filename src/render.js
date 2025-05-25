@@ -30,7 +30,7 @@ export class Camera {
  * @param {PhysicsSolver} physicsSolver 
  * @param {Camera} camera
  * @param {RenderParams} renderParams
- * @param {(ctx: CanvasRenderingContext2D, physicsSolver: PhysicsSolver, camera: Camera, renderParams: RenderParams) => void | null} customDrawRoutine
+ * @param {((ctx: CanvasRenderingContext2D, physicsSolver: PhysicsSolver, camera: Camera, renderParams: RenderParams) => void) | null} customDrawRoutine
  * @param {Shape[]} visualElements
  */
 export function render(ctx, physicsSolver, camera, renderParams, customDrawRoutine = null, visualElements = []) {

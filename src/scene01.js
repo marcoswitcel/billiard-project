@@ -4,7 +4,7 @@ import { DemonstrationScene } from './demonstration-scene.js';
 import { Entity } from './entity.js';
 import { PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
-import { Circle2 } from './shape.js';
+import { Circle2, Shape } from './shape.js';
 import { drawRect, drawCircle, between } from './utils.js';
 import { vec2 } from './vec2.js';
 
@@ -15,6 +15,11 @@ export class Scene01 extends DemonstrationScene {
    * @type {CanvasRenderingContext2D}
    */
   ctx;
+
+  /**
+   * @type {Shape[]}
+   */
+  visualElements;
 
   /**
    * @param {CanvasRenderingContext2D} ctx
@@ -48,6 +53,9 @@ export class Scene01 extends DemonstrationScene {
     });
   }
 
+  /**
+   * @param {number} deltaTimeMs
+   */
   update(deltaTimeMs) {
     this.physicsSolver.update(deltaTimeMs);
   }
