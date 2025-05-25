@@ -55,6 +55,8 @@ export class GUIGlobals {
 
 export const theGUIGlobals = new GUIGlobals;
 
+export const sDescription = Symbol('Button.description');
+
 export class Button {
   /**
    * @type {string}
@@ -104,6 +106,16 @@ export class Button {
    * @type {GUIGlobals}
    */
   gui = theGUIGlobals;
+
+  /**
+   * @type {string|null} 
+   */
+  [sDescription] = null;
+
+  /**
+   * @type {(() => void)[]|null}
+   */
+  handlers = null;
 
   constructor() {
     this.text = `botão@${this.id}`;

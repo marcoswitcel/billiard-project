@@ -1,6 +1,6 @@
 import { Color } from './color.js';
 import { Scene07 } from './scene07.js';
-import { Button, theGUIGlobals } from './ui.js';
+import { Button, sDescription, theGUIGlobals } from './ui.js';
 import { drawRect, drawText } from './utils.js';
 import { vec2 } from './vec2.js';
 
@@ -46,12 +46,19 @@ export class BilliardScene extends GameScene {
    */
   components = [];
 
+  /**
+   * @type {GameScene|null}
+   */
   newScene = null;
 
   scene;
 
   paused = false;
 
+  /**
+   * 
+   * @param {CanvasRenderingContext2D} ctx 
+   */
   constructor(ctx) {
     super(ctx);
     this.scene = new Scene07(ctx);
@@ -60,7 +67,11 @@ export class BilliardScene extends GameScene {
     this.scene.camera.position.y -= 20;
   }
 
-  handlePause = (event) => {
+  /**
+   * 
+   * @param {KeyboardEvent} event 
+   */
+  handlePause = ( event) => {
     if (event.code === 'KeyP') {
       this.paused = !this.paused;
     }
@@ -105,6 +116,9 @@ export class BilliardScene extends GameScene {
     this.scene.setup();
   }
 
+  /**
+   * @param {number} deltaTimeMs
+   */
   update(deltaTimeMs) {
     if (this.paused) {
       for (const button of this.components) {
@@ -124,6 +138,9 @@ export class BilliardScene extends GameScene {
     this.scene.update(deltaTimeMs);
   }
 
+  /**
+   * @param {number} deltaTimeMs
+   */
   render(deltaTimeMs) {
     this.scene.render();
 
@@ -155,14 +172,15 @@ const applyButtonStyle = (button) => {
   button.highlightBackgroundColor = new Color(0, 0, 255);
 }
 
-const sDescription = Symbol('Button.description');
-
 export class MenuScene extends GameScene {
   /**
    * @type {Button[]}
    */
   components = [];
 
+  /**
+   * @type {GameScene|null}
+   */
   newScene = null;
 
   setup() {
@@ -193,6 +211,9 @@ export class MenuScene extends GameScene {
     }
 
   }
+  /**
+   * @param {number} deltaTimeMs
+   */
   update(deltaTimeMs) {
     // @note ajustar para atualizar menos o dom :titleThing
     this.ctx.canvas.removeAttribute('title');
@@ -210,6 +231,10 @@ export class MenuScene extends GameScene {
       }
     }
   }
+
+  /**
+   * @param {number} deltaTimeMs
+   */
   render(deltaTimeMs) {
     drawRect(this.ctx, '#2576da', 0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
