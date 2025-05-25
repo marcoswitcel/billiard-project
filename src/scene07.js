@@ -146,7 +146,9 @@ export class Scene07 extends DemonstrationScene {
 
     this.physicsSolver.reportConstraintMovement = (e, c) => {
       // @todo João, avaliar, debugar e melhorar...
-      const handle = this.gameContext.soundMixer.play('wall-collision', false, 0.15, true);
+      if (c instanceof LineSegmentConstraint) {
+        const handle = this.gameContext.soundMixer.play('wall-collision', false, 0.15, true);
+      }
     }
 
     // @note acabei resolvendo isso de outra forma, mas agora funciona...
