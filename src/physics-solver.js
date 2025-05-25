@@ -27,6 +27,10 @@ export class PhysicsSolver {
   unit = 'm/s';
 
   /**
+   * @note Por hora estou considerando apenas colisão de entidades  com entidade, porém é necessário considerar
+   * colisões provenientes das constraints. O caso de uso que tenho em mente é fazer emitir sons quando colidir com as bordas
+   * da mesa.
+   * Usar uma função diferente ou usar essa mesma?
    * @type {((a: Entity, b: Entity) => void)|null}
    */
   reportCollision = null;
