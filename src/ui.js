@@ -113,6 +113,7 @@ export class Button {
   [sDescription] = null;
 
   /**
+   * @todo João, avaliar se essa é a melhor forma de fazer os handlers, por hora fica assim
    * @type {(() => void)[]|null}
    */
   handlers = null;

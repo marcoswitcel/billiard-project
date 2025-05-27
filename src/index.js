@@ -18,6 +18,8 @@ const application = {
   state: 'running',
 }
 
+if (!(ctx instanceof CanvasRenderingContext2D)) throw new Error('CanvasRenderingContext2D');
+
 /**
  * @type {HTMLSelectElement|HTMLElement|null}
  */
