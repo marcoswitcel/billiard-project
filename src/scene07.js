@@ -261,6 +261,7 @@ export class Scene07 extends DemonstrationScene {
         if (dist < bucketCircle.radius) {
           ball[symMarkedForRemoval] = true;
           this.gameContext.ballsInTheBucket.push(ball);
+          this.gameContext.soundMixer.play('bucket', false, 0.2, true);
         }
       }
     }

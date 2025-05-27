@@ -44,8 +44,13 @@ export class GameContex {
   constructor() {
     const soundResourceManager = new SoundResourceManager();
 
+    // som de colisão entre bolas
     soundResourceManager.add('collision', './resource/audio/Pen Clicking.mp3');
+    // som de bola colidindo com a borda da mesa
     soundResourceManager.add('wall-collision', './resource/audio/Pen Clicking.mp3');
+    // som da bola colidindo/caindo na caçapa
+    soundResourceManager.add('bucket', './resource/audio/Pen Clicking.mp3');
+
     soundResourceManager.loadAll();
 
     this.soundMixer = new SoundMixer(soundResourceManager);
