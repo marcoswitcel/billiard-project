@@ -1,5 +1,8 @@
 
 const canvas = document.createElement('canvas');
+/**
+ * @type {CanvasRenderingContext2D}
+ */ // @ts-ignore
 const ctx = canvas.getContext('2d');
 canvas.width = 1;
 canvas.height = 1;
@@ -10,6 +13,13 @@ export class Color {
   b = 0;
   a = 1;
 
+  /**
+   * 
+   * @param {number} r 
+   * @param {number} g 
+   * @param {number} b 
+   * @param {number} a 
+   */
   constructor(r, g, b, a = 1) {
     this.r = r;
     this.g = g;
@@ -21,6 +31,11 @@ export class Color {
     return new Color(this.r, this.g, this.b, this.a);
   }
 
+  /**
+   * 
+   * @param {number} value 
+   * @returns 
+   */
   darken(value) {
     this.r *= value;
     this.g *= value;
