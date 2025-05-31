@@ -1,4 +1,5 @@
 import { Color } from './color.js';
+import { appDefaults } from './game-context.js';
 import { GameScene, MenuScene } from './game-scene.js';
 import { Params } from './params.js';
 import { Rectangle } from './shape.js';
@@ -16,8 +17,8 @@ const app = document.getElementById('app');
 if (!(app instanceof HTMLDivElement)) throw new Error('HTMLDivElement');
 if (!(ctx instanceof CanvasRenderingContext2D)) throw new Error('CanvasRenderingContext2D');
 
-canvas.width = 800;
-canvas.height = 600;
+canvas.width = appDefaults.width;
+canvas.height = appDefaults.height;
 
 app.append(canvas);
 /**

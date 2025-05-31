@@ -2,6 +2,11 @@ import { Entity } from './entity.js';
 import { SoundMixer } from './sounds/sound-mixer.js';
 import { SoundResourceManager } from './sounds/sound-resource-manager.js';
 
+export const appDefaults = {
+  width: 800,
+  height: 600,
+}
+
 export class GameContex {
   /**
    * @type {'not_started'|'player_a'|'player_b'|'win_a'|'win_b'}

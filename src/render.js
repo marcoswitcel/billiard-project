@@ -1,5 +1,6 @@
 import { CircleConstraint, LineSegmentConstraint, RectangleConstraint } from './constraints.js';
 import { squareShape } from './figures.js';
+import { appDefaults } from './game-context.js';
 import { Params } from './params.js';
 import { PhysicsSolver } from './physics-solver.js';
 import { Circle2, ImageShape, Polygon, Rectangle, Shape } from './shape.js';
@@ -45,8 +46,8 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
 
   const canvasCenter = vec2(ctx.canvas.width / 2, ctx.canvas.height / 2);
   
-  // const screenScale = ctx.canvas.width / 800; // @todo João, avaliar como definir isso melhor
-  const scale = camera.scale; // * screenScale;
+  const screenScale = ctx.canvas.width / appDefaults.width; 
+  const scale = camera.scale * screenScale;
   const lineWidth = 2 * scale;
 
   if (visualElements) for (const visualElement of visualElements) {

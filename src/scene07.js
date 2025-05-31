@@ -3,7 +3,7 @@ import { LineSegmentConstraint, RectangleConstraint } from './constraints.js';
 import { DemonstrationScene } from './demonstration-scene.js';
 import { Entity, symMarkedForRemoval } from './entity.js';
 import { table01Shape, tableBordersPolygonShape, triangleShape } from './figures.js';
-import { GameContex } from './game-context.js';
+import { appDefaults, GameContex } from './game-context.js';
 import { Params } from './params.js';
 import { PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
@@ -276,20 +276,22 @@ export class Scene07 extends DemonstrationScene {
     render(this.ctx, this.physicsSolver, this.camera, this.renderParams, (ctx, ) => {
       if (this.lastClick) {
         const canvasCenter = vec2(ctx.canvas.width / 2, ctx.canvas.height / 2);
+        const screenScale = ctx.canvas.width / appDefaults.width;
+        const scale = this.camera.scale * screenScale;
         
         // @todo João, sanitizar esse valor e considerar puxar das configurações...
         const aimType = Params.get('aim', 1);
         const dir = vec2(this.mouseCoords.x * this.ctx.canvas.width, this.mouseCoords.y * this.ctx.canvas.height)
           .sub(vec2(this.ctx.canvas.width / 2, this.ctx.canvas.height / 2))
-          .div(this.camera.scale)
+          .div(scale)
           .add(this.camera.position)
           .sub(this.ball.currentPosition)
           .mul(aimType)
           .normalize();
         
-        const start = canvasCenter.copy().add(this.ball.currentPosition.copy().sub(this.camera.position).mul(this.camera.scale).sub(dir.copy().mul(10 + (calculateForce(this.lastClick, Date.now()) * 15)).mul(this.camera.scale)));
-        const end = canvasCenter.copy().add(this.ball.currentPosition.copy().sub(this.camera.position).mul(this.camera.scale).sub(dir.copy().mul(200 + (calculateForce(this.lastClick, Date.now()) * 15)).mul(this.camera.scale)));
-        drawLine(ctx, start, end, 'rgb(176, 79, 19)', 6 * this.camera.scale);
+        const start = canvasCenter.copy().add(this.ball.currentPosition.copy().sub(this.camera.position).mul(scale).sub(dir.copy().mul(10 + (calculateForce(this.lastClick, Date.now()) * 15)).mul(scale)));
+        const end = canvasCenter.copy().add(this.ball.currentPosition.copy().sub(this.camera.position).mul(scale).sub(dir.copy().mul(200 + (calculateForce(this.lastClick, Date.now()) * 15)).mul(scale)));
+        drawLine(ctx, start, end, 'rgb(176, 79, 19)', 6 * scale);
       }
     }, this.visualElements);
 
