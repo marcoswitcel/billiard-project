@@ -85,6 +85,8 @@ canvas.addEventListener('dblclick', event => {
 });
 
 window.addEventListener('resize', () => {
+  // @wip foi parcialmente adaptado para renderizar os elementos na nova resolução..
+  // falta terminar de ajustar elementos de texto da UI e a própria UI (botões)
   /* if (isFullScreen()) {
     canvas.width = 800 * 2;
     canvas.height = 600 * 2;
