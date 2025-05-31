@@ -17,6 +17,10 @@ export class Camera {
   size = vec2(100, 100);
   scale = 1;
 
+  /**
+   * @param {Vec2} position
+   * @param {Vec2} size
+   */
   constructor(position, size, scale = 1) {
     this.position = position;
     this.size = size;

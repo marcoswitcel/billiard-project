@@ -39,6 +39,7 @@ export function drawImage(ctx, image, x, y, width, height) {
  * @param {number} y 
  * @param {number} radius
  * @param {string|null} color 
+ * @param {string|null} strokeStyle
  * @param {number?} lineWidth 
  */
 export function drawCircle(ctx, x, y, radius, color = null, strokeStyle = null, lineWidth = 0) {

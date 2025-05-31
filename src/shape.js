@@ -17,12 +17,15 @@ export class Shape {
 
 export class ImageShape extends Shape {
   size = vec2(1, 1);
-  image = null;
+  /**
+   * @type {CanvasImageSource}
+   */
+  image;
 
   /**
    * @param {Vec2} position 
    * @param {Vec2} size 
-   * @param {any} image 
+   * @param {CanvasImageSource} image 
    * @param {string} color 
    */
   constructor(position, size, image, color) {

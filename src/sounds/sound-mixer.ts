@@ -116,8 +116,7 @@ export class SoundHandle {
     }
 
     /**
-     * @todo João, terminar de implementar uma forma de busca o nome e o resourceLocation
-     * @returns 
+     * @returns retorna uma descrição do som e das propriedades
      */
     public getDescription(): string {
         return (this.audioElement.getAttribute('src') || '[Sem nome]') + ` - ${(this.currentTime / this.duration * 100).toFixed(2)}% (vol. ${this.volume.toFixed(2)})`;
