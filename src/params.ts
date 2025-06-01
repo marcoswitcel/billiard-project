@@ -33,23 +33,55 @@ export class Params {
 
   static get<T>(name: string, defaultValue: T): T {
     if (this.map.has(name)) {
-      return this.map.get(name);
+      const value = this.map.get(name);
+      if (typeof defaultValue !== typeof value) {
+        console.warn(`||Params.get|| Parâmetro '${name}' com valor armazenado '${value}' incompatível com default: '${defaultValue}', retomando valor default`);
+        this.map.set(name, defaultValue);
+        return defaultValue;
+      } else {
+        return value;
+      }
     }
 
     if (searchParams.has(name)) {
-      const value = searchParams.get(name) as string;
+      const rawValue = searchParams.get(name) as string;
+      let value: any = null;
 
       switch (typeof defaultValue) {
-        case 'number': this.map.set(name, parseFloat(value)); break;
-        case 'boolean': this.map.set(name, value === 'true'); break;
-        case 'string': this.map.set(name, value); break;
-        default:
-          console.warn('tipo inválido'); // @note João, considera lançar exception aqui...
+        case 'number': {
+          value = parseFloat(rawValue);
+          if (isNaN(value)) {
+            console.warn(`||Params.get|| Parâmetro '${name}' com valor valor '${rawValue}', esperava um número`);
+            value = null;
+          }
+          break;
+        }
+        case 'boolean': {
+          value = rawValue === 'true';
+          break;
+        }
+        case 'string': {
+          value = rawValue;
+          break;
+        }
+        default: {
+          console.warn(`||Params.get|| Parâmetro '${name}' com valor valor '${rawValue}' incompatível valores suportados: 'number, boolean, string'`);
+        }
       }
 
-      return this.map.get(name);
+      if (value !== null) {
+        if (typeof defaultValue !== typeof value) {
+          console.warn(`||Params.get|| Parâmetro '${name}' com valor armazenado '${value}' incompatível com default: '${defaultValue}'`);
+        } else {
+          this.map.set(name, value);
+          return value;
+        }
+      } else {
+        console.warn(`||Params.get|| Parâmetro '${name}' usando o valor default: '${defaultValue}'`);
+      }
     } 
 
+    this.map.set(name, defaultValue);
     return defaultValue;
   }
 
