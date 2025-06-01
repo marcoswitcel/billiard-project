@@ -1,42 +1,47 @@
 
 const canvas = document.createElement('canvas');
-/**
- * @type {CanvasRenderingContext2D}
- */ // @ts-ignore
-const ctx = canvas.getContext('2d');
+
+const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+
+if (ctx === null) throw new Error('Problema na inicialização co módulo de Cores');
+
 canvas.width = 1;
 canvas.height = 1;
 
 export class Color {
-  r = 0;
-  g = 0;
-  b = 0;
-  a = 1;
+  r: number;
+  g: number;
+  b: number;
+  a: number;
 
   /**
    * 
-   * @param {number} r 
-   * @param {number} g 
-   * @param {number} b 
-   * @param {number} a 
+   * @param r 
+   * @param g 
+   * @param b 
+   * @param a 
    */
-  constructor(r, g, b, a = 1) {
+  constructor(r: number, g: number, b: number, a = 1) {
     this.r = r;
     this.g = g;
     this.b = b;
     this.a = Math.min(a, 1);
   }
 
-  copy() {
+  /**
+   * Um objeto idêntico ao anterior
+   * @returns 
+   */
+  copy(): Color {
     return new Color(this.r, this.g, this.b, this.a);
   }
 
   /**
    * 
-   * @param {number} value 
-   * @returns 
+   * @param value 
+   * @returns this
    */
-  darken(value) {
+  darken(value: number): Color {
     this.r *= value;
     this.g *= value;
     this.b *= value;
@@ -48,10 +53,11 @@ export class Color {
   }
 
   /**
-   * @param {string} color 
+   * @slow em função do canvas
+   * @param color 
    * @returns 
    */
-  static from(color) {
+  static from(color: string) {
     ctx.rect(0, 0, 1, 1);
     ctx.fillStyle = color;
     ctx.fill();
