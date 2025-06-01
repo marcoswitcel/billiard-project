@@ -36,6 +36,7 @@ export class Entity {
   wasMoving = false;
 
   /**
+   * @note Número único usado para identificar a entidade
    * @type {number}
    * @readonly
    */
@@ -105,4 +106,12 @@ export class Entity {
    * @type {boolean}
    */
   [symMarkedForRemoval] = false;
+
+  /**
+   * @public
+   * @return {string}
+   */
+  toString() {
+    return `Entity@${this.id}`;
+  }
 }
