@@ -25,7 +25,6 @@ export class GUIGlobals {
     canvas.addEventListener('mousemove', event => {
       const boundings = canvas.getBoundingClientRect();
 
-      // @todo João, em fullscreen não está sendo passado 'getBoundingClientRect' para o canvas... vem tudo zerado
       this.mouseX = (event.clientX - boundings.x) * (canvas.width / canvas.clientWidth);
       this.mouseY = (event.clientY - boundings.y) * (canvas.height / canvas.clientHeight);
     });

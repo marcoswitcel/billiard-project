@@ -76,12 +76,8 @@ requestAnimationFrame(function loop(timestamp) {
   lastTimestamp = timestamp;
 });
 
-/**
- * @todo João, notei um @bug aqui, quando em fullscreen o cálculo da posição do click muda...
- * Avaliar e corrigir em todos locais apropriados
- */
 canvas.addEventListener('dblclick', event => {
-  canvas.requestFullscreen();
+  app.requestFullscreen();
 });
 
 window.addEventListener('resize', () => {
