@@ -9,6 +9,12 @@ import { drawRect, drawCircle, between, drawLine } from './utils.js';
 import { vec2 } from './vec2.js';
 
 
+/**
+ * 
+ * @param {number} start 
+ * @param {number} now 
+ * @returns 
+ */
 const calculateForce = (start, now) => Math.min((now - start), 2000) / 1000;
 
 export class Scene04 extends DemonstrationScene {
