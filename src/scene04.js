@@ -4,7 +4,7 @@ import { DemonstrationScene } from './demonstration-scene.js';
 import { Entity } from './entity.js';
 import { IN_MOVEMENT_THREASHOLD, PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
-import { Rectangle } from './shape.js';
+import { Rectangle, Shape } from './shape.js';
 import { drawRect, drawCircle, between, drawLine } from './utils.js';
 import { vec2 } from './vec2.js';
 
@@ -23,9 +23,13 @@ export class Scene04 extends DemonstrationScene {
    */
   lastClick = null;
 
-  camera = null;
-  renderParams = null;
-  mouseCoords = null;
+  camera;
+  renderParams;
+  mouseCoords;
+  /**
+   * @type {Shape[]}
+   */
+  visualElements;
 
   /**
    * @type {Entity}
@@ -145,6 +149,9 @@ export class Scene04 extends DemonstrationScene {
     });
   }
 
+  /**
+   * @param {number} deltaTimeMs
+   */
   update(deltaTimeMs) {
     this.physicsSolver.update(deltaTimeMs);
   }
