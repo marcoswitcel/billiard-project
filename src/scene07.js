@@ -91,7 +91,7 @@ export class Scene07 extends DemonstrationScene {
     // Vou deixar comentado para avaliar...
     {
       const image = new Image();
-      image.src = './resource/image/background.svg';
+      image.src = './resource/image/background-in-game.svg';
       this.visualElements.push(new ImageShape(vec2(350, 200), vec2(appDefaults.height * 1.4, appDefaults.height), image,  '#0F0'));
     }
     

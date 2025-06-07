@@ -226,7 +226,7 @@ export class MenuScene extends GameScene {
     }
 
     const image = new Image();
-    image.src = './resource/image/background.svg'; // @todo João, trocar a arte do menu...
+    image.src = './resource/image/background-menu.svg'; // @todo João, trocar a arte do menu...
     const scale = 1;
     this.visualElements.push(new ImageShape(vec2(appDefaults.width / 2, appDefaults.height / 2), vec2(appDefaults.height * 1.4 * scale, appDefaults.height * scale), image,  '#0F0'));
   }
