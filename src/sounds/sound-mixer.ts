@@ -128,8 +128,8 @@ export class SoundMixer {
     /**
      * O volume varia entre 0 e 1
      */
+    public soundResourceManager: SoundResourceManager;
     private globalVolume: number = 1;
-    private soundResourceManager: SoundResourceManager;
     private allSounds: Set<SoundHandle> = new Set;
     
     constructor(soundResourceManager?: SoundResourceManager) {

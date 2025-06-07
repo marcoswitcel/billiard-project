@@ -1,7 +1,11 @@
 import { Color } from './color.js';
+import { appDefaults } from './game-context.js';
 import { Scene07 } from './scene07.js';
+import { ImageShape, Shape } from './shape.js';
+import { SoundMixer } from './sounds/sound-mixer.js';
+import { SoundResourceManager } from './sounds/sound-resource-manager.js';
 import { Button, sDescription, theGUIGlobals } from './ui.js';
-import { drawRect, drawText } from './utils.js';
+import { drawImage, drawRect, drawText } from './utils.js';
 import { vec2 } from './vec2.js';
 
 export class GameScene {
@@ -181,8 +185,20 @@ export class MenuScene extends GameScene {
    * @type {GameScene|null}
    */
   newScene = null;
+  /**
+   * @type {Shape[]}
+   */
+  visualElements = [];
+  /**
+   * @type {SoundMixer}
+   */
+  soundMixer = new SoundMixer(new SoundResourceManager());
 
   setup() {
+    // som de colisão entre bolas
+    this.soundMixer.soundResourceManager.add('button-hover', './resource/audio/Pen Clicking.mp3');
+    this.soundMixer.soundResourceManager.loadAll();
+
     const buttonA = new Button();
     const buttonB = new Button();
     const buttonPlacar = new Button();
@@ -209,6 +225,10 @@ export class MenuScene extends GameScene {
       yOffset += button.height + 5;
     }
 
+    const image = new Image();
+    image.src = './resource/image/background.svg'; // @todo João, trocar a arte do menu...
+    const scale = 1;
+    this.visualElements.push(new ImageShape(vec2(appDefaults.width / 2, appDefaults.height / 2), vec2(appDefaults.height * 1.4 * scale, appDefaults.height * scale), image,  '#0F0'));
   }
   /**
    * @param {number} deltaTimeMs
@@ -226,6 +246,9 @@ export class MenuScene extends GameScene {
       }
 
       if (button.isClicked) {
+        // @note João, adicionar sons ao click?
+        // this.soundMixer.play('button-hover');
+
         this.newScene = new BilliardScene(this.ctx);
       }
     }
@@ -236,6 +259,22 @@ export class MenuScene extends GameScene {
    */
   render(deltaTimeMs) {
     drawRect(this.ctx, '#2576da', 0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+    
+    // @note João, abstrair o render do menu?
+    const canvasCenter = vec2(this.ctx.canvas.width / 2, this.ctx.canvas.height / 2);
+    const screenScale = this.ctx.canvas.width / appDefaults.width; 
+    const scale = 1 * screenScale;
+    
+    for (const visualElement of this.visualElements) {
+      const position = canvasCenter.copy().add(visualElement.position.copy().sub(canvasCenter).mul(scale));
+  
+      if (visualElement instanceof ImageShape) {
+        const width = visualElement.size.x * scale;
+        const height = visualElement.size.y * scale;
+  
+        drawImage(this.ctx, visualElement.image, position.x - width / 2, position.y - height / 2, width, height);
+      }
+    }
 
     drawText(this.ctx, 'Project: Billiard', vec2(this.ctx.canvas.width / 2, this.ctx.canvas.height * 0.25), 40, 'white', 'monospace', 'center', 'middle');
 
