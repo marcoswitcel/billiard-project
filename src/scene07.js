@@ -7,7 +7,7 @@ import { appDefaults, GameContex } from './game-context.js';
 import { Params } from './params.js';
 import { PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
-import { Circle2, Polygon, Rectangle, Shape } from './shape.js';
+import { Circle2, ImageShape, Polygon, Rectangle, Shape } from './shape.js';
 import { SoundHandle, SoundHandleState, SoundMixer } from './sounds/sound-mixer.js';
 import { drawRect, between, drawLine, renderLines, drawText } from './utils.js';
 import { Vec2, vec2 } from './vec2.js';
@@ -90,9 +90,9 @@ export class Scene07 extends DemonstrationScene {
     // avaliar como vou garantir a ordem da renderização...
     // Vou deixar comentado para avaliar...
     {
-      // const image = new Image();
-      // image.src = 'https://upload.wikimedia.org/wikipedia/commons/b/bd/Test.svg'; // @note test image
-      // this.visualElements.push(new ImageShape(vec2(350, 200), vec2(500 * 0.9 * 2, 250 * 2), image,  '#0F0'));
+      const image = new Image();
+      image.src = './resource/image/background.svg';
+      this.visualElements.push(new ImageShape(vec2(350, 200), vec2(appDefaults.height * 1.4, appDefaults.height), image,  '#0F0'));
     }
     
     this.visualElements.push(new Rectangle(vec2(350, 200), vec2(500 * 0.9, 250), '#0F0'));
