@@ -82,19 +82,19 @@ export class BilliardScene extends GameScene {
   };
 
   setup() {
-    const buttonA = new Button();
+    const buttonMenu = new Button();
     const buttonPaused = new Button();
     const buttonRestart = new Button();
 
-    buttonA['handlers'] = [() => { this.newScene = new MenuScene(this.ctx); }];
+    buttonMenu['handlers'] = [() => { this.newScene = new MenuScene(this.ctx); }];
     buttonPaused['handlers'] = [() => { this.paused = false; }];
     buttonRestart['handlers'] = [() => { this.scene.resetGame(); this.paused = false; }];
 
-    this.components = [buttonA, buttonRestart, buttonPaused, ];
+    this.components = [ buttonPaused, buttonRestart, buttonMenu, ];
 
-    buttonA.text = 'Menu';
-    applyButtonStyle(buttonA);
-    buttonA.fontSize = 16;
+    buttonMenu.text = 'Menu';
+    applyButtonStyle(buttonMenu);
+    buttonMenu.fontSize = 16;
 
 
     buttonRestart.text = 'Reiniciar';
@@ -105,13 +105,13 @@ export class BilliardScene extends GameScene {
     applyButtonStyle(buttonPaused);
     buttonPaused.fontSize = 18;
 
-    const xOffset = 10;
-    let yOffset = 10;
+    const xOffset = this.ctx.canvas.width / 2;
+    let yOffset = this.ctx.canvas.height / 2;
     for (const button of this.components) {
-      button.resizeToFitContent(button.fontSize);
-      button.targetArea.position.x = xOffset;
-      button.targetArea.position.y = yOffset;
-      yOffset += button.height + 5;
+      button.resizeToFitContent(button.fontSize * 0.75);
+      button.targetArea.position.x = xOffset - button.width / 2;
+      button.targetArea.position.y = yOffset - button.height / 2;
+      yOffset += button.height + 10;
     }
 
     document.addEventListener('keyup', this.handlePause);
