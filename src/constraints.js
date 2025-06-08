@@ -169,6 +169,7 @@ export class LineSegmentConstraint extends Constraint {
     for (const entity of entities) {
       const radiusDir =  entity.currentPosition.copy().sub(entity.oldPosition).normalize().mul(entity.shape.radius);
       // @todo João, avaliar como considerar a borda do círculo. Por hora fiz assim.
+      // @todo João, tentar dessa forma https://stackoverflow.com/questions/61429553/how-to-find-perpendicular-line-of-given-2-point
       const currentPositionPlusRadius = entity.currentPosition.copy().add(radiusDir); 
       if (isLineSegmentIntersecting(this.start, this.end, entity.oldPosition, currentPositionPlusRadius)) {
         const pi = calculateIntersectionOfLineSegments(this.start, this.end, entity.oldPosition, currentPositionPlusRadius);
