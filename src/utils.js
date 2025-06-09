@@ -257,6 +257,23 @@ export function rotatePoint(origin, point, angle) {
 }
 
 /**
+ * 
+ * @param {string} src 
+ * @returns {HTMLImageElement}
+ */
+export function imageAsset(src) {
+  const image = new Image();
+  image.src = src;
+
+  image.onerror = () => {
+    console.warn(`falha ou carregar resorce: '${src}', usando a 'default.svg'`);
+    image.src = './resource/image/default.svg';
+  }
+
+  return image;  
+}
+
+/**
  * @url https://stackoverflow.com/questions/135909/what-is-the-method-for-converting-radians-to-degrees
  * @param {*} radians 
  * @returns 

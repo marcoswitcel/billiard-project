@@ -9,7 +9,7 @@ import { PhysicsSolver } from './physics-solver.js';
 import { Camera, render, RenderParams } from './render.js';
 import { Circle2, ImageShape, Polygon, Rectangle, Shape } from './shape.js';
 import { SoundHandle, SoundHandleState, SoundMixer } from './sounds/sound-mixer.js';
-import { drawRect, between, drawLine, renderLines, drawText } from './utils.js';
+import { drawRect, between, drawLine, renderLines, drawText, imageAsset } from './utils.js';
 import { Vec2, vec2 } from './vec2.js';
 
 /**
@@ -90,8 +90,7 @@ export class Scene07 extends DemonstrationScene {
     // avaliar como vou garantir a ordem da renderização...
     // Vou deixar comentado para avaliar...
     {
-      const image = new Image();
-      image.src = './resource/image/background-in-game.svg';
+      const image = imageAsset('./resource/image/background-in-game.svg');
       this.visualElements.push(new ImageShape(vec2(350, 200), vec2(appDefaults.height * 1.4, appDefaults.height), image,  '#0F0'));
     }
     
