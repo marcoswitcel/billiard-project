@@ -5,7 +5,7 @@ export class Circle {
   /**
    * @type {Vec2}
    */
-  position = null;
+  position;
   /**
    * @type {number}
    */

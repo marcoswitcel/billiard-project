@@ -100,8 +100,6 @@ export function drawPolygon(ctx, polygon, fillStyle = '#FFFFFF', strokeStyle = '
   }
   if (strokeStyle) {
     ctx.strokeStyle = strokeStyle;
-  }
-  if (strokeStyle) {
     ctx.stroke();
   }
   ctx.fill();
