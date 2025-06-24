@@ -46,7 +46,14 @@ export class GUIGlobals {
     this.mouseDown = false;
   }
 
+  /**
+   * @private
+   */
   static buttonSequencial = 0;
+  /**
+   * Usado pela classe `Button` para gerar ids novos e únicos para suas instâncias
+   * @returns 
+   */
   static buttonId() {
     return ++this.buttonSequencial;
   }
