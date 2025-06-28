@@ -21,6 +21,7 @@ import { Vec2, vec2 } from './vec2.js';
 const calculateForce = (start, now) => Math.sin((now - start) / 180 / 2) + 1;
 
 const ballRadius = 10;
+const initialCameraScale = 1.5;
 
 /**
  * 
@@ -71,7 +72,7 @@ export class Scene07 extends DemonstrationScene {
 
     this.ctx = ctx;
     
-    this.camera = new Camera(vec2(350, 200), vec2(this.ctx.canvas.width, this.ctx.canvas.height), 1.50);
+    this.camera = new Camera(vec2(350, 200), vec2(this.ctx.canvas.width, this.ctx.canvas.height), initialCameraScale);
     this.renderParams = new RenderParams();
     this.mouseCoords = vec2(0, 0);
     this.visualElements = [];
@@ -345,7 +346,8 @@ export class Scene07 extends DemonstrationScene {
   resetGame() {
     this.gameContext.reset();
     this.gameContext.state = 'player_a';
-
+    this.camera.scale = initialCameraScale;
+    
     this.addBalls();
   }
 
