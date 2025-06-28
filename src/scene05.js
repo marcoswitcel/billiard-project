@@ -16,9 +16,9 @@ export class Scene05 extends DemonstrationScene {
   ctx;
 
   /**
-   * @type {Camera | null}
+   * @type {Camera}
    */
-  camera = null;
+  camera;
 
   /**
    * @param {CanvasRenderingContext2D} ctx
@@ -36,6 +36,9 @@ export class Scene05 extends DemonstrationScene {
     this.physicsSolver.gravity = vec2(10, 100)
   }
 
+  /**
+   * @param {number} deltaTimeMs
+   */
   update(deltaTimeMs) {
     this.physicsSolver.update(deltaTimeMs);
   }

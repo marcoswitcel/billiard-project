@@ -16,9 +16,9 @@ export class Scene06 extends DemonstrationScene {
   ctx;
 
   /**
-   * @type {Camera | null}
+   * @type {Camera}
    */
-  camera = null;
+  camera;
 
   /**
    * @param {CanvasRenderingContext2D} ctx
@@ -43,6 +43,9 @@ export class Scene06 extends DemonstrationScene {
     });
   }
 
+  /**
+   * @param {number} deltaTimeMs
+   */
   update(deltaTimeMs) {
     this.physicsSolver.update(deltaTimeMs);
   }

@@ -1,11 +1,8 @@
-import { Color } from './color.js';
 import { appDefaults } from './game-context.js';
 import { GameScene, MenuScene } from './game-scene.js';
 import { Params } from './params.js';
-import { Rectangle } from './shape.js';
-import { Button, GUIGlobals, theGUIGlobals } from './ui.js';
-import { between, drawRect, drawText, isFullScreen } from './utils.js';
-import { vec2 } from './vec2.js';
+import { theGUIGlobals } from './ui.js';
+import { between, drawRect } from './utils.js';
 
 console.log('Olá mundo')
 

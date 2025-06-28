@@ -206,7 +206,7 @@ export class MenuScene extends GameScene {
     // @note acredito que seria melhor exibir essas descrições no canvas ao invés de usar o atributo 'title'
     buttonA[sDescription] = 'Modo um jogador e 2 jogadores';
     buttonB[sDescription] = 'Preferências do jogador';
-    buttonPlacar[sDescription] = 'Veja seus placares';
+    buttonPlacar[sDescription] = 'Veja seu placar';
 
     this.components = [buttonA, buttonB, buttonPlacar];
 
