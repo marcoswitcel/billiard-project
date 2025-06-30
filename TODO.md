@@ -2,7 +2,7 @@
 # Design do Jogo
 
 * Definir o resultado visual almejada usando ferramentas como o Inkscape para desenhar cenas do jogo
-* Definir algumas "mesas" especiais, com desgine fora do tradicional? (apenas uma ideia)
+* Definir algumas "mesas" especiais, com designe fora do tradicional? (apenas uma ideia)
 
 # Implementar e testar física
 
