@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Billiard</title>
+    <title>UI Testes</title>
     <style>
         html, body {
             padding: 0;
@@ -18,9 +18,14 @@
         }
         canvas {
             margin: 0;
+            flex-grow: auto;
         }
         .app {
             position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: inherit;
         }
         select {
             position: absolute;
@@ -35,17 +40,8 @@
     </style>
 </head>
 <body>
-    <script type="module" src="./dist/index.js"></script>
+    <script type="module" src="./dist/index-ui.js"></script>
     <div class="app" id="app">
-        <select name="scene" id="scene">
-            <option value="scene01">Cena 01</option>
-            <option value="scene02">Cena 02</option>
-            <option value="scene03">Cena 03</option>
-            <option value="scene04">Cena 04</option>
-            <option value="scene05">Cena 05</option>
-            <option value="scene06">Cena 06</option>
-            <option value="scene07">Cena 07</option>
-        </select>
     </div>
 </body>
 </html>
