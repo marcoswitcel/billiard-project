@@ -51,6 +51,7 @@ export class Scene07 extends DemonstrationScene {
    * @type {Shape[]}
    */
   visualElements;
+  shouldSkipTillStoped = false;
   ignoreEvents = false;
 
   /**
@@ -174,12 +175,21 @@ export class Scene07 extends DemonstrationScene {
      */
     this.physicsSolver.update(deltaTimeMs);
 
+    if (this.gameContext.waitingStop && this.shouldSkipTillStoped) {
+      // 3 vezes a velocidade normal, considerando o update de cima
+      this.physicsSolver.update(deltaTimeMs);
+      this.physicsSolver.update(deltaTimeMs);
+    }
+
     // sistema de som
     this.gameContext.soundMixer.clear();
 
     this.checkForPointsAndRemoveBalls();
 
     if (!this.gameContext.waitingStop || !allBallsStoped(this.physicsSolver)) return;
+    
+    // sinaliza que pode parar o speed up 
+    this.shouldSkipTillStoped = false;
 
     const isWhiteBallRemoved = this.gameContext.ballsInTheBucket.indexOf(this.ball) !== -1;
     const isThereBallsInTheBucket = this.gameContext.ballsInTheBucket.length > 0;
@@ -362,6 +372,8 @@ export class Scene07 extends DemonstrationScene {
       //ball.currentPosition.add(vec2(shootForce, 0));
     } else if (event.key === 'r') {
       this.resetGame();
+    } else if (event.key === 'k') {
+      this.shouldSkipTillStoped = true;
     }
   }
 
