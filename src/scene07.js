@@ -130,16 +130,10 @@ export class Scene07 extends DemonstrationScene {
 
     this.renderParams.lightSource = vec2(350, 200);
 
-    /**
-     * @todo João, adicionar funcionalidade para detectar quando as bolas "pararam" de ser mover. Não
-     * sei bem como quero implementar isso, mas é necessário definir isso para saber se a "tacada" acertou ou não
-     * alguma bola.
-     */
     this.physicsSolver.reportCollision = (e1, e2) => {
       if (e1 === this.ball || e2 === this.ball) {
         const other = e1 === this.ball ? e2 : e1;
         if (!this.gameContext.firstBallHitted) this.gameContext.firstBallHitted = other;
-        
       }
 
       this.playCollisionSound(e1, e2);
