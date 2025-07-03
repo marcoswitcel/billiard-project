@@ -108,6 +108,7 @@ export class Entity {
   [symMarkedForRemoval] = false;
 
   /**
+   * Para fins de depuração a descrição da classe contém o ID
    * @public
    * @return {string}
    */
