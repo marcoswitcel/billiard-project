@@ -145,11 +145,10 @@ export function render(ctx, physicsSolver, camera, renderParams, customDrawRouti
   if (debugGridView) {
     const { width, height } = ctx.canvas;
     ctx.setLineDash([lineWidth * 2, lineWidth]);
-    // @todo João, quando o scale não é 1, acaba acontecendo erros de posicionamento das linhas.
-    // Isso provavelemente ocorre por causa do spacing não ser um número inteiro.
+    // @todo João, posicionando melhor as linhas, porém ainda apresentra problemas ao dar zoom...
     const spacing = 40 * scale;
-    const offsetY = spacing - (camera.position.y % spacing);
-    const offsetX = spacing - (camera.position.x % spacing);
+    const offsetY = spacing - ((camera.position.y * scale) % spacing);
+    const offsetX = spacing - ((camera.position.x * scale) % spacing);
     for (let i = 0; offsetY + i * spacing < height; i++)
     {
       const left = vec2(0, offsetY + i * spacing);
