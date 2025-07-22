@@ -46,6 +46,11 @@ export class GameContex {
    */
   soundMixer;
 
+  /**
+   * @type {'default'|'inverted'}
+   */
+  aimType = 'default';
+
   constructor() {
     const soundResourceManager = new SoundResourceManager();
 

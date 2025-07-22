@@ -21,7 +21,7 @@
 * Implementar suporte ao mobile
  * Suporte a touch-events
  * Rotacionar a mesa?
- * Habilitar por padrão um modo de mira invertida para não precisar clicar em cima da bola e ter mais visibilidade
+ * Habilitar por padrão um modo de mira invertida para não precisar clicar em cima da bola e ter mais visibilidade -- ok
  * Verificar se a resolução e a proporção do canvas ficam legais no mobile
  * Implementar botão/funcionalidade para skipar até a bola ter parado (será útil para entender o que modificar para implementar o "sistema de mira") -- ok
 

@@ -78,6 +78,7 @@ export class Scene07 extends DemonstrationScene {
     this.mouseCoords = vec2(0, 0);
     this.visualElements = [];
     this.gameContext = new GameContex();
+    this.gameContext.aimType = Params.get('aim', 'inverted') === 'inverted' ? 'inverted' : 'default';
     // @note temporário
     this.gameContext.state = 'player_a';
   }
@@ -283,14 +284,12 @@ export class Scene07 extends DemonstrationScene {
         const screenScale = ctx.canvas.width / appDefaults.width;
         const scale = this.camera.scale * screenScale;
         
-        // @todo João, sanitizar esse valor e considerar puxar das configurações...
-        const aimType = Params.get('aim', 1);
         const dir = vec2(this.mouseCoords.x * this.ctx.canvas.width, this.mouseCoords.y * this.ctx.canvas.height)
           .sub(vec2(this.ctx.canvas.width / 2, this.ctx.canvas.height / 2))
           .div(scale)
           .add(this.camera.position)
           .sub(this.ball.currentPosition)
-          .mul(aimType)
+          .mul((this.gameContext.aimType == 'default') ? 1 : -1)
           .normalize();
         
         const start = canvasCenter.copy().add(this.ball.currentPosition.copy().sub(this.camera.position).mul(scale).sub(dir.copy().mul(10 + (calculateForce(this.lastClick, Date.now()) * 15)).mul(scale)));
@@ -447,8 +446,6 @@ export class Scene07 extends DemonstrationScene {
     const boundings = canvas.getBoundingClientRect();
     const coords = { x: (event.clientX - boundings.x) / canvas.clientWidth, y: (event.clientY - boundings.y) / canvas.clientHeight, };
 
-    // @todo João, sanitizar esse valor e considerar puxar das configurações...
-    const aimType = Params.get('aim', 1);
     // @todo João, ainda tem pequenas inconsistências na direção que a força aponta, porém está bom por hora
     const force = vec2(coords.x * canvas.width, coords.y * canvas.height)
       .sub(vec2(canvas.width / 2, canvas.height / 2))
@@ -456,7 +453,7 @@ export class Scene07 extends DemonstrationScene {
       .add(this.camera.position)
       .sub(this.ball.currentPosition)
       .normalize()
-      .mul(aimType)
+      .mul((this.gameContext.aimType == 'default') ? 1 : -1)
       .mul(shootForce * modifier)
       .mul(this.ball.lastDt);
 
